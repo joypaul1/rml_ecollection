@@ -112,7 +112,7 @@ $dynamic_link_js[]  = '../../assets/plugins/select2/js/select2.min.js';
             <div class="card rounded-4">
                 <?php
                 $headerType   = 'List';
-                $leftSideName = 'User Setup List';
+                $leftSideName = 'User Target List';
                 // $rightSideName = 'User Setup Create';
                 // $routePath     = 'user_module/view/create.php';
                 include ('../../_includes/com_header.php');

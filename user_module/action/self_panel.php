@@ -182,3 +182,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && trim($_POST["actionType"]) == 'setu
         echo "<script> window.location.href = '{$basePath}/user_module/view/setup_edit.php?set_up_id=$emp_ref_id'</script>";
     }
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && trim($_POST["actionType"]) == 'target_edit') {
+
+    $v_target_table_id    = $_REQUEST['editId'];
+    $v_rml_id             = $_REQUEST['rml_id'];
+    $v_zonal_head_id      = $_REQUEST['zonal_head_id'];
+    $v_aria_head_id       = $_REQUEST['aria_head_id'];
+    $v_zone_name          = $_REQUEST['zone_name'];
+    $v_target_amount      = $_REQUEST['target_amount'];
+    $v_display_amount     = $_REQUEST['display_amount'];
+    $v_visit_unit         = $_REQUEST['visit_unit'];
+    $v_due_amount         = $_REQUEST['due_amount'];
+    $v_current_due_amount = $_REQUEST['current_due_amount'];
+    $user_status          = $_REQUEST['user_status'];
+    print_r($_REQUEST);
+    die();
+
+    $strSQL = oci_parse($objConnect, "UPDATE MONTLY_COLLECTION SET
+                            TARGET            = '$v_target_amount',
+                            TARGETSHOW        = '$v_display_amount',
+                            ZONE              = :'$v_zone_name',
+                            OVER_DUE          = '$v_due_amount',
+                            CURRENT_MONTH_DUE = '$v_current_due_amount',
+                            IS_ACTIVE         = '$user_status',
+                            VISIT_UNIT        = '$v_visit_unit',
+                            ZONAL_HEAD        = '$v_zonal_head_id',
+                            AREA_HEAD         = ' $v_aria_head_id'
+                            WHERE  ID= '$v_target_table_id'");
+
+    if (@oci_execute($strSQL)) {
+
+        $message                  = [
+            'text'   => 'User Target Updated successfully.',
+            'status' => 'true',
+        ];
+        $_SESSION['noti_message'] = $message;
+        echo "<script> window.location.href = '{$basePath}/user_module/view/target_edit.php?target_table_id=$v_target_table_id'</script>";
+    }
+    else {
+        $message                  = [
+            'text'   => 'Something Went wrong!',
+            'status' => 'false',
+        ];
+        $_SESSION['noti_message'] = $message;
+        echo "<script> window.location.href = '{$basePath}/user_module/view/target_edit.php?target_table_id=$v_target_table_id'</script>";
+    }
+}

@@ -130,15 +130,15 @@ include_once ('../../_helper/2step_com_conn.php');
                                         <?php
                                         if ($data['IS_ACTIVE'] == 1) {
                                             ?>
-                                            <option selected value="1">Ative</option>
-                                            <option value="0">In-Ative</option>
+                                            <option selected value="1">Active</option>
+                                            <option value="0">In-Active</option>
 
                                             <?php
                                         }
                                         else {
                                             ?>
-                                            <option selected value="0">In-Ative</option>
-                                            <option value="1">Ative</option>
+                                            <option selected value="0">In-Active</option>
+                                            <option value="1">Active</option>
                                             <?php
                                         }
 
