@@ -5,6 +5,8 @@ require_once ('../../_config/connoracle.php');
 $basePath       = $_SESSION['basePath'];
 $log_user_id    = $_SESSION['ECOL_USER_INFO']['id'];
 $emp_session_id = $_SESSION['ECOL_USER_INFO']['emp_id'];
+ini_set('memory_limit', '2560M');
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && trim($_POST["actionType"]) == 'create') {
     $form_rml_id   = $_POST['form_rml_id'];
@@ -195,8 +197,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && trim($_POST["actionType"]) == 'targ
     $v_due_amount         = $_REQUEST['due_amount'];
     $v_current_due_amount = $_REQUEST['current_due_amount'];
     $user_status          = $_REQUEST['user_status'];
-    print_r($_REQUEST);
-    die();
 
     $strSQL = oci_parse($objConnect, "UPDATE MONTLY_COLLECTION SET
                             TARGET            = '$v_target_amount',
@@ -226,5 +226,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && trim($_POST["actionType"]) == 'targ
         ];
         $_SESSION['noti_message'] = $message;
         echo "<script> window.location.href = '{$basePath}/user_module/view/target_edit.php?target_table_id=$v_target_table_id'</script>";
+    }
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && trim($_POST["actionType"]) == 'data_sync') {
+
+
+    $strSQL = oci_parse($objConnect, "BEGIN RML_COLL_CCD_DATA_SYN(); END;");
+
+    if (@oci_execute($strSQL)) {
+
+        $message                  = [
+            'text'   => 'Data Sync successfully.',
+            'status' => 'true',
+        ];
+        $_SESSION['noti_message'] = $message;
+        echo "<script> window.location.href = '{$basePath}/user_module/view/data_sync.php'</script>";
+    }
+    else {
+        $message                  = [
+            'text'   => 'Something Went wrong!',
+            'status' => 'false',
+        ];
+        $_SESSION['noti_message'] = $message;
+        echo "<script> window.location.href = '{$basePath}/user_module/view/data_sync.php'</script>";
     }
 }
