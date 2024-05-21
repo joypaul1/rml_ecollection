@@ -72,7 +72,7 @@
                 <li class="">
                     <a href="javascript:;" class="has-arrow">
 
-                        <div class="parent-icon"><i class='bx bx-group'></i>
+                        <div class="parent-icon"><i class='bx bx-images'></i>
                         </div>
                         <div class="menu-title"> Image Module</div>
                     </a>
@@ -87,6 +87,28 @@
                         </li>
                         <li> <a href="<?php echo $basePath ?>/image_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i>Uploaded
                                 History</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;" class="has-arrow">
+
+                        <div class="parent-icon"><i class='bx bx-images'></i>
+                        </div>
+                        <div class="menu-title"> Target VS Collection</div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?php echo $basePath ?>/target_vs_collection_module/view/area_head_collection.php"><i class='bx bxs-arrow-to-right'></i>Area Head Collection</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/target_vs_collection_module/view/zonal_head_collection.php"><i class='bx bxs-arrow-to-right'></i>Zonal Head Collection</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/target_vs_collection_module/view/collection_concern.php"><i class='bx bxs-arrow-to-right'></i>Collection Concern</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/target_vs_collection_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i>Collection History</a>
                         </li>
                     </ul>
                 </li>
