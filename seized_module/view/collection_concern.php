@@ -65,22 +65,13 @@ include_once ('../../_config/sqlConfig.php');
                                                 <select name="emp_ah_id" class="form-control single-select">
                                                     <option selected value=""><-- Select Concern --></option>
                                                     <?php
-                                                    $strSQL = oci_parse(
-                                                        $objConnect,
-                                                        "SELECT EMP_NAME,RML_ID from RML_COLL_APPS_USER
-                                                        where IS_ACTIVE=1
-                                                        and LEASE_USER in('CC')
-                                                        and ACCESS_APP='RML_COLL'
-                                                        and is_active=1
-                                                        and RML_ID not in ('955','956')
-                                                        order by EMP_NAME"
-                                                    );
 
-                                                    oci_execute($strSQL);
-                                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                                    $strSQL = oci_parse($objConnect, "SELECT CONCERN AS EMP_NAME,RML_ID from MONTLY_COLLECTION
+                                                    where IS_ACTIVE=1 AND RML_ID NOT IN(SELECT UNIQUE ZONAL_HEAD FROM MONTLY_COLLECTION where IS_ACTIVE=1)");
 
+                                                    @oci_execute($strSQL);
+                                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                                         ?>
-
                                                         <option value="<?php echo $row['RML_ID']; ?>"><?php echo $row['EMP_NAME']; ?></option>
                                                         <?php
                                                     }
@@ -124,23 +115,22 @@ include_once ('../../_config/sqlConfig.php');
                                         <center>Emp Name</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Ref-Code</center>
+                                        <center>Target Month</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Collection Amnt</center>
+                                        <center>Target</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Collection Date</center>
+                                        <center>Collection Start Date</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Collection Time</center>
-                                    </th>
-
-                                    <th scope="col">
-                                        <center>Bank</center>
+                                        <center>Collection End Date</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Pay Type</center>
+                                        <center>Collection</center>
+                                    </th>
+                                    <th scope="col">
+                                        <center>Collection(%)</center>
                                     </th>
                                 </tr>
                             </thead>
@@ -156,49 +146,97 @@ include_once ('../../_config/sqlConfig.php');
 
                                 if (isset($_POST['emp_ah_id'])) {
 
-                                    $strSQL = oci_parse(
+                                    $strSQL = @oci_parse(
                                         $objConnect,
-                                        "SELECT B.RML_ID,
-							           b.EMP_NAME,
-									   a.REF_ID,
-									   AMOUNT,
-									   PAY_TYPE,
-									   BANK,
-									   MEMO_NO,
-									   INSTALLMENT_AMOUNT,
-									   a.CREATED_DATE,
-									   TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
-									   B.AREA_ZONE
-                                from RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER b 
-                                                           where a.RML_COLL_APPS_USER_ID=b.ID
-                               AND trunc(a.CREATED_DATE) between to_date('$attn_start_date','dd/mm/yyyy') and to_date('$attn_end_date','dd/mm/yyyy')
-							   and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')"
+                                        "SELECT b.RML_ID,b.EMP_NAME,
+                                        RML_COLL_SUMOF_TARGET(b.RML_ID,'$attn_start_date','$attn_end_date') TARGET_AMNT,
+                                        COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$attn_start_date','$attn_end_date') COLLECTION_AMNT
+                                        FROM RML_COLL_APPS_USER b
+                                        where  b.ACCESS_APP='RML_COLL'
+                                        and B.IS_ACTIVE=1
+                                        and b.LEASE_USER='CC'
+                                        and RML_ID not in ('955','956')
+                                        and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')"
                                     );
 
 
-                                    oci_execute($strSQL);
-                                    $number = 0;
+                                    @oci_execute(@$strSQL);
+                                    $number                 = 0;
+                                    $GRANT_TOTAL_TARGET     = 0;
+                                    $GRANT_TOTAL_COLLECTION = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc(@$strSQL)) {
                                         $number++;
+
                                         ?>
                                         <tr>
                                             <td><?php echo $number; ?></td>
                                             <td align="center"><?php echo $row['RML_ID']; ?></td>
                                             <td><?php echo $row['EMP_NAME']; ?></td>
-                                            <td><?php echo $row['REF_ID']; ?></td>
-                                            <td><?php echo $row['AMOUNT']; ?></td>
-                                            <td><?php echo $row['CREATED_DATE']; ?></td>
-                                            <td><?php echo $row['CREATED_TIME']; ?></td>
-                                            <td><?php echo $row['BANK']; ?></td>
-                                            <td><?php echo $row['PAY_TYPE']; ?></td>
+                                            <td align="center"><?php echo $attn_start_date; ?></td>
+                                            <td align="center">
+                                                <?php echo $row['TARGET_AMNT'];
+                                                $GRANT_TOTAL_TARGET = $GRANT_TOTAL_TARGET + $row['TARGET_AMNT']; ?>
+                                            </td>
+                                            <td align="center"><?php echo $attn_start_date; ?></td>
+                                            <td align="center"><?php echo $attn_end_date; ?></td>
+                                            <td align="center">
+                                                <?php echo $row['COLLECTION_AMNT'];
+                                                $GRANT_TOTAL_COLLECTION = $GRANT_TOTAL_COLLECTION + $row['COLLECTION_AMNT'] ?>
+                                            </td>
 
+                                            <td align="center"><?php
+                                            if ($row['COLLECTION_AMNT'] == 0 || $row['TARGET_AMNT'] == 0) {
+                                                echo "0";
+                                            }
+                                            else {
+                                                echo ceil(($row['COLLECTION_AMNT'] * 100) / $row['TARGET_AMNT']);
+                                            }
+                                            ?>
+                                                %</td>
                                         </tr>
                                         <?php
                                     }
+                                    ?>
+                                    <tr>
+
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td align="center">Grand Total:</td>
+                                        <td align="center"><?php echo $GRANT_TOTAL_TARGET; ?></td>
+                                        <td align="center"></td>
+                                        <td align="center">Grand Total:</td>
+                                        <td align="center"><?php echo $GRANT_TOTAL_COLLECTION; ?></td>
+                                        <td align="center">
+                                            <?php
+                                            if (is_array($row) && isset($row['COLLECTION_AMNT'], $row['TARGET_AMNT'])) {
+                                                if ($row['COLLECTION_AMNT'] == 0 || $row['TARGET_AMNT'] == 0) {
+                                                    echo "0";
+                                                }
+                                                else {
+                                                    echo ceil(($GRANT_TOTAL_COLLECTION * 100) / $GRANT_TOTAL_TARGET);
+                                                }
+                                            }
+                                            else {
+                                                echo "0";
+                                                // Handle the case where $row is not an array or the expected keys are not set
+                                                // echo "Data not available";
+                                            }
+
+                                            ?>%
+                                        </td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+
+                                    </tr>
+                                    <?php
                                 }
+
                                 ?>
                             </tbody>
+
+
                         </table>
                     </div>
                     <div class="d-block text-end">

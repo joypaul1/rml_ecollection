@@ -108,7 +108,29 @@
                             <a href="<?php echo $basePath ?>/target_vs_collection_module/view/collection_concern.php"><i class='bx bxs-arrow-to-right'></i>Collection Concern</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/target_vs_collection_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i>Collection History</a>
+                            <a href="<?php echo $basePath ?>/target_vs_collection_module/view/collection_history.php"><i class='bx bxs-arrow-to-right'></i>Collection History</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;" class="has-arrow">
+
+                        <div class="parent-icon"><i class='bx bx-images'></i>
+                        </div>
+                        <div class="menu-title"> Seized Module</div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?php echo $basePath ?>/seized_module/view/driver_list.php"><i class='bx bxs-arrow-to-right'></i>Driver List</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/seized_module/view/depo_location_list.php"><i class='bx bxs-arrow-to-right'></i>Depo Location</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/seized_module/view/seized_confirm.php"><i class='bx bxs-arrow-to-right'></i> Seized Info. Update</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/seized_module/view/collection_history.php"><i class='bx bxs-arrow-to-right'></i>Seized Report List</a>
                         </li>
                     </ul>
                 </li>
