@@ -98,7 +98,7 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'Bank TT Zone Wise Report Panel';
+                $leftSideName = 'Bank TT Concern Wise Report Panel';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">

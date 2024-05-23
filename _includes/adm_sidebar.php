@@ -133,16 +133,13 @@
                             <a href="<?php echo $basePath ?>/banktt_module/view/ref_report.php"><i class='bx bxs-arrow-to-right'></i>Ref-Code List</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/banktt_module/view/confirm_report.php"><i class='bx bxs-arrow-to-right'></i>Confirm
-                                TT</a>
+                            <a href="<?php echo $basePath ?>/banktt_module/view/confirm_report.php"><i class='bx bxs-arrow-to-right'></i>Confirm TT</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/banktt_module/view/zone_report.php"><i class='bx bxs-arrow-to-right'></i> Zone Wise
-                                TT</a>
+                            <a href="<?php echo $basePath ?>/banktt_module/view/zone_report.php"><i class='bx bxs-arrow-to-right'></i> Zone Wise TT</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/banktt_module/view/concern_report.php"><i class='bx bxs-arrow-to-right'></i>Concern Wise
-                                TT </a>
+                            <a href="<?php echo $basePath ?>/banktt_module/view/concern_report.php"><i class='bx bxs-arrow-to-right'></i>Concern Wise TT </a>
                         </li>
                     </ul>
                 </li>
@@ -155,26 +152,22 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?php echo $basePath ?>/reasoncode_module/view/list.php"><i class='bx bxs-arrow-to-right'></i>Reason Code
-                                List</a>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/list.php"><i class='bx bxs-arrow-to-right'></i>Reason Code List</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/reasoncode_module/view/report.php"><i class='bx bxs-arrow-to-right'></i>Reason Code
-                                Details</a>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/report.php"><i class='bx bxs-arrow-to-right'></i>Reason Code Details</a>
                         </li>
                         <li>
                             <a href="<?php echo $basePath ?>/reasoncode_module/view/last_report.php"><i class='bx bxs-arrow-to-right'></i> Last Reason
                                 Code List</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/reasoncode_module/view/summary.php"><i class='bx bxs-arrow-to-right'></i>Reason Code
-                                Summary </a>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/summary.php"><i class='bx bxs-arrow-to-right'></i>Reason Code Summary </a>
                         </li>
                     </ul>
                 </li>
                 <li class="">
                     <a href="javascript:;" class="has-arrow">
-
                         <div class="parent-icon"><i class='bx bx-car'></i>
                         </div>
                         <div class="menu-title"> Seized Module</div>
@@ -184,16 +177,13 @@
                             <a href="<?php echo $basePath ?>/seized_module/view/driver_list.php"><i class='bx bxs-arrow-to-right'></i>Driver List</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/seized_module/view/depo_location_list.php"><i class='bx bxs-arrow-to-right'></i>Depo
-                                Location</a>
+                            <a href="<?php echo $basePath ?>/seized_module/view/depo_location_list.php"><i class='bx bxs-arrow-to-right'></i>Depo Location</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/seized_module/view/seized_confirm.php"><i class='bx bxs-arrow-to-right'></i> Seized Info.
-                                Update</a>
+                            <a href="<?php echo $basePath ?>/seized_module/view/seized_confirm.php"><i class='bx bxs-arrow-to-right'></i> Seized Info. Update</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/seized_module/view/seized_report.php"><i class='bx bxs-arrow-to-right'></i>Seized Report
-                                List</a>
+                            <a href="<?php echo $basePath ?>/seized_module/view/seized_report.php"><i class='bx bxs-arrow-to-right'></i>Seized Report List</a>
                         </li>
                     </ul>
                 </li>

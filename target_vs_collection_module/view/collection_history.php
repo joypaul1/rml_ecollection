@@ -108,7 +108,7 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'COLLECTION CONCERN';
+                $leftSideName = 'COLLECTION CONCERN HISTORY';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">

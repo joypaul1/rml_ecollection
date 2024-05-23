@@ -254,8 +254,6 @@ include_once ('../../_config/sqlConfig.php');
                                         $X2_TOTAL + $X1N_TOTAL + $X1S_TOTAL +
                                         $X_TRUCK_TOTAL +
                                         $X1_BUS_TOTAL + $X2_BUS_TOTAL + $X3_BUS_TOTAL + $X4_BUS_TOTAL; ?></b></td>
-
-
                                 </tr>
 
                             </tbody>
