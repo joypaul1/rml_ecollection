@@ -58,7 +58,30 @@ include_once ('../../_helper/2step_com_conn.php');
                                                     ?>
                                                 </select>
                                             </div>
+                                            <div class="col-sm-3">
+                                                <label for="title">Select Zone:</label>
+                                                <select name="area_zone" class="form-control single-select2">
+                                                    <option selected value="">--ALL--</option>
+                                                    <?php
+                                                    $strSQL = oci_parse(
+                                                        $objConnect,
+                                                        "SELECT unique AREA_ZONE FROM
+                                                        (select (SELECT B.AREA_ZONE FROM RML_COLL_APPS_USER B WHERE B.RML_ID=BB.CREATED_BY) AREA_ZONE
+                                                        from RML_COLL_VISIT_ASSIGN BB)
+                                                        order by AREA_ZONE"
+                                                    );
 
+                                                    oci_execute($strSQL);
+                                                    while ($row = oci_fetch_assoc($strSQL)) {
+
+                                                        ?>
+
+                                                        <option value="<?php echo $row['AREA_ZONE']; ?>"><?php echo $row['AREA_ZONE']; ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
 
                                             <div class="col-sm-3">
                                                 <label>Visit Start Date: </label>
@@ -72,20 +95,6 @@ include_once ('../../_helper/2step_com_conn.php');
                                                 </div>
 
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label>Visit End Date: </label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar">
-                                                        </i>
-                                                    </div>
-                                                    <input required="" class="form-control datepicker" name="end_date" type="text"
-                                                        value='<?php echo isset($_POST['end_date']) ? $_POST['end_date'] : date('t-m-Y'); ?>' />
-                                                </div>
-
-                                            </div>
-                                            <!--  -->
-
                                             <div class="col-sm-2">
                                                 <button class="form-control  btn btn-sm btn-gradient-primary mt-4" type="submit">Search Data <i
                                                         class='bx bx-file-find'></i>
@@ -106,7 +115,7 @@ include_once ('../../_helper/2step_com_conn.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'VISIT MONITORING REPORT';
+                $leftSideName = 'CONCERN DAILY VISIT MONITORING REPORT';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
@@ -115,6 +124,9 @@ include_once ('../../_helper/2step_com_conn.php');
                             <thead class="table-cust text-uppercase">
                                 <tr>
                                     <th scope="col">Sl</th>
+                                    <th scope="col">
+                                        <center>Visit Date</center>
+                                    </th>
                                     <th scope="col">
                                         <center>Ref-Code</center>
                                     </th>
@@ -125,10 +137,10 @@ include_once ('../../_helper/2step_com_conn.php');
                                         <center>Zone Name</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Last Target Place</center>
+                                        <center>Target Place</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Last Visited Place</center>
+                                        <center>Visited Place</center>
                                     </th>
                                     <th scope="col">
                                         <center>Customer Name</center>
@@ -140,21 +152,11 @@ include_once ('../../_helper/2step_com_conn.php');
                                         <center>Collected Amount</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Target Units</center>
+                                        <center>Customer Feedback</center>
                                     </th>
                                     <th scope="col">
-                                        <center>No. Of Visit</center>
+                                        <center>Next Followup Date</center>
                                     </th>
-                                    <th scope="col">
-                                        <center>Brand</center>
-                                    </th>
-                                    <th scope="col">
-                                        <center>Last Reason Code</center>
-                                    </th>
-                                    <th scope="col">
-                                        <center>Last Customer Feedback</center>
-                                    </th>
-                                    <!-- <th scope="col"><center>Next Followup Date</center></th>  -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,54 +164,70 @@ include_once ('../../_helper/2step_com_conn.php');
                                 <?php
                                 $LOGIN_ID = $_SESSION['ECOL_USER_INFO']['emp_id'];
 
-
                                 if (isset($_POST['start_date'])) {
-                                    $emp_id       = (int) (explode("RML-", $LOGIN_ID)[1]);
-                                    $v_created_id = $_REQUEST['created_id'];
-                                    $v_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                    $v_end_date   = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                    $emp_id          = (int) (explode("RML-", $LOGIN_ID)[1]);
+                                    $v_created_id    = $_REQUEST['created_id'];
+                                    $v_area_zone     = $_REQUEST['area_zone'];
+                                    $attn_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
 
-                                    $start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                    if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
+                                        $strSQL = oci_parse(
+                                            $objConnect,
+                                            "SELECT
+                                            bb.REF_ID,
+                                            bb.CREATED_BY,
+                                            (select AREA_ZONE from RML_COLL_APPS_USER where RML_ID=bb.CREATED_BY) AREA_ZONE,
+                                            (SELECT B.EMP_NAME FROM RML_COLL_APPS_USER B WHERE B.RML_ID=BB.CREATED_BY) CONCERN_NAME,
+                                            bb.ASSIGN_DATE,
+                                            COLL_VISIT_STATU(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy')) VISIT_STATUS,
+                                            bb.CUSTOMER_REMARKS,
+                                            RML_COLL_FAIL_TO_ASSIGN_VISIT(bb.REF_ID,bb.ASSIGN_DATE) NEXT_ASSIGN_INFO,
+                                            bb.VISIT_LOCATION,
+                                            COLL_VISIT_LAT(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy'),'LAT') VISITED_LOCATION_LAT,
+                                            COLL_VISIT_LAT(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy'),'LANG') VISITED_LOCATION_LANG,
+                                            BB.CUSTOMER_NAME,
+                                            (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
+                                                                WHERE C.REF_ID=bb.REF_ID
+                                                                    AND TRUNC(C.CREATED_DATE)=TO_DATE('$attn_start_date','dd/mm/yyyy')) COLLECTION_AMOUNT,
+                                            BB.INSTALLMENT_AMOUNT
+                                            FROM RML_COLL_VISIT_ASSIGN bb
+                                                WHERE bb.ASSIGN_DATE=TO_DATE('$attn_start_date','dd/mm/yyyy')
+                                                AND bb.IS_ACTIVE=1
+                                                AND ('$v_created_id' IS NULL OR bb.CREATED_BY='$v_created_id')
+                                                order by bb.CREATED_BY"
+                                        );
 
+                                    }
+                                    else {
+                                        $strSQL = oci_parse(
+                                            $objConnect,
+                                            "SELECT
+                                                BB.REF_ID,
+                                                BB.CREATED_BY,
+                                                AA.AREA_ZONE,
+                                                AA.EMP_NAME CONCERN_NAME,
+                                                BB.ASSIGN_DATE,
+                                                COLL_VISIT_STATU(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy')) VISIT_STATUS,
+                                                BB.CUSTOMER_REMARKS,
+                                                RML_COLL_FAIL_TO_ASSIGN_VISIT(bb.REF_ID,bb.ASSIGN_DATE) NEXT_ASSIGN_INFO,
+                                                BB.VISIT_LOCATION,
+                                                COLL_VISIT_LAT(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy'),'LAT') VISITED_LOCATION_LAT,
+                                                COLL_VISIT_LAT(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy'),'LANG') VISITED_LOCATION_LANG,
+                                                BB.CUSTOMER_NAME,
+                                                (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
+                                                    WHERE C.REF_ID=bb.REF_ID
+                                                    AND TRUNC(C.CREATED_DATE)=TO_DATE('$attn_start_date','dd/mm/yyyy')) COLLECTION_AMOUNT,
+                                                BB.INSTALLMENT_AMOUNT
+                                            FROM RML_COLL_VISIT_ASSIGN bb,RML_COLL_APPS_USER aa
+                                            WHERE BB.CREATED_BY=AA.RML_ID
+                                                AND bb.ASSIGN_DATE=TO_DATE('$attn_start_date','dd/mm/yyyy')
+                                                AND bb.IS_ACTIVE=1
+                                                AND ('$v_created_id' IS NULL OR bb.CREATED_BY='$v_created_id')
+                                                AND ('$v_area_zone' IS NULL OR AA.AREA_ZONE='$v_area_zone')
+                                                order by bb.CREATED_BY"
+                                        );
 
-                                    $sqlQuery = "SELECT A.REF_CODE,
-										    LAST_REASON_CODE(A.REF_CODE) LAST_REASON_CODE,
-											LAST_VISIT_LOCATION(A.REF_CODE,B.COLL_CONCERN_ID,'$v_start_date','$v_end_date') LAST_LOCATION,
-                                            B.BRAND,
-										    B.INSTALLMENT_AMOUNT,
-										    B.COLL_CONCERN_NAME,
-										    B.COLL_CONCERN_ID,
-										    B.CUSTOMER_NAME,
-										    A.TARGET_UNIT,
-										   (SELECT SUM(VISIT_STATUS) FROM RML_COLL_VISIT_ASSIGN 
-											  WHERE REF_ID=A.REF_CODE
-											  AND TRUNC(ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
-											) NUMBER_OF_VISIT,
-											(SELECT AREA_ZONE FROM RML_COLL_APPS_USER WHERE ACCESS_APP='RML_COLL' AND RML_ID= TO_NUMBER (B.COLL_CONCERN_ID)) CONCERN_ZONE,
-											(SELECT (CUSTOMER_REMARKS ||'##'|| VISIT_LOCATION)  FROM RML_COLL_VISIT_ASSIGN 
-													WHERE  ID=(
-														   SELECT MAX(ID) FROM RML_COLL_VISIT_ASSIGN 
-															WHERE REF_ID=A.REF_CODE 
-															AND ASSIGN_DATE BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
-														)) INFORMATION,
-														 (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
-															WHERE C.REF_ID=A.REF_CODE 
-															AND TRUNC(C.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')) COLLECTED_AMOUNT
-											FROM 
-											(
-											SELECT BB.REF_ID REF_CODE,
-												 COUNT(BB.REF_ID) TARGET_UNIT
-												FROM RML_COLL_VISIT_ASSIGN bb
-												WHERE TRUNC(bb.ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
-												AND ('$v_created_id' IS NULL OR bb.CREATED_BY='$v_created_id')
-												 GROUP BY BB.REF_ID
-												 ) A,LEASE_ALL_INFO_ERP B
-											WHERE A.REF_CODE=B.REF_CODE
-											--AND B.STATUS='Y'
-											";
-                                    $strSQL   = oci_parse($objConnect, $sqlQuery);
-
-
+                                    }
                                     oci_execute($strSQL);
                                     $number = 0;
 
@@ -218,37 +236,65 @@ include_once ('../../_helper/2step_com_conn.php');
                                         ?>
                                         <tr>
                                             <td><?php echo $number; ?></td>
-                                            <td><?php echo $row['REF_CODE']; ?></td>
-                                            <td><?php echo $row['COLL_CONCERN_NAME'] . "[" . $row['COLL_CONCERN_ID'] . ']'; ?></td>
-                                            <td><?php echo $row['CONCERN_ZONE']; ?></td>
-                                            <td><?php echo explode("##", $row['INFORMATION'])[1]; ?></td>
+                                            <td align="center"><?php echo $row['ASSIGN_DATE']; ?></td>
+                                            <td><?php echo $row['REF_ID']; ?></td>
+                                            <td><?php echo $row['CONCERN_NAME']; ?></td>
+                                            <td><?php echo $row['AREA_ZONE']; ?></td>
+                                            <td><?php echo $row['VISIT_LOCATION']; ?></td>
+                                            <td><?php //echo $row['VISITED_LOCATION_LAT'];
+                                                    $lat  = $row['VISITED_LOCATION_LAT'];
+                                                    $long = $row['VISITED_LOCATION_LANG'];
+                                                    if ($number == 1) {
+                                                        $golbalLat_1  = $lat;
+                                                        $golbalLang_1 = $long;
 
-                                            <td><?php
-                                            if ($row['LAST_LOCATION'] == "NO LOCATON FOUND") {
-
-                                            }
-                                            else {
-                                                $latitu = explode("##", $row['LAST_LOCATION'])[0];
-                                                $lng    = explode("##", $row['LAST_LOCATION'])[1];
-                                                $url    = "http://www.google.com/maps/place/" . $latitu . "," . $lng;
-                                                echo '<br>';
+                                                    }
+                                                    else if ($number == 2) {
+                                                        $golbalLat_2  = $lat;
+                                                        $golbalLang_2 = $long;
+                                                    }
 
 
-                                                ?>
-                                                    <a id="myLink" href="<?php echo $url; ?>" target="_blank">View Location</a>
-                                                    <?php
-                                            }
-                                            ?>
+                                                    $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBDQDOeUoFxB8GptvYRk9f_lR1UFRawVO0";
+                                                    $ch      = curl_init();
+                                                    curl_setopt($ch, CURLOPT_URL, $geocode);
+                                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                                                    curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+                                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                                                    $response = curl_exec($ch);
+                                                    curl_close($ch);
+                                                    $output    = json_decode($response);
+                                                    $dataarray = get_object_vars($output);
+                                                    if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
+                                                        if (isset($dataarray['results'][0]->formatted_address)) {
+
+                                                            $address = $dataarray['results'][0]->formatted_address;
+                                                        }
+                                                        else {
+                                                            $address = '';
+
+                                                        }
+                                                    }
+                                                    else {
+                                                        $address = '';
+                                                    }
+                                                    echo $address;
+                                                    if ($number == 1) {
+                                                        $firstLocationAddress = $address;
+                                                    }
+                                                    else if ($number == 2) {
+                                                        $secondLocationAddress = $address;
+                                                    }
+
+                                                    ?>
                                             </td>
 
                                             <td><?php echo $row['CUSTOMER_NAME']; ?></td>
                                             <td><?php echo $row['INSTALLMENT_AMOUNT']; ?></td>
-                                            <td><?php echo $row['COLLECTED_AMOUNT']; ?></td>
-                                            <td><?php echo $row['TARGET_UNIT']; ?></td>
-                                            <td><?php echo $row['NUMBER_OF_VISIT']; ?></td>
-                                            <td><?php echo $row['BRAND']; ?></td>
-                                            <td><?php echo $row['LAST_REASON_CODE']; ?></td>
-                                            <td><?php echo explode("##", $row['INFORMATION'])[0]; ?></td>
+                                            <td><?php echo $row['COLLECTION_AMOUNT']; ?></td>
+                                            <td><?php echo @explode("@@@", $row['NEXT_ASSIGN_INFO'])[1]; ?></td>
+                                            <td><?php echo @explode("@@@", $row['NEXT_ASSIGN_INFO'])[0]; ?></td>
 
 
                                         </tr>
@@ -285,6 +331,12 @@ include_once ('../../_includes/footer.php');
     }
 
     $('.single-select').select2({
+        theme: 'bootstrap4',
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        allowClear: Boolean($(this).data('allow-clear')),
+    });
+    $('.single-select2').select2({
         theme: 'bootstrap4',
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),

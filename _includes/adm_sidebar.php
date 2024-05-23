@@ -57,14 +57,20 @@
                         <div class="menu-title">Visit Assign Panel</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/adm_daily_visit.php"><i class='bx bxs-arrow-to-right'></i></i>Daily
-                                Visit Monitor</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/area_head_module/view/adm_concern_visit.php"><i
+                            class='bx bxs-arrow-to-right'></i> Concern Visit Monitor</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/concern_visit.php"><i
-                                    class='bx bxs-arrow-to-right'></i></i>Concern Visit Summary</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/area_head_module/view/adm_daily_visit.php"><i
+                            class='bx bxs-arrow-to-right'></i> Daily Visit Monitor</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/zone_visit.php"><i class='bx bxs-arrow-to-right'></i></i>Zone
-                                Visit Summary</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/area_head_module/view/concern_visit.php"><i
+                            class='bx bxs-arrow-to-right'></i> Concern Visit Summary</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/area_head_module/view/zone_visit.php"><i class='bx bxs-arrow-to-right'></i> Zone Visit Summary</a>
                         </li>
                     </ul>
                 </li>
