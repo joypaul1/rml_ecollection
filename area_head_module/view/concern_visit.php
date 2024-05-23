@@ -35,8 +35,6 @@ $currentYear = date('Y');
                         aria-expanded="true" aria-controls="collapseOne">
                         <strong><i class='bx bx-filter-alt'></i> Filter Data</strong>
                     </button>
-                   
-                   
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
 

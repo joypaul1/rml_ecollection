@@ -34,8 +34,8 @@ $currentYear = date('Y');
                         aria-expanded="true" aria-controls="collapseOne">
                         <strong><i class='bx bx-filter-alt'></i> Filter Data</strong>
                     </button>
-                   
-                   
+
+
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
 
@@ -154,7 +154,7 @@ $currentYear = date('Y');
                                             AND B.AREA_ZONE IN (select ZONE_NAME from COLL_EMP_ZONE_SETUP where AREA_HEAD='$emp_id')
                                             GROUP BY B.AREA_ZONE
                                             order by AREA_ZONE"
-                                        );
+                                        );  
 
 
                                     }
@@ -202,7 +202,7 @@ $currentYear = date('Y');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div>

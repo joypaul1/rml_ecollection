@@ -34,16 +34,15 @@ include_once ('../../_config/sqlConfig.php');
                                         <div class="row justify-content-center align-items-center">
                                             <div class="col-sm-3">
                                                 <label for="title">Select Zone:</label>
-                                                <select name="emp_zone" class="form-control single-select">
+                                                <select name="concern_zone" class="form-control single-select">
                                                     <option selected value=""><-- Select Zone --></option>
                                                     <?php
 
-                                                    $strSQL = oci_parse($objConnect, "SELECT distinct(ZONE) ZONE_NAME from MONTLY_COLLECTION where IS_ACTIVE=1 order by ZONE");
-
-                                                    oci_execute($strSQL);
-                                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                                        $strSQL  = @oci_parse($objConnect, "SELECT DISTINCT(AREA_ZONE) ZONE_NAME from RML_COLL_APPS_USER where ACCESS_APP='RML_COLL' AND LEASE_USER='CC' AND IS_ACTIVE=1 AND RML_ID NOT IN ('955','956') ORDER BY AREA_ZONE");
+                                                        @oci_execute($strSQL);
+                                                        while ($row = @oci_fetch_assoc($strSQL)) {
                                                         ?>
-                                                        <option value="<?php echo $row['ZONE_NAME']; ?>"><?php echo $row['ZONE_NAME']; ?></option>
+                                                        <option value="<?php echo $row['ZONE_NAME'];?>"><?php echo $row['ZONE_NAME'];?></option>
                                                         <?php
                                                     }
                                                     ?>
@@ -72,19 +71,11 @@ include_once ('../../_config/sqlConfig.php');
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label for="title">Select Reason Code :</label>
-                                                <select name="reason_code" class="form-control single-select">
-                                                    <option selected value=""><-- Select Code --></option>
-                                                    <?php
-                                                    $reasonSQL = oci_parse($objConnect, "SELECT TITLE from RML_COLL_ALKP where PAREN_ID=1 and is_active=1 order by SORT_ORDER");
-
-                                                    oci_execute($reasonSQL);
-                                                    while ($row = oci_fetch_assoc($reasonSQL)) {
-                                                        ?>
-                                                        <option value="<?php echo $row['TITLE']; ?>"><?php echo $row['TITLE']; ?></option>
-                                                        <?php
-                                                    }
-                                                    ?>
+                                                <label for="title">Select Status :</label>
+                                                <select name="tt_status" class="form-control single-select">
+                                                    <option hidden value=""><-- Status --></option>
+                                                    <option value="1">Confirm</option>
+                                                    <option value="0">Pending</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-2">
@@ -108,7 +99,7 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'Reason Code Wise report';
+                $leftSideName = 'Bank TT Zone Wise Report Panel';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
@@ -116,87 +107,102 @@ include_once ('../../_config/sqlConfig.php');
                         <table class="table table-bordered align-middle mb-0" id="tbl">
                             <thead class="table-cust text-uppercase">
                                 <tr>
-                                    <th scope="col">Sl</th>
                                     <th scope="col">
-                                        <center>Concern Name</center>
+                                        <center>Sl</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Entry Date</center>
+                                        <center>From Date</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Ref-Code</center>
+                                        <center>To Date</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Reason Code</center>
+                                        <center>Area Zone</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Concern Remarks</center>
+                                        <center>EMI TT Amount</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Zone Name</center>
+                                        <center>Total TT Amount</center>
                                     </th>
+
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <?php
-                                @$emp_zone = $_REQUEST['emp_zone'];
-                                @$visit_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$visit_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
-                                @$reason_code = $_REQUEST['reason_code'];
-
+                                @$concern_zone = $_REQUEST['concern_zone'];
+                                @$tt_from_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                @$tt_to_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$tt_status = $_REQUEST['tt_status'];
 
 
                                 if (isset($_POST['start_date'])) {
                                     $strSQL = oci_parse(
                                         $objConnect,
-                                        "SELECT 
-                                        B.RML_ID,
-                                        B.EMP_NAME,
-                                        A.REF_ID,
-                                        A.CREATED_DATE,
-                                        A.CUSTOMER_COMMENTS,
-                                        B.AREA_ZONE,
-                                        A.CONCERN_COMMENTS
-                                    FROM
-                                        RML_COLL_CUST_VISIT A,
-                                        RML_COLL_APPS_USER B
-                                    WHERE
-                                        A.RML_COLL_APPS_USER_ID = B.ID
-                                        AND ('$emp_zone' IS NULL OR B.AREA_ZONE = '$emp_zone')
-                                        AND ('$reason_code' IS NULL OR A.CUSTOMER_COMMENTS = '$reason_code')
-                                        AND A.CUSTOMER_COMMENTS IN (
-                                            SELECT TITLE
-                                            FROM RML_COLL_ALKP
-                                            WHERE PAREN_ID = 1
-                                            AND IS_ACTIVE = 1
-                                        )
-                                        AND TRUNC(A.CREATED_DATE) BETWEEN TO_DATE('$visit_start_date', 'DD/MM/YYYY') 
-                                        AND TO_DATE('$visit_end_date', 'DD/MM/YYYY')"
+                                        "SELECT DISTINCT(B.AREA_ZONE),SUM(A.AMOUNT) TT_AMOUNT,SUM(TT_TOTAL_TAKA) TT_TOTAL_TAKA
+							            FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
+									    WHERE A.RML_COLL_APPS_USER_ID=B.ID
+									    and ('$concern_zone' is null OR B.AREA_ZONE='$concern_zone')
+									    and ('$tt_status' is null OR A.TT_CHECK='$tt_status')
+									    AND A.PAY_TYPE='Bank TT'
+									    AND A.BANK='Sonali Bank'
+									    AND B.IS_ACTIVE=1
+									    AND TRUNC(A.CREATED_DATE) BETWEEN TO_DATE('$tt_from_date','dd/mm /yyyy') AND TO_DATE('$tt_to_date','dd/mm/yyyy')
+									    GROUP BY B.AREA_ZONE
+									    ORDER BY  B.AREA_ZONE"
                                     );
 
-
-
                                     oci_execute($strSQL);
-                                    $number                 = 0;
-                                    $GRANT_TOTAL_TARGET     = 0;
-                                    $GRANT_TOTAL_COLLECTION = 0;
+                                    $number                = 0;
+                                    $gtant_total_emi       = 0;
+                                    $gtant_total_total_emi = 0;
 
                                     while ($row = oci_fetch_assoc($strSQL)) {
                                         $number++;
+                                        $emi_tt_amount         = $row['TT_AMOUNT'];
+                                        $gtant_total_emi       = $gtant_total_emi + $emi_tt_amount;
+                                        $total_tt_amount       = $row['TT_TOTAL_TAKA'];
+                                        $gtant_total_total_emi = $gtant_total_total_emi + $total_tt_amount;
                                         ?>
                                         <tr>
-                                            <td><?php echo $number; ?></td>
-                                            <td><?php echo $row['EMP_NAME']; ?></td>
-                                            <td><?php echo $row['CREATED_DATE']; ?></td>
-                                            <td><?php echo $row['REF_ID']; ?></td>
-                                            <td><?php echo $row['CUSTOMER_COMMENTS']; ?></td>
-                                            <td><?php echo $row['CONCERN_COMMENTS']; ?></td>
-                                            <td><?php echo $row['AREA_ZONE']; ?></td>
+                                            <td align="center"><?php echo $number; ?></td>
+                                            <td align="center"><?php echo $tt_from_date; ?></td>
+                                            <td align="center"><?php echo $tt_to_date; ?></td>
+                                            <td align="center"><?php echo $row['AREA_ZONE']; ?></td>
+                                            <td align="center"><?php
+                                            if ($emi_tt_amount == $total_tt_amount)
+                                                echo $row['TT_AMOUNT'];
+                                            else {
+                                                echo '<span style="color:red;text-align:center;">';
+                                                echo $row['TT_AMOUNT'];
+                                                echo '</span>';
+                                            }
+
+
+                                            ?>
+                                            </td>
+                                            <td align="center"><?php echo $row['TT_TOTAL_TAKA']; ?></td>
+
                                         </tr>
                                         <?php
                                     }
+                                    ?>
+
+                                    <tr>
+
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>TOTAL:</td>
+                                        <td align="center"><?php echo $gtant_total_emi; ?></td>
+                                        <td align="center"><?php echo $gtant_total_total_emi; ?></td>
+                                        <td></td>
+
+                                    </tr>
+                                    <?php
                                 }
+
                                 ?>
                             </tbody>
                         </table>

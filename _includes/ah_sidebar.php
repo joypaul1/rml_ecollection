@@ -107,12 +107,14 @@
                     <ul>
                         <!-- <li> <a href="<?php echo $basePath ?>/image_module/view/zone_images.php"><i class='bx bxs-arrow-to-right'></i></i>Images Zone Unit</a>
                         </li> -->
-                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_view.php"><i class='bx bxs-arrow-to-right'></i></i>Code Wise Images</a>
+                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_view.php"><i class='bx bxs-arrow-to-right'></i></i>Code Wise
+                                Images</a>
                         </li>
                         <li> <a href="<?php echo $basePath ?>/image_module/view/images_grade_summary.php"><i
                                     class='bx bxs-arrow-to-right'></i></i>Grade Summary</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i></i>Uploaded History</a>
+                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i></i>Uploaded
+                                History</a>
                         </li>
                     </ul>
                 </li>

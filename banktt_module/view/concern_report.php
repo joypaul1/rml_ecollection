@@ -26,66 +26,22 @@ include_once ('../../_config/sqlConfig.php');
                     </button>
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
+
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
-                                        <div class="row justify-content-start align-items-center">
+                                        <div class="row justify-content-center align-items-center">
                                             <div class="col-sm-3">
-                                                <label for="title">Select Collection Concern :</label>
-                                                <select name="emp_concern" class="form-control single-select">
+                                                <label for="title">Select Concern:</label>
+                                                <select name="concern_name" class="form-control single-select">
                                                     <option selected value=""><-- Select Concern --></option>
                                                     <?php
-
-                                                    $strSQL = oci_parse(
-                                                        $objConnect,
-                                                        "SELECT RML_ID,EMP_NAME from RML_COLL_APPS_USER
-                                                        where is_active=1
-													    and ACCESS_APP='RML_COLL'
-													    and LEASE_USER='CC'
-													    and RML_ID  NOT IN('955','713')
-													    order by EMP_NAME"
-                                                    );
-
-                                                    oci_execute($strSQL);
-                                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                                    $strSQL = oci_parse($objConnect, "SELECT DISTINCT(EMP_NAME) EMP_NAME,RML_ID,ID from RML_COLL_APPS_USER where ACCESS_APP='RML_COLL' AND LEASE_USER='CC' AND IS_ACTIVE=1 AND RML_ID NOT IN ('955','956') ORDER BY EMP_NAME");
+                                                    @oci_execute($strSQL);
+                                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                                         ?>
-                                                        <option value="<?php echo $row['RML_ID']; ?>" <?php echo (isset($_POST['emp_concern']) && $_POST['emp_concern'] == $row['RML_ID']) ? 'selected="selected"' : ''; ?>>
-                                                            <?php echo $row['EMP_NAME']; ?>
-                                                        </option>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label for="title">Select Zone:</label>
-                                                <select name="emp_zone" class="form-control single-select">
-                                                    <option selected value=""><-- Select Zone --></option>
-                                                    <?php
-
-                                                    $strSQL = oci_parse($objConnect, "SELECT distinct(ZONE) ZONE_NAME from MONTLY_COLLECTION where IS_ACTIVE=1 order by ZONE");
-
-                                                    oci_execute($strSQL);
-                                                    while ($row = oci_fetch_assoc($strSQL)) {
-                                                        ?>
-                                                        <option value="<?php echo $row['ZONE_NAME']; ?>"><?php echo $row['ZONE_NAME']; ?></option>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label for="title">Select Reason Code :</label>
-                                                <select name="reason_code" class="form-control single-select">
-                                                    <option selected value=""><-- Select Code --></option>
-                                                    <?php
-                                                    $reasonSQL = oci_parse($objConnect, "SELECT TITLE from RML_COLL_ALKP where PAREN_ID=1 and is_active=1 order by SORT_ORDER");
-
-                                                    oci_execute($reasonSQL);
-                                                    while ($row = oci_fetch_assoc($reasonSQL)) {
-                                                        ?>
-                                                        <option value="<?php echo $row['TITLE']; ?>"><?php echo $row['TITLE']; ?></option>
+                                                        <option value="<?php echo $row['EMP_NAME']; ?>"><?php echo $row['EMP_NAME']; ?></option>
                                                         <?php
                                                     }
                                                     ?>
@@ -113,7 +69,14 @@ include_once ('../../_config/sqlConfig.php');
                                                         value='<?php echo isset($_POST['end_date']) ? $_POST['end_date'] : date('t-m-Y'); ?>' />
                                                 </div>
                                             </div>
-
+                                            <div class="col-sm-3">
+                                                <label for="title">Select Status :</label>
+                                                <select name="tt_status" required class="form-control single-select">
+                                                    <option hidden value=""><-- Status --></option>
+                                                    <option value="1">Confirm</option>
+                                                    <option value="0">Pending</option>
+                                                </select>
+                                            </div>
                                             <div class="col-sm-2">
                                                 <button class="form-control btn btn-sm btn-gradient-primary mt-4" type="submit">
                                                     Search Data <i class='bx bx-file-find'></i>
@@ -135,7 +98,7 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'Last eason Code Wise report';
+                $leftSideName = 'Bank TT Zone Wise Report Panel';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
@@ -143,74 +106,80 @@ include_once ('../../_config/sqlConfig.php');
                         <table class="table table-bordered align-middle mb-0" id="tbl">
                             <thead class="table-cust text-uppercase">
                                 <tr>
-                                    <th scope="col">Sl</th>
                                     <th scope="col">
-                                        <center>Concern ID</center>
+                                        <center>Sl</center>
+                                    </th>
+                                    <th scope="col">
+                                        <center>From Date</center>
+                                    </th>
+                                    <th scope="col">
+                                        <center>To Date</center>
                                     </th>
                                     <th scope="col">
                                         <center>Concern Name</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Ref-Code</center>
+                                        <center>EMI TT Amount</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Reason Code</center>
+                                        <center>Total TT Amount</center>
                                     </th>
-                                    <th scope="col">
-                                        <center>Last Reason Code</center>
-                                    </th>
-                                    <th scope="col">
-                                        <center>Updated Date</center>
-                                    </th>
-                                    <th scope="col">
-                                        <center>Zone Name</center>
-                                    </th>
+
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <?php
-                                if (isset($_POST['emp_zone'])) {
-                                    $emp_concern  = $_REQUEST['emp_concern'];
-                                    $emp_zone     = $_REQUEST['emp_zone'];
-                                    $reason_code  = $_REQUEST['reason_code'];
-                                    $v_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                    $v_end_date   = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$concern_name = $_REQUEST['concern_name'];
+                                @$tt_from_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                @$tt_to_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$tt_status = $_REQUEST['tt_status'];
+
+
+                                if (isset($_POST['start_date'])) {
 
                                     $strSQL = oci_parse(
                                         $objConnect,
-                                        "SELECT b.RML_ID,B.EMP_NAME,A.REF_CODE,A.REASON_CODE,A.UPDATED_REASON_CODE,B.AREA_ZONE,UPDATED_DAY
-											from RML_COLL_REASON_CODE_SETUP a,RML_COLL_APPS_USER b
-											where A.CC_ID=B.RML_ID
-											and ('$emp_concern' is null OR b.RML_ID='$emp_concern')
-											and ('$emp_zone' is null OR b.AREA_ZONE='$emp_zone')
-											and ('$reason_code' is null OR a.REASON_CODE='$reason_code')
-											AND TRUNC(UPDATED_DAY) BETWEEN TO_DATE('$v_start_date','DD/MM/YYYY') AND TO_DATE('$v_end_date','DD/MM/YYYY')
-											"
+                                        "SELECT DISTINCT(B.EMP_NAME),SUM(A.AMOUNT) TT_AMOUNT,SUM(TT_TOTAL_TAKA) TT_TOTAL_TAKA FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
+                                        WHERE A.RML_COLL_APPS_USER_ID=B.ID
+                                        and ('$concern_name' is null OR B.EMP_NAME='$concern_name')
+                                        AND A.PAY_TYPE='Bank TT'
+                                        AND A.BANK='Sonali Bank'
+                                        AND B.IS_ACTIVE='$tt_status'
+                                        AND TRUNC(A.CREATED_DATE) BETWEEN TO_DATE('$tt_from_date','dd/mm/yyyy') AND TO_DATE('$tt_to_date','dd/mm/yyyy')
+                                        GROUP BY B.EMP_NAME
+                                        ORDER BY  B.EMP_NAME"
                                     );
 
-
-
                                     oci_execute($strSQL);
-                                    $number                 = 0;
-                                    $GRANT_TOTAL_TARGET     = 0;
-                                    $GRANT_TOTAL_COLLECTION = 0;
-
+                                    $number = 0;
                                     while ($row = oci_fetch_assoc($strSQL)) {
                                         $number++;
+                                        $emi_tt_amount   = $row['TT_AMOUNT'];
+                                        $total_tt_amount = $row['TT_TOTAL_TAKA'];
                                         ?>
                                         <tr>
-                                            <td><?php echo $number; ?></td>
-                                            <td><?php echo $row['RML_ID']; ?></td>
-                                            <td><?php echo $row['EMP_NAME']; ?></td>
-                                            <td><?php echo $row['REF_CODE']; ?></td>
-                                            <td><?php echo $row['REASON_CODE']; ?></td>
-                                            <td><?php echo $row['UPDATED_REASON_CODE']; ?></td>
-                                            <td><?php echo $row['UPDATED_DAY']; ?></td>
-                                            <td><?php echo $row['AREA_ZONE']; ?></td>
+                                            <td align="center"><?php echo $number; ?></td>
+                                            <td align="center"><?php echo $tt_from_date; ?></td>
+                                            <td align="center"><?php echo $tt_to_date; ?></td>
+                                            <td align="center"><?php echo $row['EMP_NAME']; ?></td>
+                                            <td align="center"><?php
+                                            if ($emi_tt_amount == $total_tt_amount)
+                                                echo $row['TT_AMOUNT'];
+                                            else {
+                                                echo '<span style="color:red;text-align:center;">';
+                                                echo $row['TT_AMOUNT'];
+                                                echo '</span>';
+                                            }
+                                            ?>
+                                            </td>
+                                            <td align="center"><?php echo $row['TT_TOTAL_TAKA']; ?></td>
+
                                         </tr>
                                         <?php
                                     }
                                 }
+
                                 ?>
                             </tbody>
                         </table>
