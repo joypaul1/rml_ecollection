@@ -39,12 +39,12 @@
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class='bx bx-chalkboard'></i>
                         </div>
-                        <div class="menu-title">Report Panel</div>
+                        <div class="menu-title">Report Module </div>
                     </a>
                     <ul>
                         <li>
-                            <a href="<?php echo $basePath ?>/adm_module/view/master_report.php"><i class='bx bxs-arrow-to-right'></i>Collection
-                                Report</a>
+                            <a href="<?php echo $basePath ?>/adm_module/view/master_report.php">
+                            <i class='bx bxs-arrow-to-right'></i> Collection Report</a>
                         </li>
 
                     </ul>
@@ -54,7 +54,7 @@
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class='bx bx-bookmark-alt-plus'></i>
                         </div>
-                        <div class="menu-title">Visit Assign Panel</div>
+                        <div class="menu-title">Visit Assign Module</div>
                     </a>
                     <ul>
                         <li>
