@@ -1,5 +1,13 @@
 <?php
-
+$dynamic_link_css[] = '../../assets/plugins/select2/css/select2.min.css';
+$dynamic_link_css[] = '../../assets/plugins/datetimepicker/css/classic.css';
+$dynamic_link_css[] = '../../assets/plugins/datetimepicker/css/classic.date.css';
+$dynamic_link_css[] = '../../assets/plugins/select2/css/select2-bootstrap4.css';
+$dynamic_link_js[]  = '../../assets/plugins/select2/js/select2.min.js';
+$dynamic_link_js[]  = '../../assets/plugins/datetimepicker/js/picker.js';
+$dynamic_link_js[]  = '../../assets/plugins/datetimepicker/js/picker.date.js';
+$dynamic_link_js[]  = '../../assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js';
+$dynamic_link_js[]  = '../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js';
 
 include_once ('../../_helper/2step_com_conn.php');
 include_once ('../../_config/sqlConfig.php');
@@ -16,7 +24,7 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'Driver List';
+                $leftSideName = 'Reason Code List';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
@@ -25,18 +33,17 @@ include_once ('../../_config/sqlConfig.php');
                             <thead class="table-cust text-uppercase">
                                 <tr>
                                     <th scope="col">Sl</th>
-                                    <th scope="col">Depot Location</th>
+                                    <th scope="col">Reason Code</th>
                                     <th scope="col">System Keyword</th>
-
+                                    <th scope="col">Create Date</th>
+                                    <th scope="col">Remarks</th>
                                 </tr>
                             </thead>
 
                             <tbody>
 
                                 <?php
-
-                                $strSQL = @oci_parse($objConnect, "select DEPORCODE AS KEY_WORD,WAREDESC AS TITLE from V_ERP_DEPORT_LOCATION");
-
+                                $strSQL = @oci_parse($objConnect, "SELECT TITLE,KEY_WORD,CREATED_DATE,REMARKS from RML_COLL_ALKP where is_active=1 and PAREN_ID=1 ORDER BY TITLE");
                                 @oci_execute($strSQL);
                                 $number = 0;
                                 while ($row = @oci_fetch_assoc($strSQL)) {
@@ -46,6 +53,9 @@ include_once ('../../_config/sqlConfig.php');
                                         <td><?php echo $number; ?></td>
                                         <td><?php echo $row['TITLE']; ?></td>
                                         <td><?php echo $row['KEY_WORD']; ?></td>
+                                        <td><?php echo $row['CREATED_DATE']; ?></td>
+                                        <td><?php echo $row['REMARKS']; ?></td>
+
                                     </tr>
                                     <?php
 
@@ -56,7 +66,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->

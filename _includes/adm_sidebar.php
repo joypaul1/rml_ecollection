@@ -117,6 +117,28 @@
 
                         <div class="parent-icon"><i class='bx bx-images'></i>
                         </div>
+                        <div class="menu-title"> Reason Code Module</div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/list.php"><i class='bx bxs-arrow-to-right'></i>Reason Code List</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/report.php"><i class='bx bxs-arrow-to-right'></i>Reason Code Details</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/last_report.php"><i class='bx bxs-arrow-to-right'></i> Last Reason Code List</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $basePath ?>/reasoncode_module/view/summary.php"><i class='bx bxs-arrow-to-right'></i>Reason Code Summary </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;" class="has-arrow">
+
+                        <div class="parent-icon"><i class='bx bx-images'></i>
+                        </div>
                         <div class="menu-title"> Seized Module</div>
                     </a>
                     <ul>
