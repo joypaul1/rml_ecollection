@@ -139,7 +139,7 @@ $attn_end_date   = $_REQUEST['end_date'];
 							</table>
 						</div>
 						<div class="d-block text-end">
-							<a class="btn btn-sm btn-success" onclick="exportF(this)">Export to excel</a>
+							<a class="btn btn-sm btn-success" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
 						</div>
 					</div>
 				</div>

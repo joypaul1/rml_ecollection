@@ -130,7 +130,7 @@
                             <a href="<?php echo $basePath ?>/seized_module/view/seized_confirm.php"><i class='bx bxs-arrow-to-right'></i> Seized Info. Update</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/seized_module/view/collection_history.php"><i class='bx bxs-arrow-to-right'></i>Seized Report List</a>
+                            <a href="<?php echo $basePath ?>/seized_module/view/seized_report.php"><i class='bx bxs-arrow-to-right'></i>Seized Report List</a>
                         </li>
                     </ul>
                 </li>

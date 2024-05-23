@@ -237,7 +237,7 @@ include_once ('../../_config/sqlConfig.php');
                     </div>
 
                     <div class="d-block text-end">
-                        <a class="btn btn-gradient-info" onclick="exportF(this)">Export to excel</a>
+                        <a class="btn btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div><!--end row-->
 

@@ -222,9 +222,6 @@ include_once ('../../_config/sqlConfig.php');
                                             }
                                             ?>%
                                         </td>
-                                        <td align="center"></td>
-                                        <td align="center"></td>
-
                                     </tr>
                                     <?php
                                 }
@@ -236,7 +233,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export to excel</a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->

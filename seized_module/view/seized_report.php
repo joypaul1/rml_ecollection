@@ -30,8 +30,6 @@ include_once ('../../_config/sqlConfig.php');
                         aria-expanded="true" aria-controls="collapseOne">
                         <strong><i class='bx bx-filter-alt'></i> Filter Data</strong>
                     </button>
-                   
-                   
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
 
@@ -40,6 +38,22 @@ include_once ('../../_config/sqlConfig.php');
                                 <div class="accordion-body">
                                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
                                         <div class="row justify-content-center align-items-center">
+                                            <div class="col-sm-3">
+                                                <label for="title">Select Zone:</label>
+                                                <select name="emp_zone" class="form-control single-select">
+                                                    <option hidden value="">Select Zone</option>
+                                                    <?php
+                                                    $strSQL = oci_parse($objConnect, "SELECT distinct AREA_ZONE AS ZONE_NAME from RML_COLL_APPS_USER where ACCESS_APP='RML_COLL' AND IS_ACTIVE=1  order by AREA_ZONE");
+                                                    oci_execute($strSQL);
+                                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                                        ?>
+
+                                                        <option value="<?php echo $row['ZONE_NAME']; ?>"><?php echo $row['ZONE_NAME']; ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
                                             <div class="col-sm-3">
                                                 <label> Start Date: </label>
                                                 <div class="input-group">
@@ -63,20 +77,11 @@ include_once ('../../_config/sqlConfig.php');
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label for="title">Vehicle Grade :</label>
-                                                <select name="vehicle_grade" class="form-control single-select">
-                                                    <option selected value="">Select Vehicle Grade</option>
-                                                    <?php
-                                                    $reasonSQL = @oci_parse($objConnect, "SELECT distinct(VEHICLE_GRADE) AS VEHICLE_GRADE from RML_COLL_IMAGES
-                                                    order by VEHICLE_GRADE");
-
-                                                    @oci_execute($reasonSQL);
-                                                    while ($row = @oci_fetch_assoc($reasonSQL)) {
-                                                        ?>
-                                                        <option value="<?php echo $row['VEHICLE_GRADE']; ?>"><?php echo $row['VEHICLE_GRADE']; ?></option>
-                                                        <?php
-                                                    }
-                                                    ?>
+                                                <label for="title">Select Status:</label>
+                                                <select name="seized_status" class="form-control single-select">
+                                                    <option hidden value=""><-- Status --></option>
+                                                    <option value="1">Approved</option>
+                                                    <option value="0">Pending</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-2">
@@ -84,9 +89,7 @@ include_once ('../../_config/sqlConfig.php');
                                                     Search Data <i class='bx bx-file-find'></i>
                                                 </button>
                                             </div>
-
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
@@ -100,87 +103,121 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'Images uploaded History Report';
+                $leftSideName = 'Zone Wise Seized Summary';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
                     <div class="table-responsive ">
-                        <table class="table table-bordered align-middle  mb-0">
+                        <table class="table table-bordered align-middle mb-0" id="tbl">
                             <thead class="table-cust text-uppercase">
                                 <tr>
-                                    <th scope="col">Sl</th>
                                     <th scope="col">
-                                        <center>Concern Name</center>
+                                        <center>Sl</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Ref-Code</center>
+                                        <center>Seized/Entry By</center>
                                     </th>
                                     <th scope="col">
                                         <center>Entry Date</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Vehicle Grade</center>
+                                        <center>REF-ID</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Type</center>
+                                        <center>Driver Name</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Zone Name</center>
+                                        <center>Others Driver Name(Mobile)</center>
                                     </th>
                                     <th scope="col">
-                                        <center>Images Name</center>
+                                        <center>Depot Location</center>
                                     </th>
+                                    <th scope="col">
+                                        <center>Area Zone</center>
+                                    </th>
+                                    <th scope="col">
+                                        <center>Total Expence</center>
+                                    </th>
+                                    <th scope="col">
+                                        <center>Status</center>
+                                    </th>
+
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <?php
-                                @$visit_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$visit_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
-                                @$vehicle_grade = $_REQUEST['vehicle_grade'];
+                                @$emp_zone = $_REQUEST['emp_zone'];
+                                @$seized_status = $_REQUEST['seized_status'];
+                                @$seized_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                @$seized_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                if (isset($_POST['emp_zone'])) {
 
-
-
-                                if (isset($_POST['start_date'])) {
-
-                                    $strSQL = @oci_parse(
+                                    $strSQL = oci_parse(
                                         $objConnect,
-                                        "SELECT A.REF_CODE,B.EMP_NAME ,A.ENTRY_DATE,A.VEHICLE_GRADE,a.IMAGE_NAME,a.COMMENTS_TITLE,B.AREA_ZONE
-                                            from RML_COLL_IMAGES a,RML_COLL_APPS_USER b
-                                            where A.UPDATED_BY=B.RML_ID
-                                            and ('$images_grade' is null OR a.VEHICLE_GRADE='$images_grade')
-                                            and trunc(a.ENTRY_DATE) between to_date('$visit_start_date','dd/mm/yyyy') and  to_date('$visit_end_date','dd/mm/yyyy')
-                                            order by REF_CODE"
+                                        "SELECT B.RML_ID,
+                                            A.RENT_DRIVER_NAME,
+                                            A.RENT_DRIVER_MOBILE,
+                                            B.EMP_NAME,
+                                            A.REF_ID,
+                                            A.ENTRY_DATE,
+                                            B.AREA_ZONE,
+                                            A.DRIVER_NAME,
+                                            A.DEPOT_LOCATION,
+                                            A.IS_CONFIRM,
+                                            A.TOTAL_EXPENSE
+                                        FROM RML_COLL_SEIZE_DTLS a,RML_COLL_APPS_USER b
+                                        where A.ENTRY_BY_RML_ID=b.RML_ID
+                                        and ('$emp_zone' is null OR B.AREA_ZONE='$emp_zone')
+                                        and ('$seized_status' is null OR A.IS_CONFIRM='$seized_status')
+                                        and trunc(a.ENTRY_DATE) between to_date('$seized_start_date','dd/mm/yyyy') and  to_date('$seized_end_date','dd/mm/yyyy')"
                                     );
 
-
-
-                                    @oci_execute($strSQL);
+                                    oci_execute($strSQL);
                                     $number = 0;
 
-                                    while ($row = @oci_fetch_assoc($strSQL)) {
+                                    while ($row = oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>
-                                            <td><?php echo $number; ?></td>
+                                            <td align="center"><?php echo $number; ?></td>
                                             <td><?php echo $row['EMP_NAME']; ?></td>
-                                            <td><?php echo $row['REF_CODE']; ?></td>
-                                            <td><?php echo $row['ENTRY_DATE']; ?></td>
-                                            <td><?php echo $row['VEHICLE_GRADE']; ?></td>
-                                            <td><?php echo $row['COMMENTS_TITLE']; ?></td>
-                                            <td><?php echo $row['AREA_ZONE']; ?></td>
-                                            <td><?php echo $row['IMAGE_NAME']; ?></td>
+                                            <td align="center"><?php echo $row['ENTRY_DATE']; ?></td>
+                                            <td align="center"><?php echo $row['REF_ID']; ?></td>
+                                            <td align="center"><?php echo $row['DRIVER_NAME']; ?></td>
+                                            <td align="center"><?php
+                                            if (strlen($row['RENT_DRIVER_NAME']) > 0)
+                                                if (strlen($row['RENT_DRIVER_MOBILE']) > 0)
+                                                    echo $row['RENT_DRIVER_NAME'] . "[" . $row['RENT_DRIVER_MOBILE'] . "]";
+                                                else
+                                                    echo $row['RENT_DRIVER_NAME'];
+
+                                            ?></td>
+                                            <td align="center"><?php echo $row['DEPOT_LOCATION']; ?></td>
+                                            <td align="center"><?php echo $row['AREA_ZONE']; ?></td>
+                                            <td align="center"><?php echo $row['TOTAL_EXPENSE']; ?></td>
+                                            <td align="center"><?php
+                                            if ($row['IS_CONFIRM'] == 1) {
+                                                echo '<button class="btn btn-sm btn-gradient-success"> Confirm
+                                                </button>';
+                                            }
+                                            else
+                                                echo '<button class="btn btn-sm btn-gradient-danger"> Pending
+                                            </button>'; ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
                                 }
+
                                 ?>
                             </tbody>
+
 
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->
@@ -194,9 +231,9 @@ include_once ('../../_config/sqlConfig.php');
     ?>
     <script>
         function exportF(elem) {
-            var table = document.getElementById("table");
+            var table = document.getElementById("tbl");
             var html = table.outerHTML;
-            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url
+            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
             elem.setAttribute("href", url);
             elem.setAttribute("download", "Images_Uploaded_History.xls"); // Choose the file name
             return false;
