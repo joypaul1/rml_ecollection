@@ -84,7 +84,7 @@ include_once ('../../_config/sqlConfig.php');
             var html = table.outerHTML;
             var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
             elem.setAttribute("href", url);
-            elem.setAttribute("download", "Images_Uploaded_History.xls"); // Choose the file name
+            elem.setAttribute("download", "reason_code_list.xls"); // Choose the file name
             return false;
         }
     </script>

@@ -42,7 +42,7 @@ $dynamic_link_js[]  = '../../assets/plugins/bootstrap-material-datetimepicker/js
                                             </div>
                                             <div class="col-3">
                                                 <label for="title">Select User Role :</label>
-                                                <select required="" name="user_type" class="form-control single-select">
+                                                <select required="" name="user_type" class="form-control ">
                                                     <option value="" <?php echo isset($_POST['user_type']) && $_POST['user_type'] == '' ? 'selected' : ''; ?>>
                                                         <-- Select Role -->
                                                     </option>
@@ -57,7 +57,7 @@ $dynamic_link_js[]  = '../../assets/plugins/bootstrap-material-datetimepicker/js
                                             </div>
                                             <div class="col-3">
                                                 <label for="">Select User Zone :</label>
-                                                <select name="zone_name" class="form-control single-select">
+                                                <select name="zone_name" class="form-control single-select2">
                                                     <option hidden value=""> <-- Select Zone --> </option>
                                                     <?php
                                                     $strSQL = @oci_parse($objConnect, "SELECT unique ZONE_NAME from COLL_EMP_ZONE_SETUP order by ZONE_NAME");
@@ -244,7 +244,7 @@ include_once ('../../_includes/footer_info.php');
 include_once ('../../_includes/footer.php');
 ?>
 <script>
-   $('.single-class').each(function() {
+   $('.single-select').each(function() {
     $(this).select2({
         theme: 'bootstrap4',
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',

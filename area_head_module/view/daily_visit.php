@@ -104,7 +104,7 @@ include_once ('../../_helper/2step_com_conn.php');
                 ?>
                 <div class="card-body">
                     <div class="table-responsive ">
-                        <table class="table table-bordered align-middle  mb-0">
+                        <table class="table table-bordered align-middle mb-0" id="tbl">
                             <thead class="table-cust text-uppercase">
                                 <tr>
                                     <th scope="col">Sl</th>

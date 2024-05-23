@@ -588,3 +588,13 @@ include_once ('../../_helper/2step_com_conn.php');
     include_once ('../../_includes/footer_info.php');
     include_once ('../../_includes/footer.php');
     ?>
+    <script>
+        function exportF(elem) {
+            var table = document.getElementById("tbl");
+            var html = table.outerHTML;
+            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+            elem.setAttribute("href", url);
+            elem.setAttribute("download", "seized_confirm.xls"); // Choose the file name
+            return false;
+        }
+    </script>

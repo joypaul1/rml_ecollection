@@ -217,7 +217,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->
@@ -233,9 +233,9 @@ include_once ('../../_config/sqlConfig.php');
         function exportF(elem) {
             var table = document.getElementById("tbl");
             var html = table.outerHTML;
-            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url
             elem.setAttribute("href", url);
-            elem.setAttribute("download", "Images_Uploaded_History.xls"); // Choose the file name
+            elem.setAttribute("download", "seized_report.xls"); // Choose the file name
             return false;
         }
 
