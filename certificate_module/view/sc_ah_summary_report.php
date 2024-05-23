@@ -250,7 +250,7 @@ include_once ('../../_config/sqlConfig.php');
         ?>
         <script>
             function exportF(elem) {
-                var table = document.getElementById("table");
+                var table = document.getElementById("tbl");
                 var html = table.outerHTML;
                 var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
                 elem.setAttribute("href", url);

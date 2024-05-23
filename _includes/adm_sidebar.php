@@ -57,7 +57,7 @@
                         <div class="menu-title">Visit Assign Panel</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/daily_visit.php"><i class='bx bxs-arrow-to-right'></i></i>Daily
+                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/adm_daily_visit.php"><i class='bx bxs-arrow-to-right'></i></i>Daily
                                 Visit Monitor</a>
                         </li>
                         <li> <a href="<?php echo $basePath ?>/area_head_module/view/concern_visit.php"><i

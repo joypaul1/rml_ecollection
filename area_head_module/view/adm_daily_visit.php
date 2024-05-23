@@ -39,7 +39,7 @@ include_once ('../../_helper/2step_com_conn.php');
                                         <div class="row justify-content-center align-items-center">
                                             <div class="col-sm-4">
                                                 <label>Select Your Concern :</label>
-                                                <select name="created_id" id="created_id" class="form-control">
+                                                <select name="created_id" id="created_id" class="form-control single-select">
                                                     <option selected value="">--ALL--</option>
                                                     <?php
                                                     $strSQL = @oci_parse(
@@ -111,7 +111,7 @@ include_once ('../../_helper/2step_com_conn.php');
                 ?>
                 <div class="card-body">
                     <div class="table-responsive ">
-                        <table class="table table-bordered align-middle  mb-0">
+                        <table class="table table-bordered align-middle  mb-0" id="tbl">
                             <thead class="table-cust text-uppercase">
                                 <tr>
                                     <th scope="col">Sl</th>
@@ -171,43 +171,45 @@ include_once ('../../_helper/2step_com_conn.php');
 
                                     $start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
 
-                                    if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
 
-                                        $SQLqUARRY = "SELECT
-                                            bb.REF_ID,
-                                            bb.CREATED_BY,cc.APPROVAL_STATUS,
-                                            (SELECT AREA_ZONE FROM RML_COLL_APPS_USER WHERE RML_ID = bb.CREATED_BY) AS AREA_ZONE,
-                                            (SELECT B.EMP_NAME FROM RML_COLL_APPS_USER B WHERE B.RML_ID = BB.CREATED_BY) AS CONCERN_NAME,
-                                            bb.ASSIGN_DATE,
-                                            COLL_VISIT_STATU(bb.CREATED_BY, bb.REF_ID, TO_DATE('$start_date', 'dd/mm/yyyy')) AS VISIT_STATUS,
-                                            bb.CUSTOMER_REMARKS,
-                                            RML_COLL_FAIL_TO_ASSIGN_VISIT(bb.REF_ID, bb.ASSIGN_DATE) AS NEXT_ASSIGN_INFO,
-                                            bb.VISIT_LOCATION,
-                                            COLL_VISIT_LAT(bb.CREATED_BY, bb.REF_ID, TO_DATE('$start_date', 'dd/mm/yyyy'), 'LAT') AS VISITED_LOCATION_LAT,
-                                            COLL_VISIT_LAT(bb.CREATED_BY, bb.REF_ID, TO_DATE('$start_date', 'dd/mm/yyyy'), 'LANG') AS VISITED_LOCATION_LANG,
-                                            bb.CUSTOMER_NAME,
-                                            (SELECT NVL(SUM(C.AMOUNT), 0) FROM RML_COLL_MONEY_COLLECTION C
-                                            WHERE C.REF_ID = bb.REF_ID
-                                            AND TRUNC(C.CREATED_DATE) = TO_DATE('$start_date', 'dd/mm/yyyy')) AS COLLECTION_AMOUNT,
-                                            bb.INSTALLMENT_AMOUNT
-                                        FROM
-                                            RML_COLL_VISIT_ASSIGN bb,COLL_VISIT_ASSIGN_APPROVAL cc
-                                        WHERE bb.ID =cc.RML_COLL_VISIT_ASSIGN_ID
-                                           AND bb.ASSIGN_DATE = TO_DATE('$start_date', 'dd/mm/yyyy')
-                                            AND bb.IS_ACTIVE = 1
-                                            AND  bb.CREATED_BY IN 
-                                                    (    SELECT RML_ID 
-												         FROM MONTLY_COLLECTION 
-														 WHERE ZONAL_HEAD='$v_ZH_id'
-														  AND IS_ACTIVE=1
-													 )
-                                        ORDER BY
-                                            bb.CREATED_BY";
-                                        //echo 	$SQLqUARRY;
-                                        //die();								  
-                                        $strSQL = oci_parse($objConnect, $SQLqUARRY);
+                                    $sqlQuery = "SELECT A.REF_CODE,
+										    LAST_REASON_CODE(A.REF_CODE) LAST_REASON_CODE,
+											LAST_VISIT_LOCATION(A.REF_CODE,B.COLL_CONCERN_ID,'$v_start_date','$v_end_date') LAST_LOCATION,
+                                            B.BRAND,
+										    B.INSTALLMENT_AMOUNT,
+										    B.COLL_CONCERN_NAME,
+										    B.COLL_CONCERN_ID,
+										    B.CUSTOMER_NAME,
+										    A.TARGET_UNIT,
+										   (SELECT SUM(VISIT_STATUS) FROM RML_COLL_VISIT_ASSIGN 
+											  WHERE REF_ID=A.REF_CODE
+											  AND TRUNC(ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
+											) NUMBER_OF_VISIT,
+											(SELECT AREA_ZONE FROM RML_COLL_APPS_USER WHERE ACCESS_APP='RML_COLL' AND RML_ID= TO_NUMBER (B.COLL_CONCERN_ID)) CONCERN_ZONE,
+											(SELECT (CUSTOMER_REMARKS ||'##'|| VISIT_LOCATION)  FROM RML_COLL_VISIT_ASSIGN 
+													WHERE  ID=(
+														   SELECT MAX(ID) FROM RML_COLL_VISIT_ASSIGN 
+															WHERE REF_ID=A.REF_CODE 
+															AND ASSIGN_DATE BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
+														)) INFORMATION,
+														 (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
+															WHERE C.REF_ID=A.REF_CODE 
+															AND TRUNC(C.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')) COLLECTED_AMOUNT
+											FROM 
+											(
+											SELECT BB.REF_ID REF_CODE,
+												 COUNT(BB.REF_ID) TARGET_UNIT
+												FROM RML_COLL_VISIT_ASSIGN bb
+												WHERE TRUNC(bb.ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
+												AND ('$v_created_id' IS NULL OR bb.CREATED_BY='$v_created_id')
+												 GROUP BY BB.REF_ID
+												 ) A,LEASE_ALL_INFO_ERP B
+											WHERE A.REF_CODE=B.REF_CODE
+											--AND B.STATUS='Y'
+											";
+                                    $strSQL   = oci_parse($objConnect, $sqlQuery);
 
-                                    }
+
                                     oci_execute($strSQL);
                                     $number = 0;
 
@@ -216,74 +218,37 @@ include_once ('../../_helper/2step_com_conn.php');
                                         ?>
                                         <tr>
                                             <td><?php echo $number; ?></td>
+                                            <td><?php echo $row['REF_CODE']; ?></td>
+                                            <td><?php echo $row['COLL_CONCERN_NAME'] . "[" . $row['COLL_CONCERN_ID'] . ']'; ?></td>
+                                            <td><?php echo $row['CONCERN_ZONE']; ?></td>
+                                            <td><?php echo explode("##", $row['INFORMATION'])[1]; ?></td>
 
-                                            <td align="center"><?php echo $row['ASSIGN_DATE']; ?></td>
-                                            <td align="center">
-                                                <?php
-                                                if ($row['APPROVAL_STATUS'] == '1')
-                                                    echo 'Approved';
-                                                else
-                                                    echo 'Pending';
-                                                ?>
-                                            </td>
-                                            <td><?php echo $row['REF_ID']; ?></td>
-                                            <td><?php echo $row['CONCERN_NAME']; ?></td>
-                                            <td><?php echo $row['AREA_ZONE']; ?></td>
-                                            <td><?php echo $row['VISIT_LOCATION']; ?></td>
                                             <td><?php
-                                            $lat  = $row['VISITED_LOCATION_LAT'];
-                                            $long = $row['VISITED_LOCATION_LANG'];
-                                            if ($number == 1) {
-                                                $golbalLat_1  = $lat;
-                                                $golbalLang_1 = $long;
+                                            if ($row['LAST_LOCATION'] == "NO LOCATON FOUND") {
 
-                                            }
-                                            else if ($number == 2) {
-                                                $golbalLat_2  = $lat;
-                                                $golbalLang_2 = $long;
-                                            }
-
-
-                                            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBDQDOeUoFxB8GptvYRk9f_lR1UFRawVO0";
-                                            $ch      = curl_init();
-                                            curl_setopt($ch, CURLOPT_URL, $geocode);
-                                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                                            curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-                                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-                                            $response = curl_exec($ch);
-                                            curl_close($ch);
-                                            $output    = json_decode($response);
-                                            $dataarray = get_object_vars($output);
-                                            if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
-                                                if (isset($dataarray['results'][0]->formatted_address)) {
-
-                                                    $address = $dataarray['results'][0]->formatted_address;
-                                                }
-                                                else {
-                                                    $address = '';
-
-                                                }
                                             }
                                             else {
-                                                $address = '';
-                                            }
-                                            echo $address;
-                                            if ($number == 1) {
-                                                $firstLocationAddress = $address;
-                                            }
-                                            else if ($number == 2) {
-                                                $secondLocationAddress = $address;
-                                            }
+                                                $latitu = explode("##", $row['LAST_LOCATION'])[0];
+                                                $lng    = explode("##", $row['LAST_LOCATION'])[1];
+                                                $url    = "http://www.google.com/maps/place/" . $latitu . "," . $lng;
+                                                echo '<br>';
 
+
+                                                ?>
+                                                    <a id="myLink" href="<?php echo $url; ?>" target="_blank">View Location</a>
+                                                    <?php
+                                            }
                                             ?>
                                             </td>
 
                                             <td><?php echo $row['CUSTOMER_NAME']; ?></td>
                                             <td><?php echo $row['INSTALLMENT_AMOUNT']; ?></td>
-                                            <td><?php echo $row['COLLECTION_AMOUNT']; ?></td>
-                                            <td><?php echo @explode("@@@", $row['NEXT_ASSIGN_INFO'])[1]; ?></td>
-                                            <td><?php echo @explode("@@@", $row['NEXT_ASSIGN_INFO'])[0]; ?></td>
+                                            <td><?php echo $row['COLLECTED_AMOUNT']; ?></td>
+                                            <td><?php echo $row['TARGET_UNIT']; ?></td>
+                                            <td><?php echo $row['NUMBER_OF_VISIT']; ?></td>
+                                            <td><?php echo $row['BRAND']; ?></td>
+                                            <td><?php echo $row['LAST_REASON_CODE']; ?></td>
+                                            <td><?php echo explode("##", $row['INFORMATION'])[0]; ?></td>
 
 
                                         </tr>
@@ -311,7 +276,7 @@ include_once ('../../_includes/footer.php');
 ?>
 <script>
     function exportF(elem) {
-        var table = document.getElementById("table");
+        var table = document.getElementById("tbl");
         var html = table.outerHTML;
         var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
         elem.setAttribute("href", url);
