@@ -140,8 +140,8 @@ include_once ('../../_config/sqlConfig.php');
 
                                 <?php
 
-                                @$attn_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$attn_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                @$end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
                                 @$emp_ah_id = $_REQUEST['emp_ah_id'];
 
                                 if (isset($_POST['emp_ah_id'])) {
@@ -149,8 +149,8 @@ include_once ('../../_config/sqlConfig.php');
                                     $strSQL = oci_parse(
                                         $objConnect,
                                         "SELECT b.RML_ID,b.EMP_NAME,
-									    RML_COLL_SUMOF_TARGET(b.RML_ID,'$attn_start_date','$attn_end_date') TARGET_AMNT,
-                                        COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$attn_start_date','$attn_end_date') COLLECTION_AMNT 
+									    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,
+                                        COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT 
                                         FROM RML_COLL_APPS_USER b 
                                         where  b.ACCESS_APP='RML_COLL'
                                         and B.IS_ACTIVE=1  
@@ -171,13 +171,13 @@ include_once ('../../_config/sqlConfig.php');
                                             <td><?php echo $number; ?></td>
                                             <td align="center"><?php echo $row['RML_ID']; ?></td>
                                             <td><?php echo $row['EMP_NAME']; ?></td>
-                                            <td align="center"><?php echo $attn_start_date; ?></td>
+                                            <td align="center"><?php echo $start_date; ?></td>
                                             <td align="center">
                                                 <?php echo $row['TARGET_AMNT'];
                                                 $GRANT_TOTAL_TARGET = $GRANT_TOTAL_TARGET + $row['TARGET_AMNT']; ?>
                                             </td>
-                                            <td align="center"><?php echo $attn_start_date; ?></td>
-                                            <td align="center"><?php echo $attn_end_date; ?></td>
+                                            <td align="center"><?php echo $start_date; ?></td>
+                                            <td align="center"><?php echo $end_date; ?></td>
                                             <td align="center">
                                                 <?php echo $row['COLLECTION_AMNT'];
                                                 $GRANT_TOTAL_COLLECTION = $GRANT_TOTAL_COLLECTION + $row['COLLECTION_AMNT'] ?>

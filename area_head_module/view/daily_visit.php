@@ -156,7 +156,7 @@ include_once ('../../_helper/2step_com_conn.php');
                                     $emp_id          = (int) (explode("RML-", $LOGIN_ID)[1]);
                                     $v_ZH_id    = $_REQUEST['created_id'];
                                  
-                                    $attn_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                    $start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
 
                                     if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
 										
@@ -166,21 +166,21 @@ include_once ('../../_helper/2step_com_conn.php');
                                             (SELECT AREA_ZONE FROM RML_COLL_APPS_USER WHERE RML_ID = bb.CREATED_BY) AS AREA_ZONE,
                                             (SELECT B.EMP_NAME FROM RML_COLL_APPS_USER B WHERE B.RML_ID = BB.CREATED_BY) AS CONCERN_NAME,
                                             bb.ASSIGN_DATE,
-                                            COLL_VISIT_STATU(bb.CREATED_BY, bb.REF_ID, TO_DATE('$attn_start_date', 'dd/mm/yyyy')) AS VISIT_STATUS,
+                                            COLL_VISIT_STATU(bb.CREATED_BY, bb.REF_ID, TO_DATE('$start_date', 'dd/mm/yyyy')) AS VISIT_STATUS,
                                             bb.CUSTOMER_REMARKS,
                                             RML_COLL_FAIL_TO_ASSIGN_VISIT(bb.REF_ID, bb.ASSIGN_DATE) AS NEXT_ASSIGN_INFO,
                                             bb.VISIT_LOCATION,
-                                            COLL_VISIT_LAT(bb.CREATED_BY, bb.REF_ID, TO_DATE('$attn_start_date', 'dd/mm/yyyy'), 'LAT') AS VISITED_LOCATION_LAT,
-                                            COLL_VISIT_LAT(bb.CREATED_BY, bb.REF_ID, TO_DATE('$attn_start_date', 'dd/mm/yyyy'), 'LANG') AS VISITED_LOCATION_LANG,
+                                            COLL_VISIT_LAT(bb.CREATED_BY, bb.REF_ID, TO_DATE('$start_date', 'dd/mm/yyyy'), 'LAT') AS VISITED_LOCATION_LAT,
+                                            COLL_VISIT_LAT(bb.CREATED_BY, bb.REF_ID, TO_DATE('$start_date', 'dd/mm/yyyy'), 'LANG') AS VISITED_LOCATION_LANG,
                                             bb.CUSTOMER_NAME,
                                             (SELECT NVL(SUM(C.AMOUNT), 0) FROM RML_COLL_MONEY_COLLECTION C
                                             WHERE C.REF_ID = bb.REF_ID
-                                            AND TRUNC(C.CREATED_DATE) = TO_DATE('$attn_start_date', 'dd/mm/yyyy')) AS COLLECTION_AMOUNT,
+                                            AND TRUNC(C.CREATED_DATE) = TO_DATE('$start_date', 'dd/mm/yyyy')) AS COLLECTION_AMOUNT,
                                             bb.INSTALLMENT_AMOUNT
                                         FROM
                                             RML_COLL_VISIT_ASSIGN bb,COLL_VISIT_ASSIGN_APPROVAL cc
                                         WHERE bb.ID =cc.RML_COLL_VISIT_ASSIGN_ID
-                                           AND bb.ASSIGN_DATE = TO_DATE('$attn_start_date', 'dd/mm/yyyy')
+                                           AND bb.ASSIGN_DATE = TO_DATE('$start_date', 'dd/mm/yyyy')
                                             AND bb.IS_ACTIVE = 1
                                             AND  bb.CREATED_BY IN 
                                                     (    SELECT RML_ID 

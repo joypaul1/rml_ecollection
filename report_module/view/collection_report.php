@@ -176,7 +176,7 @@ include_once ('../../_config/sqlConfig.php');
 
                                 @$emp_zone = $_REQUEST['emp_zone'];
                                 @$start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$attn_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
                                 @$emp_concern = $_REQUEST['emp_concern'];
 
 
@@ -191,8 +191,8 @@ include_once ('../../_config/sqlConfig.php');
                                                 $strSQL = @oci_parse(
                                                     $objConnect,
                                                     "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,
-                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                     FROM MONTLY_COLLECTION a,RML_COLL_APPS_USER b
                                                     where A.RML_ID=B.RML_ID
                                                     and B.IS_ACTIVE=1
@@ -207,8 +207,8 @@ include_once ('../../_config/sqlConfig.php');
                                             else if ($emp_concern == 'ZH') {
                                                 $strSQL = @oci_parse(
                                                     $objConnect,
-                                                    "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                    "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                     FROM MONTLY_COLLECTION a,RML_COLL_APPS_USER b
                                                     where A.RML_ID=B.RML_ID
                                                     and B.IS_ACTIVE=1
@@ -223,9 +223,9 @@ include_once ('../../_config/sqlConfig.php');
                                                 $strSQL = @oci_parse(
                                                     $objConnect,
                                                     "SELECT b.RML_ID,b.EMP_NAME,b.ACTUAL_DEALER_ID,b.AREA_ZONE,
-                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,
+                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,
                                                     b.LEASE_USER,
-                                                    COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                    COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                     FROM RML_COLL_APPS_USER b
                                                     where B.IS_ACTIVE=1
                                                     and b.LEASE_USER='AH'
@@ -240,8 +240,8 @@ include_once ('../../_config/sqlConfig.php');
                                                 $strSQL = @oci_parse(
                                                     $objConnect,
                                                     "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,
-                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                     FROM MONTLY_COLLECTION a,RML_COLL_APPS_USER b
                                                     where A.RML_ID=B.RML_ID
                                                     and B.IS_ACTIVE=1
@@ -256,8 +256,8 @@ include_once ('../../_config/sqlConfig.php');
                                                 $strSQL = @oci_parse(
                                                     $objConnect,
                                                     "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,
-                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                                    COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                     FROM MONTLY_COLLECTION a,RML_COLL_APPS_USER b
                                                     where A.RML_ID=B.RML_ID
                                                     and B.IS_ACTIVE=1
@@ -272,8 +272,8 @@ include_once ('../../_config/sqlConfig.php');
                                                 $strSQL = @oci_parse(
                                                     $objConnect,
                                                     "SELECT b.RML_ID,b.EMP_NAME,b.ACTUAL_DEALER_ID ,b.AREA_ZONE,
-                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                                    COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                                    COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                     FROM RML_COLL_APPS_USER b
                                                     where B.IS_ACTIVE=1
                                                     AND ACCESS_APP='RML_COLL'
@@ -288,8 +288,8 @@ include_once ('../../_config/sqlConfig.php');
                                     else if ($USER_ROLE == "AH") {
                                         if ($emp_zone == 'All') {
                                             $sqlQuary = "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,
-                                            RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                            COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                            RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                            COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                             FROM MONTLY_COLLECTION a,RML_COLL_APPS_USER b
                                             where A.RML_ID=B.RML_ID
                                             and B.IS_ACTIVE=1
@@ -306,8 +306,8 @@ include_once ('../../_config/sqlConfig.php');
                                             $strSQL = @oci_parse(
                                                 $objConnect,
                                                 "SELECT a.RML_ID,a.CONCERN EMP_NAME,a.DEALER_ID ACTUAL_DEALER_ID,a.ZONE AREA_ZONE,
-                                                RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$attn_end_date') TARGET_AMNT,b.LEASE_USER,
-                                                COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT
+                                                RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,b.LEASE_USER,
+                                                COLL_SUMOF_RECEIVED_AMOUNT(a.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
                                                 FROM MONTLY_COLLECTION a,RML_COLL_APPS_USER b
                                                 where A.RML_ID=B.RML_ID
                                                 and B.IS_ACTIVE=1
@@ -326,10 +326,10 @@ include_once ('../../_config/sqlConfig.php');
                                                 $objConnect,
                                                 "SELECT RML_ID,EMP_NAME,ACTUAL_DEALER_ID,AREA_ZONE,LEASE_USER,
                                                 COLL_SUMOF_TARGET(ACTUAL_DEALER_ID) TARGET_AMNT,
-                                                COLL_SUMOF_RECEIVED_AMOUNT(RML_ID,LEASE_USER,USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT,
-                                                COLL_SUMOF_LEASE(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$attn_end_date','dd/mm/yyyy')) LEASE_CONFIRM,
-                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$attn_end_date','dd/mm/yyyy'),1) OTP_YES_AMNT,
-                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$attn_end_date','dd/mm/yyyy'),0) OTP_NO_AMNT
+                                                COLL_SUMOF_RECEIVED_AMOUNT(RML_ID,LEASE_USER,USER_FOR,'$start_date','$end_date') COLLECTION_AMNT,
+                                                COLL_SUMOF_LEASE(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$end_date','dd/mm/yyyy')) LEASE_CONFIRM,
+                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$end_date','dd/mm/yyyy'),1) OTP_YES_AMNT,
+                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$end_date','dd/mm/yyyy'),0) OTP_NO_AMNT
                                                     FROM RML_COLL_APPS_USER
                                                 where ACCESS_APP='RML_COLL'
                                                 and ('$emp_concern' is null OR LEASE_USER='$emp_concern')
@@ -344,10 +344,10 @@ include_once ('../../_config/sqlConfig.php');
                                                 $objConnect,
                                                 "SELECT RML_ID,EMP_NAME,ACTUAL_DEALER_ID,AREA_ZONE,
                                                 COLL_SUMOF_TARGET_AMOUNT(RML_ID,LEASE_USER,USER_FOR) TARGET_AMNT ,
-                                                COLL_SUMOF_RECEIVED_AMOUNT(RML_ID,LEASE_USER,USER_FOR,'$start_date','$attn_end_date') COLLECTION_AMNT,
-                                                COLL_SUMOF_LEASE(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$attn_end_date','dd/mm/yyyy')) LEASE_CONFIRM,
-                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$attn_end_date','dd/mm/yyyy'),1) OTP_YES_AMNT,
-                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$attn_end_date','dd/mm/yyyy'),0) OTP_NO_AMNT
+                                                COLL_SUMOF_RECEIVED_AMOUNT(RML_ID,LEASE_USER,USER_FOR,'$start_date','$end_date') COLLECTION_AMNT,
+                                                COLL_SUMOF_LEASE(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$end_date','dd/mm/yyyy')) LEASE_CONFIRM,
+                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$end_date','dd/mm/yyyy'),1) OTP_YES_AMNT,
+                                                COLL_SUMOF_OTP_YES_AMNT(RML_ID,TO_DATE('$start_date','dd/mm/yyyy'),TO_DATE('$end_date','dd/mm/yyyy'),0) OTP_NO_AMNT
                                                     FROM RML_COLL_APPS_USER
                                                 where ACCESS_APP='RML_COLL'
                                                 and AREA_ZONE='$emp_zone'
@@ -369,7 +369,7 @@ include_once ('../../_config/sqlConfig.php');
                                             <td><?php echo $row['EMP_NAME'] . '[' . $row['RML_ID'] . ']'; ?></td>
                                             <td><?php echo $row['AREA_ZONE']; ?></td>
                                             <td align="center"><?php echo $start_date; ?></td>
-                                            <td align="center"><?php echo $attn_end_date; ?></td>
+                                            <td align="center"><?php echo $end_date; ?></td>
                                             <td align="center">
                                                 <?php echo $row['TARGET_AMNT'];
                                                 $GRANT_TOTAL_TARGET = $GRANT_TOTAL_TARGET + $row['TARGET_AMNT']; ?>

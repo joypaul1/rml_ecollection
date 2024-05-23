@@ -9,7 +9,7 @@ $v_brand         = $_REQUEST['brand'];
 $v_user_type     = $_REQUEST['user_type'];
 $v_zone          = $_REQUEST['zone'];
 $start_date = $_REQUEST['start_date'];
-$attn_end_date   = $_REQUEST['end_date'];
+$end_date   = $_REQUEST['end_date'];
 
 ?>
 
@@ -84,7 +84,7 @@ $attn_end_date   = $_REQUEST['end_date'];
                                     where a.RML_COLL_APPS_USER_ID=b.ID
 									AND BRAND='$v_brand'
 									AND B.USER_TYPE='$v_user_type'
-                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$attn_end_date','dd/mm/yyyy')"
+                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')"
 										);
 									}
 									else {
@@ -107,7 +107,7 @@ $attn_end_date   = $_REQUEST['end_date'];
 									AND BRAND='$v_brand'
 									AND B.AREA_ZONE='$v_zone'
 									AND B.USER_TYPE='$v_user_type'
-                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$attn_end_date','dd/mm/yyyy')"
+                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')"
 										);
 									}
 

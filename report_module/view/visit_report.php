@@ -190,7 +190,7 @@ include_once ('../../_config/sqlConfig.php');
 
                                 @$emp_zone = $_REQUEST['emp_zone'];
                                 @$start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$attn_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
                                 @$emp_concern = $_REQUEST['emp_concern'];
 
 

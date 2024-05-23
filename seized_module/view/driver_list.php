@@ -34,8 +34,8 @@ include_once ('../../_config/sqlConfig.php');
 
                                 <?php
                                 @$attn_status = $_REQUEST['attn_status'];
-                                @$attn_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$attn_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
+                                @$end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
 
 
 

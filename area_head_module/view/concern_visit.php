@@ -119,51 +119,51 @@ $currentYear = date('Y');
                                     $month_name = $_REQUEST['month_name'];
                                     // if ($month_name == 'January') {
                                     //     $start_date = date("d/m/Y", strtotime('01/01/Y'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('01/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('01/31/2023'));
                                     // }
                                     // else if ($month_name == 'February') {
                                     //     $start_date = date("d/m/Y", strtotime('02/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('02/28/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('02/28/2023'));
                                     // }
                                     // else if ($month_name == 'March') {
                                     //     $start_date = date("d/m/Y", strtotime('03/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('03/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('03/31/2023'));
                                     // }
                                     // else if ($month_name == 'April') {
                                     //     $start_date = date("d/m/Y", strtotime('04/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('04/30/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('04/30/2023'));
                                     // }
                                     // else if ($month_name == 'May') {
                                     //     $start_date = date("d/m/Y", strtotime('05/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('05/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('05/31/2023'));
                                     // }
                                     // else if ($month_name == 'June') {
                                     //     $start_date = date("d/m/Y", strtotime('06/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('06/30/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('06/30/2023'));
                                     // }
                                     // else if ($month_name == 'July') {
                                     //     $start_date = date("d/m/Y", strtotime('07/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('07/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('07/31/2023'));
                                     // }
                                     // else if ($month_name == 'August') {
                                     //     $start_date = date("d/m/Y", strtotime('08/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('08/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('08/31/2023'));
                                     // }
                                     // else if ($month_name == 'September') {
                                     //     $start_date = date("d/m/Y", strtotime('09/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('09/30/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('09/30/2023'));
                                     // }
                                     // else if ($month_name == 'October') {
                                     //     $start_date = date("d/m/Y", strtotime('10/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('10/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('10/31/2023'));
                                     // }
                                     // else if ($month_name == 'November') {
                                     //     $start_date = date("d/m/Y", strtotime('11/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('11/30/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('11/30/2023'));
                                     // }
                                     // else if ($month_name == 'December') {
                                     //     $start_date = date("d/m/Y", strtotime('12/01/2023'));
-                                    //     $attn_end_date   = date("d/m/Y", strtotime('12/31/2023'));
+                                    //     $end_date   = date("d/m/Y", strtotime('12/31/2023'));
                                     // }
                                     $months = [
                                         'January'   => [ 'start' => '01/01', 'end' => '01/31' ],
@@ -181,10 +181,10 @@ $currentYear = date('Y');
                                     ];
                                     if (array_key_exists($month_name, $months)) {
                                         $start_date    = date("d/m/Y", strtotime($months[$month_name]['start'] . "/$currentYear"));
-                                        $attn_end_date = date("d/m/Y", strtotime($months[$month_name]['end'] . "/$currentYear"));
+                                        $end_date = date("d/m/Y", strtotime($months[$month_name]['end'] . "/$currentYear"));
                                     }
                                     else {
-                                        $start_date = $attn_end_date = 'Invalid month';
+                                        $start_date = $end_date = 'Invalid month';
                                     }
                                     if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
                                         $strSQL = oci_parse(
@@ -193,13 +193,13 @@ $currentYear = date('Y');
 										    A.TARGET,
 										    A.CONCERN,
 											VISIT_UNIT,
-											COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY')) TOTAL_VISITED,
-											COLL_VISIT_UNIQUE_TOTAL(B.ID,TO_DATE ('$start_date', 'DD/MM/YYYY'),TO_DATE ('$attn_end_date', 'DD/MM/YYYY'))VISIT_UNIQUE_TOTAL,
-											COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY')) COLLECTION_AMNT
+											COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) TOTAL_VISITED,
+											COLL_VISIT_UNIQUE_TOTAL(B.ID,TO_DATE ('$start_date', 'DD/MM/YYYY'),TO_DATE ('$end_date', 'DD/MM/YYYY'))VISIT_UNIQUE_TOTAL,
+											COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) COLLECTION_AMNT
                                             FROM MONTLY_COLLECTION A, RML_COLL_APPS_USER B
                                             WHERE A.RML_ID=B.RML_ID
                                             AND TRUNC(START_DATE)=TO_DATE('$start_date','DD/MM/YYYY')
-                                            AND TRUNC(END_DATE)=TO_DATE('$attn_end_date','DD/MM/YYYY')
+                                            AND TRUNC(END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'
                                             AND B.AREA_ZONE IN (select ZONE_NAME from COLL_EMP_ZONE_SETUP where AREA_HEAD='$emp_id')"
                                         );
@@ -208,13 +208,13 @@ $currentYear = date('Y');
                                         $strSQL = oci_parse(
                                             $objConnect,
                                             "SELECT A.RML_ID,A.TARGET,A.CONCERN,
-											VISIT_UNIT,COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY')) TOTAL_VISITED,
-											COLL_VISIT_UNIQUE_TOTAL(B.ID,TO_DATE ('$start_date', 'DD/MM/YYYY'),TO_DATE ('$attn_end_date', 'DD/MM/YYYY'))VISIT_UNIQUE_TOTAL,
-											COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY')) COLLECTION_AMNT
+											VISIT_UNIT,COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) TOTAL_VISITED,
+											COLL_VISIT_UNIQUE_TOTAL(B.ID,TO_DATE ('$start_date', 'DD/MM/YYYY'),TO_DATE ('$end_date', 'DD/MM/YYYY'))VISIT_UNIQUE_TOTAL,
+											COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) COLLECTION_AMNT
                                             FROM MONTLY_COLLECTION A, RML_COLL_APPS_USER B
                                             WHERE A.RML_ID=B.RML_ID
                                             AND TRUNC(START_DATE)=TO_DATE('$start_date','DD/MM/YYYY')
-                                            AND TRUNC(END_DATE)=TO_DATE('$attn_end_date','DD/MM/YYYY')
+                                            AND TRUNC(END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'"
                                         );
 

@@ -132,10 +132,10 @@ $currentYear = date('Y');
                                     ];
                                     if (array_key_exists($month_name, $months)) {
                                         $start_date    = date("d/m/Y", strtotime($months[$month_name]['start'] . "/$currentYear"));
-                                        $attn_end_date = date("d/m/Y", strtotime($months[$month_name]['end'] . "/$currentYear"));
+                                        $end_date = date("d/m/Y", strtotime($months[$month_name]['end'] . "/$currentYear"));
                                     }
                                     else {
-                                        $start_date = $attn_end_date = 'Invalid month';
+                                        $start_date = $end_date = 'Invalid month';
                                     }
 
                                     if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
@@ -144,12 +144,12 @@ $currentYear = date('Y');
                                             "SELECT  UNIQUE(B.AREA_ZONE) AS AREA_ZONE,
                                             SUM(A.TARGET) TARGET,
                                             SUM(VISIT_UNIT) VISIT_UNIT,
-                                            SUM(COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY'))) TOTAL_VISITED,
-                                            SUM(COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY'))) COLLECTION_AMNT
+                                            SUM(COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY'))) TOTAL_VISITED,
+                                            SUM(COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY'))) COLLECTION_AMNT
                                             FROM MONTLY_COLLECTION A, RML_COLL_APPS_USER B
                                             WHERE A.RML_ID=B.RML_ID
                                             AND TRUNC(A.START_DATE)=TO_DATE('$start_date','DD/MM/YYYY')
-                                            AND TRUNC(A.END_DATE)=TO_DATE('$attn_end_date','DD/MM/YYYY')
+                                            AND TRUNC(A.END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'
                                             AND B.AREA_ZONE IN (select ZONE_NAME from COLL_EMP_ZONE_SETUP where AREA_HEAD='$emp_id')
                                             GROUP BY B.AREA_ZONE
@@ -164,12 +164,12 @@ $currentYear = date('Y');
                                             "SELECT UNIQUE(B.AREA_ZONE) AS AREA_ZONE,
                                             SUM(A.TARGET) TARGET,
                                             SUM(VISIT_UNIT) VISIT_UNIT,
-                                            SUM(COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY'))) TOTAL_VISITED,
-                                            SUM(COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$attn_end_date','DD/MM/YYYY'))) COLLECTION_AMNT
+                                            SUM(COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY'))) TOTAL_VISITED,
+                                            SUM(COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY'))) COLLECTION_AMNT
                                             FROM MONTLY_COLLECTION A, RML_COLL_APPS_USER B
                                             WHERE A.RML_ID=B.RML_ID
                                             AND TRUNC(START_DATE)=TO_DATE('$start_date','DD/MM/YYYY')
-                                            AND TRUNC(END_DATE)=TO_DATE('$attn_end_date','DD/MM/YYYY')
+                                            AND TRUNC(END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'
                                             GROUP BY B.AREA_ZONE
                                             order by AREA_ZONE"
