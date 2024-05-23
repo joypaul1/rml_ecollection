@@ -175,7 +175,7 @@
                 <li class="">
                     <a href="javascript:;" class="has-arrow">
 
-                        <div class="parent-icon"><i class='bx bxs-hand'></i>
+                        <div class="parent-icon"><i class='bx bx-car'></i>
                         </div>
                         <div class="menu-title"> Seized Module</div>
                     </a>
