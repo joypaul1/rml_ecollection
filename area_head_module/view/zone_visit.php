@@ -148,15 +148,13 @@ $currentYear = date('Y');
                                             SUM(COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY'))) COLLECTION_AMNT
                                             FROM MONTLY_COLLECTION A, RML_COLL_APPS_USER B
                                             WHERE A.RML_ID=B.RML_ID
-                                            AND TRUNC(A.START_DATE)=TO_DATE('$start_date','DD/MM/YYYY')
+                                            AND TRUNC(A.START_XDATE)=TO_DATE('$start_date','DD/MM/YYYY')
                                             AND TRUNC(A.END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'
                                             AND B.AREA_ZONE IN (select ZONE_NAME from COLL_EMP_ZONE_SETUP where AREA_HEAD='$emp_id')
                                             GROUP BY B.AREA_ZONE
                                             order by AREA_ZONE"
-                                        );  
-
-
+                                        );
                                     }
                                     else {
                                         $strSQL = @oci_parse(

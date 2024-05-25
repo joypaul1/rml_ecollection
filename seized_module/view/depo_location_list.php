@@ -16,7 +16,7 @@ include_once ('../../_config/sqlConfig.php');
                 <?php
 
                 $headerType   = 'List';
-                $leftSideName = 'Driver List';
+                $leftSideName = 'Depo Location';
                 include ('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
@@ -35,7 +35,7 @@ include_once ('../../_config/sqlConfig.php');
 
                                 <?php
 
-                                $strSQL = @oci_parse($objConnect, "select DEPORCODE AS KEY_WORD,WAREDESC AS TITLE from V_ERP_DEPORT_LOCATION");
+                                $strSQL = @oci_parse($objConnect, "SELECT DEPORCODE AS KEY_WORD,WAREDESC AS TITLE from V_ERP_DEPORT_LOCATION");
 
                                 @oci_execute($strSQL);
                                 $number = 0;

@@ -148,7 +148,7 @@ include_once ('../../_config/sqlConfig.php');
 
 
                                 if (isset($_POST['start_date'])) {
-                                    $strSQL = oci_parse(
+                                    $strSQL = @oci_parse(
                                         $objConnect,
                                         "SELECT 
                                         B.RML_ID,
@@ -175,14 +175,12 @@ include_once ('../../_config/sqlConfig.php');
                                         AND TO_DATE('$visit_end_date', 'DD/MM/YYYY')"
                                     );
 
-
-
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number                 = 0;
                                     $GRANT_TOTAL_TARGET     = 0;
                                     $GRANT_TOTAL_COLLECTION = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>

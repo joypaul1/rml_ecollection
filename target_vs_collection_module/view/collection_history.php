@@ -155,31 +155,27 @@ include_once ('../../_config/sqlConfig.php');
 
 
                                 if (isset($_POST['emp_ah_id'])) {
-
-                                    $strSQL = oci_parse(
+                                    $strSQL = @oci_parse(
                                         $objConnect,
                                         "SELECT B.RML_ID,
-							           b.EMP_NAME,
-									   a.REF_ID,
-									   AMOUNT,
-									   PAY_TYPE,
-									   BANK,
-									   MEMO_NO,
-									   INSTALLMENT_AMOUNT,
-									   a.CREATED_DATE,
-									   TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
-									   B.AREA_ZONE
-                                from RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER b 
-                                                           where a.RML_COLL_APPS_USER_ID=b.ID
-                               AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')
-							   and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')"
-                                    );
-
-
-                                    oci_execute($strSQL);
+                                        b.EMP_NAME,
+                                        a.REF_ID,
+                                        AMOUNT,
+                                        PAY_TYPE,
+                                        BANK,
+                                        MEMO_NO,
+                                        INSTALLMENT_AMOUNT,
+                                        a.CREATED_DATE,
+                                        TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
+                                        B.AREA_ZONE
+                                    from RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER b
+                                    where a.RML_COLL_APPS_USER_ID=b.ID
+                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')
+                                    and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')");
+                                    @oci_execute($strSQL);
                                     $number = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>
@@ -202,7 +198,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->

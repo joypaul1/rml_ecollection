@@ -187,7 +187,7 @@ $currentYear = date('Y');
                                         $start_date = $end_date = 'Invalid month';
                                     }
                                     if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
-                                        $strSQL = oci_parse(
+                                        $strSQL = @oci_parse(
                                             $objConnect,
                                             "SELECT A.RML_ID,
 										    A.TARGET,
@@ -205,7 +205,7 @@ $currentYear = date('Y');
                                         );
                                     }
                                     else {
-                                        $strSQL = oci_parse(
+                                        $strSQL = @oci_parse(
                                             $objConnect,
                                             "SELECT A.RML_ID,A.TARGET,A.CONCERN,
 											VISIT_UNIT,COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) TOTAL_VISITED,
@@ -217,7 +217,6 @@ $currentYear = date('Y');
                                             AND TRUNC(END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'"
                                         );
-
                                     }
                                     @oci_execute(@$strSQL);
                                     $number = 0;
@@ -254,10 +253,7 @@ $currentYear = date('Y');
                                                     echo '0'; // Or any other appropriate message or handling
                                                 }
                                                 ?>
-
                                             </td>
-
-
                                         </tr>
                                         <?php
                                     }

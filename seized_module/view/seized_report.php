@@ -152,8 +152,7 @@ include_once ('../../_config/sqlConfig.php');
                                 @$seized_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
                                 @$seized_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
                                 if (isset($_POST['emp_zone'])) {
-
-                                    $strSQL = oci_parse(
+                                    $strSQL = @oci_parse(
                                         $objConnect,
                                         "SELECT B.RML_ID,
                                             A.RENT_DRIVER_NAME,
@@ -173,10 +172,10 @@ include_once ('../../_config/sqlConfig.php');
                                         and trunc(a.ENTRY_DATE) between to_date('$seized_start_date','dd/mm/yyyy') and  to_date('$seized_end_date','dd/mm/yyyy')"
                                     );
 
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>

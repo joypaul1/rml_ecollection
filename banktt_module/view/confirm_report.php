@@ -146,23 +146,23 @@ include_once ('../../_config/sqlConfig.php');
 										TT_TOTAL_TAKA,
 										UPPER(TT_BRANCH) AS TT_BRANCH,
 										UPPER(TT_REMARKS) AS TT_REMARKS,
-										(SELECT EMP_NAME 
-										 FROM RML_COLL_APPS_USER 
-										 WHERE ID = RML_COLL_APPS_USER_ID 
-										 AND ACCESS_APP = 'RML_COLL') AS CONCERN_NAME,
-										(SELECT MOBILE_NO 
-										 FROM RML_COLL_APPS_USER 
-										 WHERE ID = RML_COLL_APPS_USER_ID 
-										 AND ACCESS_APP = 'RML_COLL') AS MOBILE_NO,
-										(SELECT AREA_ZONE 
-										 FROM RML_COLL_APPS_USER 
-										 WHERE ID = RML_COLL_APPS_USER_ID 
-										 AND ACCESS_APP = 'RML_COLL') AS CONCERN_ZONE,
+										(SELECT EMP_NAME
+										FROM RML_COLL_APPS_USER
+										WHERE ID = RML_COLL_APPS_USER_ID
+										AND ACCESS_APP = 'RML_COLL') AS CONCERN_NAME,
+										(SELECT MOBILE_NO
+										FROM RML_COLL_APPS_USER
+										WHERE ID = RML_COLL_APPS_USER_ID
+										AND ACCESS_APP = 'RML_COLL') AS MOBILE_NO,
+										(SELECT AREA_ZONE
+										FROM RML_COLL_APPS_USER
+										WHERE ID = RML_COLL_APPS_USER_ID
+										AND ACCESS_APP = 'RML_COLL') AS CONCERN_ZONE,
 										TO_CHAR(TT_CONFIRM_DATE, 'dd/mm/yyyy') AS TT_CONFIRM_DATE,
 										TT_CHECK
-									FROM 
+									FROM
 										RML_COLL_MONEY_COLLECTION
-									WHERE 
+									WHERE
 										PAY_TYPE = 'Bank TT'
 										AND BANK = 'Sonali Bank'
 										AND TT_TYPE IS NOT NULL

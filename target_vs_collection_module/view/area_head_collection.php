@@ -145,26 +145,23 @@ include_once ('../../_config/sqlConfig.php');
                                 @$emp_ah_id = $_REQUEST['emp_ah_id'];
 
                                 if (isset($_POST['emp_ah_id'])) {
-
-                                    $strSQL = oci_parse(
+                                    $strSQL = @oci_parse(
                                         $objConnect,
                                         "SELECT b.RML_ID,b.EMP_NAME,
 									    RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,
-                                        COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT 
-                                        FROM RML_COLL_APPS_USER b 
+                                        COLL_SUMOF_RECEIVED_AMOUNT(b.RML_ID,b.LEASE_USER,b.USER_FOR,'$start_date','$end_date') COLLECTION_AMNT
+                                        FROM RML_COLL_APPS_USER b
                                         where  b.ACCESS_APP='RML_COLL'
-                                        and B.IS_ACTIVE=1  
-                                        and b.LEASE_USER='AH' 
+                                        and B.IS_ACTIVE=1
+                                        and b.LEASE_USER='AH'
                                         and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')"
                                     );
-
-
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number                 = 0;
                                     $GRANT_TOTAL_TARGET     = 0;
                                     $GRANT_TOTAL_COLLECTION = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>
@@ -235,7 +232,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->
@@ -251,7 +248,7 @@ include_once ('../../_config/sqlConfig.php');
         function exportF(elem) {
             var table = document.getElementById("tbl");
             var html = table.outerHTML;
-            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+            var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url
             elem.setAttribute("href", url);
             elem.setAttribute("download", "area_head_collection.xls"); // Choose the file name
             return false;

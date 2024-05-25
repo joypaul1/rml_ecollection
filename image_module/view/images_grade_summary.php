@@ -30,8 +30,8 @@ include_once ('../../_config/sqlConfig.php');
                         aria-expanded="true" aria-controls="collapseOne">
                         <strong><i class='bx bx-filter-alt'></i> Filter Data</strong>
                     </button>
-                   
-                   
+
+
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
 
@@ -135,9 +135,6 @@ include_once ('../../_config/sqlConfig.php');
                                 @$visit_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
                                 @$visit_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
                                 @$vehicle_grade = $_REQUEST['vehicle_grade'];
-
-
-
                                 if (isset($_POST['start_date'])) {
 
                                     $strSQL = @oci_parse(
@@ -148,11 +145,8 @@ include_once ('../../_config/sqlConfig.php');
                                             and ('$vehicle_grade' is null OR a.PRESENT_GRADE='$vehicle_grade')
                                             and trunc(a.ENTRY_DATE) between to_date('$visit_start_date','dd/mm/yyyy') and  to_date('$visit_end_date','dd/mm/yyyy')"
                                     );
-
-
                                     @oci_execute($strSQL);
-                                    $number = 0;
-
+                                $number = 0;
                                     while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
@@ -174,7 +168,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->

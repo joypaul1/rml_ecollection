@@ -30,8 +30,8 @@ include_once ('../../_config/sqlConfig.php');
                         aria-expanded="true" aria-controls="collapseOne">
                         <strong><i class='bx bx-filter-alt'></i> Filter Data</strong>
                     </button>
-                   
-                   
+
+
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
 
@@ -138,23 +138,16 @@ include_once ('../../_config/sqlConfig.php');
                                 @$visit_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
                                 @$visit_end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
                                 @$vehicle_grade = $_REQUEST['vehicle_grade'];
-
-
-
                                 if (isset($_POST['start_date'])) {
-
                                     $strSQL = @oci_parse(
                                         $objConnect,
                                         "SELECT A.REF_CODE,B.EMP_NAME ,A.ENTRY_DATE,A.VEHICLE_GRADE,a.IMAGE_NAME,a.COMMENTS_TITLE,B.AREA_ZONE
-                                            from RML_COLL_IMAGES a,RML_COLL_APPS_USER b
-                                            where A.UPDATED_BY=B.RML_ID
-                                            and ('$images_grade' is null OR a.VEHICLE_GRADE='$images_grade')
-                                            and trunc(a.ENTRY_DATE) between to_date('$visit_start_date','dd/mm/yyyy') and  to_date('$visit_end_date','dd/mm/yyyy')
-                                            order by REF_CODE"
+                                        from RML_COLL_IMAGES a,RML_COLL_APPS_USER b
+                                        where A.UPDATED_BY=B.RML_ID
+                                        and ('$images_grade' is null OR a.VEHICLE_GRADE='$images_grade')
+                                        and trunc(a.ENTRY_DATE) between to_date('$visit_start_date','dd/mm/yyyy') and  to_date('$visit_end_date','dd/mm/yyyy')
+                                        order by REF_CODE"
                                     );
-
-
-
                                     @oci_execute($strSQL);
                                     $number = 0;
 
@@ -180,7 +173,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->

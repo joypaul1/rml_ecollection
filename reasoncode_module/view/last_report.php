@@ -166,7 +166,7 @@ include_once ('../../_config/sqlConfig.php');
                                     $v_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
                                     $v_end_date   = date("d/m/Y", strtotime($_REQUEST['end_date']));
 
-                                    $strSQL = oci_parse(
+                                    $strSQL = @oci_parse(
                                         $objConnect,
                                         "SELECT b.RML_ID,B.EMP_NAME,A.REF_CODE,A.REASON_CODE,A.UPDATED_REASON_CODE,B.AREA_ZONE,UPDATED_DAY
 											from RML_COLL_REASON_CODE_SETUP a,RML_COLL_APPS_USER b
@@ -178,14 +178,12 @@ include_once ('../../_config/sqlConfig.php');
 											"
                                     );
 
-
-
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number                 = 0;
                                     $GRANT_TOTAL_TARGET     = 0;
                                     $GRANT_TOTAL_COLLECTION = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>

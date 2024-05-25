@@ -37,7 +37,6 @@ include_once ('../../_config/sqlConfig.php');
                                                 <select name="concern_zone" class="form-control single-select">
                                                     <option selected value=""><-- Select Zone --></option>
                                                     <?php
-
                                                         $strSQL  = @oci_parse($objConnect, "SELECT DISTINCT(AREA_ZONE) ZONE_NAME from RML_COLL_APPS_USER where ACCESS_APP='RML_COLL' AND LEASE_USER='CC' AND IS_ACTIVE=1 AND RML_ID NOT IN ('955','956') ORDER BY AREA_ZONE");
                                                         @oci_execute($strSQL);
                                                         while ($row = @oci_fetch_assoc($strSQL)) {

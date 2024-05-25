@@ -172,8 +172,7 @@ include_once ('../../_helper/2step_com_conn.php');
                                     $start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
 
 
-                                    $sqlQuery = "SELECT A.REF_CODE,
-										    LAST_REASON_CODE(A.REF_CODE) LAST_REASON_CODE,
+                                    $sqlQuery = "SELECT A.REF_CODE,LAST_REASON_CODE(A.REF_CODE) LAST_REASON_CODE,
 											LAST_VISIT_LOCATION(A.REF_CODE,B.COLL_CONCERN_ID,'$v_start_date','$v_end_date') LAST_LOCATION,
                                             B.BRAND,
 										    B.INSTALLMENT_AMOUNT,
@@ -181,39 +180,36 @@ include_once ('../../_helper/2step_com_conn.php');
 										    B.COLL_CONCERN_ID,
 										    B.CUSTOMER_NAME,
 										    A.TARGET_UNIT,
-										   (SELECT SUM(VISIT_STATUS) FROM RML_COLL_VISIT_ASSIGN 
-											  WHERE REF_ID=A.REF_CODE
-											  AND TRUNC(ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
+										    (SELECT SUM(VISIT_STATUS) FROM RML_COLL_VISIT_ASSIGN
+											WHERE REF_ID=A.REF_CODE
+											AND TRUNC(ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy')    AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
 											) NUMBER_OF_VISIT,
 											(SELECT AREA_ZONE FROM RML_COLL_APPS_USER WHERE ACCESS_APP='RML_COLL' AND RML_ID= TO_NUMBER (B.COLL_CONCERN_ID)) CONCERN_ZONE,
-											(SELECT (CUSTOMER_REMARKS ||'##'|| VISIT_LOCATION)  FROM RML_COLL_VISIT_ASSIGN 
-													WHERE  ID=(
-														   SELECT MAX(ID) FROM RML_COLL_VISIT_ASSIGN 
-															WHERE REF_ID=A.REF_CODE 
-															AND ASSIGN_DATE BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
-														)) INFORMATION,
-														 (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
-															WHERE C.REF_ID=A.REF_CODE 
-															AND TRUNC(C.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')) COLLECTED_AMOUNT
-											FROM 
-											(
-											SELECT BB.REF_ID REF_CODE,
-												 COUNT(BB.REF_ID) TARGET_UNIT
+											(SELECT (CUSTOMER_REMARKS ||'##'|| VISIT_LOCATION)  FROM RML_COLL_VISIT_ASSIGN
+                                            WHERE ID=(
+                                                SELECT MAX(ID) FROM RML_COLL_VISIT_ASSIGN
+                                                WHERE REF_ID=A.REF_CODE
+                                                AND ASSIGN_DATE BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
+                                                )) INFORMATION,
+                                                (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
+                                                WHERE C.REF_ID=A.REF_CODE
+                                                AND TRUNC(C.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')) COLLECTED_AMOUNT
+											FROM
+											(SELECT BB.REF_ID REF_CODE,
+												COUNT(BB.REF_ID) TARGET_UNIT
 												FROM RML_COLL_VISIT_ASSIGN bb
 												WHERE TRUNC(bb.ASSIGN_DATE) BETWEEN TO_DATE ('$v_start_date', 'dd/mm/yyyy') AND TO_DATE ('$v_end_date', 'dd/mm/yyyy')
 												AND ('$v_created_id' IS NULL OR bb.CREATED_BY='$v_created_id')
-												 GROUP BY BB.REF_ID
-												 ) A,LEASE_ALL_INFO_ERP B
-											WHERE A.REF_CODE=B.REF_CODE
-											--AND B.STATUS='Y'
-											";
-                                    $strSQL   = oci_parse($objConnect, $sqlQuery);
+												GROUP BY BB.REF_ID
+												) A,LEASE_ALL_INFO_ERP B
+											WHERE A.REF_CODE=B.REF_CODE";
+                                    $strSQL   = @oci_parse($objConnect, $sqlQuery);
 
 
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>
@@ -222,7 +218,6 @@ include_once ('../../_helper/2step_com_conn.php');
                                             <td><?php echo $row['COLL_CONCERN_NAME'] . "[" . $row['COLL_CONCERN_ID'] . ']'; ?></td>
                                             <td><?php echo $row['CONCERN_ZONE']; ?></td>
                                             <td><?php echo explode("##", $row['INFORMATION'])[1]; ?></td>
-
                                             <td><?php
                                             if ($row['LAST_LOCATION'] == "NO LOCATON FOUND") {
 
@@ -232,15 +227,12 @@ include_once ('../../_helper/2step_com_conn.php');
                                                 $lng    = explode("##", $row['LAST_LOCATION'])[1];
                                                 $url    = "http://www.google.com/maps/place/" . $latitu . "," . $lng;
                                                 echo '<br>';
-
-
                                                 ?>
                                                     <a id="myLink" href="<?php echo $url; ?>" target="_blank">View Location</a>
                                                     <?php
                                             }
                                             ?>
                                             </td>
-
                                             <td><?php echo $row['CUSTOMER_NAME']; ?></td>
                                             <td><?php echo $row['INSTALLMENT_AMOUNT']; ?></td>
                                             <td><?php echo $row['COLLECTED_AMOUNT']; ?></td>
@@ -249,8 +241,6 @@ include_once ('../../_helper/2step_com_conn.php');
                                             <td><?php echo $row['BRAND']; ?></td>
                                             <td><?php echo $row['LAST_REASON_CODE']; ?></td>
                                             <td><?php echo explode("##", $row['INFORMATION'])[0]; ?></td>
-
-
                                         </tr>
                                         <?php
                                     }

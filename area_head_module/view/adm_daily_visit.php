@@ -171,7 +171,7 @@ include_once ('../../_helper/2step_com_conn.php');
                                     $attn_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
 
                                     if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
-                                        $strSQL = oci_parse(
+                                        $strSQL = @oci_parse(
                                             $objConnect,
                                             "SELECT
                                             bb.REF_ID,
@@ -187,8 +187,8 @@ include_once ('../../_helper/2step_com_conn.php');
                                             COLL_VISIT_LAT(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy'),'LANG') VISITED_LOCATION_LANG,
                                             BB.CUSTOMER_NAME,
                                             (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
-                                                                WHERE C.REF_ID=bb.REF_ID
-                                                                    AND TRUNC(C.CREATED_DATE)=TO_DATE('$attn_start_date','dd/mm/yyyy')) COLLECTION_AMOUNT,
+                                            WHERE C.REF_ID=bb.REF_ID
+                                            AND TRUNC(C.CREATED_DATE)=TO_DATE('$attn_start_date','dd/mm/yyyy')) COLLECTION_AMOUNT,
                                             BB.INSTALLMENT_AMOUNT
                                             FROM RML_COLL_VISIT_ASSIGN bb
                                                 WHERE bb.ASSIGN_DATE=TO_DATE('$attn_start_date','dd/mm/yyyy')
@@ -199,7 +199,7 @@ include_once ('../../_helper/2step_com_conn.php');
 
                                     }
                                     else {
-                                        $strSQL = oci_parse(
+                                        $strSQL = @oci_parse(
                                             $objConnect,
                                             "SELECT
                                                 BB.REF_ID,
@@ -215,8 +215,8 @@ include_once ('../../_helper/2step_com_conn.php');
                                                 COLL_VISIT_LAT(bb.CREATED_BY,bb.REF_ID,TO_DATE('$attn_start_date','dd/mm/yyyy'),'LANG') VISITED_LOCATION_LANG,
                                                 BB.CUSTOMER_NAME,
                                                 (SELECT  NVL(SUM(C.AMOUNT),0) FROM RML_COLL_MONEY_COLLECTION C
-                                                    WHERE C.REF_ID=bb.REF_ID
-                                                    AND TRUNC(C.CREATED_DATE)=TO_DATE('$attn_start_date','dd/mm/yyyy')) COLLECTION_AMOUNT,
+                                                WHERE C.REF_ID=bb.REF_ID
+                                                AND TRUNC(C.CREATED_DATE)=TO_DATE('$attn_start_date','dd/mm/yyyy')) COLLECTION_AMOUNT,
                                                 BB.INSTALLMENT_AMOUNT
                                             FROM RML_COLL_VISIT_ASSIGN bb,RML_COLL_APPS_USER aa
                                             WHERE BB.CREATED_BY=AA.RML_ID
@@ -228,10 +228,10 @@ include_once ('../../_helper/2step_com_conn.php');
                                         );
 
                                     }
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         ?>
                                         <tr>
@@ -241,73 +241,69 @@ include_once ('../../_helper/2step_com_conn.php');
                                             <td><?php echo $row['CONCERN_NAME']; ?></td>
                                             <td><?php echo $row['AREA_ZONE']; ?></td>
                                             <td><?php echo $row['VISIT_LOCATION']; ?></td>
-                                            <td><?php //echo $row['VISITED_LOCATION_LAT'];
-                                                    $lat  = $row['VISITED_LOCATION_LAT'];
-                                                    $long = $row['VISITED_LOCATION_LANG'];
-                                                    if ($number == 1) {
-                                                        $golbalLat_1  = $lat;
-                                                        $golbalLang_1 = $long;
+                                            <td><?php
+                                            $lat  = $row['VISITED_LOCATION_LAT'];
+                                            $long = $row['VISITED_LOCATION_LANG'];
+                                            if ($number == 1) {
+                                                $golbalLat_1  = $lat;
+                                                $golbalLang_1 = $long;
+                                            }
+                                            else if ($number == 2) {
+                                                $golbalLat_2  = $lat;
+                                                $golbalLang_2 = $long;
+                                            }
+                                            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBDQDOeUoFxB8GptvYRk9f_lR1UFRawVO0";
+                                            $ch      = curl_init();
+                                            curl_setopt($ch, CURLOPT_URL, $geocode);
+                                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                                            curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+                                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                                            $response = curl_exec($ch);
+                                            curl_close($ch);
+                                            $output    = json_decode($response);
+                                            $dataarray = get_object_vars($output);
+                                            if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
+                                                if (isset($dataarray['results'][0]->formatted_address)) {
 
-                                                    }
-                                                    else if ($number == 2) {
-                                                        $golbalLat_2  = $lat;
-                                                        $golbalLang_2 = $long;
-                                                    }
+                                                    $address = $dataarray['results'][0]->formatted_address;
+                                                }
+                                                else {
+                                                    $address = '';
 
+                                                }
+                                            }
+                                            else {
+                                                $address = '';
+                                            }
+                                            echo $address;
+                                            if ($number == 1) {
+                                                $firstLocationAddress = $address;
+                                            }
+                                            else if ($number == 2) {
+                                                $secondLocationAddress = $address;
+                                            }
 
-                                                    $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBDQDOeUoFxB8GptvYRk9f_lR1UFRawVO0";
-                                                    $ch      = curl_init();
-                                                    curl_setopt($ch, CURLOPT_URL, $geocode);
-                                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                                                    curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-                                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-                                                    $response = curl_exec($ch);
-                                                    curl_close($ch);
-                                                    $output    = json_decode($response);
-                                                    $dataarray = get_object_vars($output);
-                                                    if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
-                                                        if (isset($dataarray['results'][0]->formatted_address)) {
-
-                                                            $address = $dataarray['results'][0]->formatted_address;
-                                                        }
-                                                        else {
-                                                            $address = '';
-
-                                                        }
-                                                    }
-                                                    else {
-                                                        $address = '';
-                                                    }
-                                                    echo $address;
-                                                    if ($number == 1) {
-                                                        $firstLocationAddress = $address;
-                                                    }
-                                                    else if ($number == 2) {
-                                                        $secondLocationAddress = $address;
-                                                    }
-
-                                                    ?>
+                                            ?>
                                             </td>
-
                                             <td><?php echo $row['CUSTOMER_NAME']; ?></td>
                                             <td><?php echo $row['INSTALLMENT_AMOUNT']; ?></td>
                                             <td><?php echo $row['COLLECTION_AMOUNT']; ?></td>
                                             <td><?php echo @explode("@@@", $row['NEXT_ASSIGN_INFO'])[1]; ?></td>
                                             <td><?php echo @explode("@@@", $row['NEXT_ASSIGN_INFO'])[0]; ?></td>
-
-
                                         </tr>
                                         <?php
                                     }
                                 }
                                 ?>
-
                             </tbody>
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm btn-gradient-info" onclick="exportF(this)">
+                            Export To Excel
+                            <i class='bx bxs-cloud-download'></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -324,7 +320,7 @@ include_once ('../../_includes/footer.php');
     function exportF(elem) {
         var table = document.getElementById("tbl");
         var html = table.outerHTML;
-        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url
         elem.setAttribute("href", url);
         elem.setAttribute("download", "Daily_visit.xls"); // Choose the file name
         return false;

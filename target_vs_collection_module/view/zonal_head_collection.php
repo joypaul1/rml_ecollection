@@ -143,8 +143,8 @@ include_once ('../../_config/sqlConfig.php');
                                 if (isset($_POST['start_date'])) {
                                     $start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
                                     $end_date   = date("d/m/Y", strtotime($_REQUEST['end_date']));
-                                    $emp_ah_id       = $_REQUEST['emp_ah_id'];
-                                    $strSQL          = oci_parse(
+                                    $emp_ah_id  = $_REQUEST['emp_ah_id'];
+                                    $strSQL     = @oci_parse(
                                         $objConnect,
                                         "SELECT b.RML_ID,b.EMP_NAME,
                                         RML_COLL_SUMOF_TARGET(b.RML_ID,'$start_date','$end_date') TARGET_AMNT,
@@ -155,14 +155,12 @@ include_once ('../../_config/sqlConfig.php');
                                         and b.LEASE_USER='ZH' 
                                         and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')"
                                     );
-
-
-                                    oci_execute($strSQL);
+                                    @oci_execute($strSQL);
                                     $number                 = 0;
                                     $GRANT_TOTAL_TARGET     = 0;
                                     $GRANT_TOTAL_COLLECTION = 0;
 
-                                    while ($row = oci_fetch_assoc($strSQL)) {
+                                    while ($row = @oci_fetch_assoc($strSQL)) {
                                         $number++;
                                         if ($row['TARGET_AMNT'] >= 0) {
                                             ?>
@@ -233,7 +231,7 @@ include_once ('../../_config/sqlConfig.php');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div><!--end row-->
