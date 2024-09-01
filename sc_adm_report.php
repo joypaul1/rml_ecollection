@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['user_role_id'] != 2 || $_SESSION['user_role_id'] != 9 || $_SESSION['user_role_id'] != 14 || $_SESSION['user_role_id'] != 15) {
+if ($_SESSION['user_role_id'] != 2 || $_SESSION['user_role_id'] != 9 && $_SESSION['user_role_id'] != 14 && $_SESSION['user_role_id'] != 15) {
 	header('location:index.php?lmsg=true');
 	exit;
 }
