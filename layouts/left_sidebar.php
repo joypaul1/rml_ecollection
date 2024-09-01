@@ -1709,109 +1709,108 @@ function isActManu($url)
       ?>
       <!--====================END Start Sales SYSTEM=============================-->
 
+      <!--====================REASON CODE Module + SIZED Module+ SALE Certificate  =============================-->
       <?php if (($_SESSION['user_role_id'] == 15)) { ?>
-        <!--====================REASON CODE Module + SIZED Module+ SALE Certificate  =============================-->
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reason Code Module">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages"
-            data-parent="#exampleAccordion">
-            <i class="fa fa-ban"></i>
-            <span class="nav-link-text">Reason Code Module</span>
-          </a>
-          <ul class="sidenav-second-level collapse
-            <?php echo isActive('/adm_reason_code_list.php'); ?>
-            <?php echo isActive('/adm_reason_code_report.php'); ?>
-            <?php echo isActive('/adm_last_reason_code_report.php'); ?>
-            <?php echo isActive('/adm_reason_code_summary.php'); ?>
-          " id="collapseExamplePages">
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_reason_code_list.php'); ?>"
-                href="adm_reason_code_list.php"> Reason Code List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_reason_code_report.php'); ?>"
-                href="adm_reason_code_report.php"> Reason Code
-                Details</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_last_reason_code_report.php'); ?>"
-                href="adm_last_reason_code_report.php"> Last
-                Reason Code List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_reason_code_summary.php'); ?>"
-                href="adm_reason_code_summary.php"> Reason Code
-                Summary</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Seized Module">
-          <a class="nav-link nav-link-collapse collapsed
-          " data-toggle="collapse" href="#collapseSeized" data-parent="#exampleAccordion">
-            <i class="fa fa-ellipsis-v"></i>
-            <span class="nav-link-text">Seized Module</span>
-          </a>
-          <ul class="sidenav-second-level collapse
-          <?php echo isActive('/adm_driver_name_list.php'); ?>
-          <?php echo isActive('/adm_depot_location_list.php'); ?>
-          <?php echo isActive('/adm_seized_confirm.php'); ?>
-          <?php echo isActive('/adm_seized_report.php'); ?>
-          
-          " id="collapseSeized">
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_driver_name_list.php'); ?>"
-                href="adm_driver_name_list.php"> Driver Name
-                List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_depot_location_list.php'); ?>"
-                href="adm_depot_location_list.php"> Depot Location
-                List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_seized_confirm.php'); ?>"
-                href="adm_seized_confirm.php"> Seized Info
-                Update</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/adm_seized_report.php'); ?>"
-                href="adm_seized_report.php"> Seized Report
-                List</a>
-            </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reason Code Module">
+            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages"
+              data-parent="#exampleAccordion">
+              <i class="fa fa-ban"></i>
+              <span class="nav-link-text">Reason Code Module</span>
+            </a>
+            <ul class="sidenav-second-level collapse
+              <?php echo isActive('/adm_reason_code_list.php'); ?>
+              <?php echo isActive('/adm_reason_code_report.php'); ?>
+              <?php echo isActive('/adm_last_reason_code_report.php'); ?>
+              <?php echo isActive('/adm_reason_code_summary.php'); ?>
+            " id="collapseExamplePages">
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_reason_code_list.php'); ?>"
+                  href="adm_reason_code_list.php"> Reason Code List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_reason_code_report.php'); ?>"
+                  href="adm_reason_code_report.php"> Reason Code
+                  Details</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_last_reason_code_report.php'); ?>"
+                  href="adm_last_reason_code_report.php"> Last
+                  Reason Code List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_reason_code_summary.php'); ?>"
+                  href="adm_reason_code_summary.php"> Reason Code
+                  Summary</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Seized Module">
+            <a class="nav-link nav-link-collapse collapsed
+            " data-toggle="collapse" href="#collapseSeized" data-parent="#exampleAccordion">
+              <i class="fa fa-ellipsis-v"></i>
+              <span class="nav-link-text">Seized Module</span>
+            </a>
+            <ul class="sidenav-second-level collapse
+            <?php echo isActive('/adm_driver_name_list.php'); ?>
+            <?php echo isActive('/adm_depot_location_list.php'); ?>
+            <?php echo isActive('/adm_seized_confirm.php'); ?>
+            <?php echo isActive('/adm_seized_report.php'); ?>
+            
+            " id="collapseSeized">
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_driver_name_list.php'); ?>"
+                  href="adm_driver_name_list.php"> Driver Name
+                  List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_depot_location_list.php'); ?>"
+                  href="adm_depot_location_list.php"> Depot Location
+                  List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_seized_confirm.php'); ?>"
+                  href="adm_seized_confirm.php"> Seized Info
+                  Update</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/adm_seized_report.php'); ?>"
+                  href="adm_seized_report.php"> Seized Report
+                  List</a>
+              </li>
 
 
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sales Certificate Module">
-          <a class="nav-link nav-link-collapse" data-toggle="collapse" href="#salesCertificatePages"
-            data-parent="#exampleAccordion">
-            <i class="fa fa-file-excel-o"></i>
-            <span class="nav-link-text">Sales Certificate Module</span>
-          </a>
-          <ul class="sidenav-second-level collapse
-          <?php echo isActive('/sc_list.php'); ?>
-          <?php echo isActive('/sc_list_reissues.php'); ?>
-          <?php echo isActive('/reissues_approval_lease.php'); ?>
-          <?php echo isActive('/sc_adm_report.php'); ?>
-          
-          " id="salesCertificatePages">
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/sc_list.php'); ?>" href="sc_list.php"> Request List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/sc_list_reissues.php'); ?>" href="sc_list_reissues.php">
-                File Problem List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/reissues_approval_lease.php'); ?>"
-                href="reissues_approval_lease.php"> Reissues
-                List</a>
-            </li>
-            <li>
-              <a class="fa fa-hand-o-right <?php echo isActManu('/sc_adm_report.php'); ?>" href="sc_adm_report.php"> Code
-                Wise Report</a>
-            </li>
-          </ul>
-        </li>
+            </ul>
+          </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sales Certificate Module">
+            <a class="nav-link nav-link-collapse" data-toggle="collapse" href="#salesCertificatePages"
+              data-parent="#exampleAccordion">
+              <i class="fa fa-file-excel-o"></i>
+              <span class="nav-link-text">Sales Certificate Module</span>
+            </a>
+            <ul class="sidenav-second-level collapse
+              <?php echo isActive('/sc_list.php'); ?>
+              <?php echo isActive('/sc_list_reissues.php'); ?>
+              <?php echo isActive('/reissues_approval_lease.php'); ?>
+              <?php echo isActive('/sc_adm_report.php'); ?>
+              " id="salesCertificatePages">
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/sc_list.php'); ?>" href="sc_list.php"> Request List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/sc_list_reissues.php'); ?>" href="sc_list_reissues.php">
+                  File Problem List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/reissues_approval_lease.php'); ?>"
+                  href="reissues_approval_lease.php"> Reissues
+                  List</a>
+              </li>
+              <li>
+                <a class="fa fa-hand-o-right <?php echo isActManu('/sc_adm_report.php'); ?>" href="sc_adm_report.php"> Code
+                  Wise Report</a>
+              </li>
+            </ul>
+          </li>
       <?php } ?>
       <!--====================REASON CODE Module + SIZED Module+ SALE Certificate  =============================-->
 
