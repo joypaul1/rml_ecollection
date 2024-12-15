@@ -134,9 +134,9 @@
 											AND B.APPROVAL_STATUS IS NULL
 											AND A.CREATED_BY IN
 											(
-											SELECT RML_ID FROM MONTLY_COLLECTION
+												SELECT RML_ID FROM MONTLY_COLLECTION
 												WHERE IS_ACTIVE=1
-												 AND ZONAL_HEAD='$emp_session_id'
+												AND ZONAL_HEAD='$emp_session_id'
 											)"); 
 									
 						  oci_execute($strSQL);
@@ -207,7 +207,8 @@
 						     $allDataSQL  = oci_parse($objConnect, "SELECT B.ID, 
 						                           A.REF_ID,
 												   A.ASSIGN_DATE,
-												   A.CREATED_BY CONCERN_ID,C.AREA_ZONE,
+												   A.CREATED_BY CONCERN_ID,
+												   C.AREA_ZONE,
 												   C.EMP_NAME CC_NAME,
 												   A.CUSTOMER_REMARKS,
 												   A.CREATED_DATE,
@@ -225,10 +226,29 @@
 											AND B.APPROVAL_STATUS IS NULL
 											AND A.CREATED_BY IN
 											(
-											SELECT RML_ID FROM MONTLY_COLLECTION
+												SELECT RML_ID FROM MONTLY_COLLECTION
 												WHERE IS_ACTIVE=1
-												 AND ZONAL_HEAD='$emp_session_id'
+												AND ZONAL_HEAD='$emp_session_id'
 											)"); 
+											// echo "SELECT B.ID, 
+						                    //        A.REF_ID,
+											// 	   A.ASSIGN_DATE,
+											// 	   A.CREATED_BY CONCERN_ID,C.AREA_ZONE,
+											// 	   C.EMP_NAME CC_NAME,
+											// 	   A.CUSTOMER_REMARKS,
+											// 	   A.CREATED_DATE,
+											// 	   A.VISIT_LOCATION,
+											// 	   A.CUSTOMER_NAME,
+											// 	   A.INSTALLMENT_AMOUNT,
+											// 	   (select NUMBER_OF_DUE from LEASE_ALL_INFO_ERP K where REF_CODE=A.REF_ID) NUMBER_OF_DUE,
+											// 	   (select LAST_PAYMENT_AMOUNT from LEASE_ALL_INFO_ERP where REF_CODE=A.REF_ID) LAST_PAYMENT_AMOUNT,
+											// 	   (select LAST_PAYMENT_DATE from LEASE_ALL_INFO_ERP where REF_CODE=A.REF_ID) LAST_PAYMENT_DATE,
+											// 	   (select PARTY_ADDRESS from LEASE_ALL_INFO_ERP where REF_CODE=A.REF_ID) PARTY_ADDRESS
+											//  FROM RML_COLL_VISIT_ASSIGN A,COLL_VISIT_ASSIGN_APPROVAL B,RML_COLL_APPS_USER C
+											// WHERE A.ID=B.RML_COLL_VISIT_ASSIGN_ID
+											// AND A.CREATED_BY=C.RML_ID
+											// AND TRUNC(ASSIGN_DATE) BETWEEN TO_DATE('$month_start','DD/MM/YYYY') AND TO_DATE('$month_end','DD/MM/YYYY')
+											// AND B.APPROVAL_STATUS IS NULL";
 									
 						  oci_execute($allDataSQL);
 						  $number=0; 
