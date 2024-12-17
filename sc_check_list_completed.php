@@ -1,9 +1,9 @@
 <?php
 session_start();
-if ($_SESSION['user_role_id'] != 5) {
-	header('location:index.php?lmsg=true');
-	exit;
-}
+// if ($_SESSION['user_role_id'] != 5) {
+// 	header('location:index.php?lmsg=true');
+// 	exit;
+// }
 
 require_once('inc/config.php');
 require_once('layouts/header.php');
@@ -242,6 +242,7 @@ require_once('inc/connoracle.php');
 												</td>
 
 												<td align="center">
+
 													<?php if ($row['HANDOVER_STATUS'] == 'YES' && $row['REISSES_STATUS'] == 'YES') {
 														?>
 														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
@@ -279,7 +280,7 @@ require_once('inc/connoracle.php');
 															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"><?php
 															   echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
 															</a>
-													<?php
+														<?php
 													}
 													?>
 
@@ -326,7 +327,7 @@ require_once('inc/connoracle.php');
 															<!--<a  href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
 															   echo '<button class="btn btn-danger btn-sm">&nbsp;&nbsp;DSC&nbsp;</button>'; ?>
 								 </a> -->
-													<?php
+														<?php
 													}
 													?>
 
@@ -530,11 +531,24 @@ require_once('inc/connoracle.php');
 															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"><?php
 															   echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
 															</a>
-													<?php
+														<?php
 													}
 													?>
 												</td>
 												<td align="center">
+													<a
+														href="sc_closing_approval_sheet_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
+														   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet">&nbsp;&nbsp;A.S &nbsp;&nbsp;</button>';
+														   ?></a>
+													<a
+														href="sc_closing_approval_sheet_rsv_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
+														   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet(rsv)">&nbsp;RSV&nbsp;&nbsp;</button>';
+														   ?></a>
+													<br><br>
+													<a
+														href="sc_closing_approval_sheet_crsv_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
+														   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet(crsv)">&nbsp;CRSV&nbsp;</button>'; ?>
+													</a>
 													<?php if ($row['HANDOVER_STATUS'] == 'YES' && $row['REISSES_STATUS'] == 'YES') {
 														?>
 														<a
@@ -550,32 +564,7 @@ require_once('inc/connoracle.php');
 															href="sc_closing_approval_sheet_crsv_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
 															   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet(crsv)">&nbsp;CRSV&nbsp;</button>'; ?>
 														</a>
-														<!--<a  href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-danger btn-sm">&nbsp;&nbsp;DSC&nbsp;</button>'; ?>
-								 </a> -->
 														<?php
-													} else if ($row['HANDOVER_STATUS'] == 'NO') {
-														?>
-
-															<a
-																href="sc_closing_approval_sheet_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-																   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet">&nbsp;&nbsp;A.S &nbsp;&nbsp;</button>';
-																   ?></a>
-															<a
-																href="sc_closing_approval_sheet_rsv_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-																   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet(rsv)">&nbsp;RSV&nbsp;&nbsp;</button>';
-																   ?></a>
-															<br><br>
-															<a
-																href="sc_closing_approval_sheet_crsv_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-																   echo '<button class="btn btn-danger btn-sm" title="Closing Approval Sheet(crsv)">&nbsp;CRSV&nbsp;</button>'; ?>
-															</a>
-															<!--<a  href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-danger btn-sm">&nbsp;&nbsp;DSC&nbsp;</button>'; ?>
-								 </a> -->
-
-
-													<?php
 													}
 													?>
 												</td>
