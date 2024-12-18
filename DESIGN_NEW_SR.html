@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ফরম-২১ </title>
+    <title>ফরম-২২ </title>
     <link href="https://fonts.googleapis.com/css2?family=SutonnyMJ&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -51,7 +51,6 @@
             font-size: 14px;
             text-align: center;
             font-weight: bold;
-            
         }
 
         .field-label {
@@ -64,6 +63,13 @@
             width: calc(100% - 220px);
             border-bottom: 1px dotted #000;
             margin-top: 3%;
+        }
+
+        .photo-box {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            height: 60px;
         }
 
         @media print {
@@ -83,20 +89,15 @@
 </head>
 
 <body>
-    <button type="button" class="printableArea" onclick="printDiv('printableArea')">Print T.O. File</button>
+    <button type="button" class="printableArea" onclick="printDiv('printableArea')">Print S.R File</button>
     <div id="printableArea">
         <div style="margin-bottom: 5%;">
-            <div class="form-title">ফরম-২১</div>
-            <div class="form-subtitle">মোটরযানের মালিকানা বদলি সংক্রান্ত ক্রেতার ঘোষণাপত্র <br>[বিধি ৪১(১) দ্রষ্টব্য]
+            <div class="form-title">ফরম-২২ </div>
+            <div class="form-subtitle">বিক্রয় রসিদ <br>[বিধি ৪১(১)(ক) দ্রষ্টব্য]
             </div>
         </div>
 
         <table class="table">
-            <tr>
-                <td style="width:21%;" class="field-label">রেজিস্ট্রেশন কর্তৃপক্ষ:</td>
-                <td style="width: 75%;" colspan="4" class="field-dots">
-                </td>
-            </tr>
             <tr>
                 <td style="width:13%;" class="field-label">আমি/আমরা:</td>
                 <td style="width:83%;" colspan="4" class="field-dots">
@@ -109,16 +110,6 @@
                 <td class="field-dots" style="width: 25%;"></td>
             </tr>
             <tr>
-                <td style="width:5%;" class="field-label">মাতা:</td>
-                <td style="width: 91%;" colspan="4" class="field-dots">
-                </td>
-            </tr>
-            <tr>
-                <td style="width:11%;" class="field-label">পিতা/স্বামী:</td>
-                <td style="width: 85%;" colspan="4" class="field-dots">
-                </td>
-            </tr>
-            <tr>
                 <td style="width:7%;" class="field-label">ঠিকানা:</td>
                 <td style="width: 89%;" colspan="4" class="field-dots"> </td>
             </tr>
@@ -127,7 +118,11 @@
                 </td>
             </tr>
             <tr>
-                <td>এতদ্বারা জানাইতেছি যে, মোটরযান যাহার:
+                <td style="width: 96%;margin-left: 2%;" class="field-dots">
+                </td>
+            </tr>
+            <tr>
+                <td>এতদ্বারা জানাইতেছি যে,আমরা / আমাদের মোটরযান যাহার:
                 </td>
             </tr>
             <tr>
@@ -150,10 +145,6 @@
                 <td class="field-dots" style="width: 32%;"></td>
             </tr>
             <tr>
-                <td>নিম্নবর্ণিত ব্যক্তির নিকট হইতে ক্রয় করিয়াছি:
-                </td>
-            </tr>
-            <tr>
                 <td style="width:7%;" class="field-label">জনাব:</td>
                 <td style="width: 89%;" colspan="4" class="field-dots">
                 </td>
@@ -173,24 +164,39 @@
                 </td>
             </tr>
             <tr>
-                <td class="field-dots" style="width: 43%;"></td>
-                <td class="field-label">উপরে বর্ণিত মোটরযানটির মালিকানা আমার/আমাদের</td>
+                <td class="field-label" style="width: 10%;">এর নিকট </td>
+                <td class="field-dots" style="width: 86%;"></td>
             </tr>
             <tr>
-                <td style="width: 96%;" class="field-label">অনুকূলে বদলি তথা
-                    রেজিস্ট্রেশন করিবার অনুরোধ জানাইতেছি এবং মোটরযানের রেজিস্ট্রেশন সনদ, হালনাগাদ ফিটনেস সনদ, ট্যাক্স
-                    টোকেন, রুট পারমিট (প্রযোজ্য ক্ষেত্রে) সংযুক্ত করিলাম।</td>
+                <td class="field-dots" style="width: 32%;"></td>
+                <td class="field-label" style="width: 64%;">টাকা মূল্যে বিক্রয় করিলাম এবং নিম্নবর্ণিত স্বাক্ষীগণের
+                    সম্মুখে সমুদয়</td>
+            </tr>
+            <tr>
+                <td style="width: 96%;" class="field-label">টাকা বুঝিয়া পাইলাম।।</td>
             </tr>
 
         </table>
-        <!-- display: flex;justify-content: space-between; -->
-        <div class="footer" style="display: flex;justify-content: left;margin-top: 5%;">
+        <!--  -->
+        <div style="display:flex;justify-content:space-between;margin-top: 5%;">
             <p>তারিখ: </p>
-
+            <p style="margin-right: 20%;">বিক্রেতার স্বাক্ষর</p>
         </div>
-        <div class="footer" style="display: flex;justify-content: right;text-align: center;">
-            <p>গ্রহীতার (ক্রেতা) স্বাক্ষর <br>ভাড়া খরিদ/দায়বদ্ধ মালিকের স্বাক্ষর
-            </p>
+        <div class="footer" style="display: flex;justify-content: space-between;margin-top: 5%;justify-items: center;">
+            <div>
+                <strong><u>
+                        <p>স্বাক্ষীর স্বাক্ষর, নাম, ঠিকানা ও মোবাইল নম্বর</p>
+                    </u>
+                </strong>
+                <p>১ | </p>
+                <p>২ |</p>
+                <p>৩ | </p>
+            </div>
+            <div style="margin-right: 18%;margin-top: 10%;">
+                <div class="photo-box">
+                    <p> রেভিনিউ স্ট্যাম্প </p>
+                </div>
+            </div>
 
         </div>
     </div>
