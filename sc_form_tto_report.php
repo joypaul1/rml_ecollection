@@ -1,34 +1,95 @@
-<?php
-session_start();
-if ($_SESSION['user_role_id'] != 5 && $_SESSION['user_role_id'] != 12) {
-	header('location:index.php?lmsg=true');
-	exit;
-}
+<!DOCTYPE html>
+<html lang="bn">
 
-require_once('inc/config.php');
-require_once('layouts/header.php');
-require_once('layouts/left_sidebar.php');
-require_once('inc/connoracle.php');
-$sc_id = $_REQUEST['sc_id'];
-$is_found = 0;
-?>
+<head>
+	<meta charset="UTF-8">
+	<title>ফরম-২০</title>
+	<link href="https://fonts.googleapis.com/css2?family=SutonnyMJ&display=swap" rel="stylesheet">
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<style>
+		body {
+			font-family: 'SutonnyMJ', sans-serif;
+			padding: 5%;
+			table-layout: auto;
+			line-height: normal;
+		}
 
-<div class="content-wrapper">
-	<div class="container-fluid">
-		<!-- Breadcrumbs-->
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a href="">Form T.T.O</a>
-			</li>
-		</ol>
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 16px;
+			background-color: transparent;
+			/* padding: 5% !important; */
+		}
 
-		<div class="container-fluid">
-			<div class="row">
+		.footer {
+			width: 100%;
+			font-size: 14px;
+		}
 
-				<?php
-				$strSQL = oci_parse($objConnect, "SELECT 
+		td,
+		th {
+			padding: 6px;
+			vertical-align: top;
+			border: none;
+		}
+
+		tr,
+		td {
+			padding-bottom: 1px;
+		}
+
+		.form-title {
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.form-subtitle {
+			font-size: 14px;
+			text-align: center;
+			font-weight: bold;
+
+		}
+
+		.field-label {
+			display: inline-block;
+			vertical-align: top;
+		}
+
+		.field-dots {
+			display: inline-block;
+			width: calc(100% - 220px);
+			border-bottom: 1px dotted #000;
+			margin-top: 3%;
+		}
+
+		@media print {
+			.printableArea {
+				display: none !important;
+			}
+
+			table {
+				font-size: 14px;
+			}
+
+			footer {
+				font-size: 14px;
+			}
+		}
+	</style>
+</head>
+
+
+
+<body>
+	<?php
+	require_once('inc/connoracle.php');
+	$sc_id = $_REQUEST['sc_id'];
+	$is_found = 0;
+	$strSQL = oci_parse($objConnect, "SELECT 
 									   ID, 
 									   REF_CODE, 
 									   CURRENT_PARTY_NAME, 
@@ -77,228 +138,198 @@ $is_found = 0;
 									where ID='$sc_id'
 									and CCD_APPROVAL_STATUS=1 
 									and FILE_CLEAR_STATUS=1");
-				oci_execute($strSQL);
-				while ($row = oci_fetch_assoc($strSQL)) {
-					$is_found = 1;
-					$V_REF_CODE = $row['REF_CODE'];
-					$V_CURRENT_PARTY_NAME = $row['CURRENT_PARTY_NAME'];
-					$V_CURRENT_PARTY_MOBILE = $row['CURRENT_PARTY_MOBILE'];
-					$V_CURRENT_PARTY_ADDRS = $row['CURRENT_PARTY_ADDRS'];
-					$V_MODEL_NAME = $row['MODEL_NAME'];
-					$V_INSTALLMENT_RECEIVED = $row['INSTALLMENT_RECEIVED'];
-					$V_SALES_AMOUNT = $row['SALES_AMOUNT'];
-					$V_DP = $row['DP'];
-					$V_FIRST_PARTY_NAME = $row['FIRST_PARTY_NAME'];
-					$V_FIRST_PARTY_DP = $row['FIRST_PARTY_DP'];
-					$V_FRIST_PARTY_INSTALLMENT_REC = $row['FRIST_PARTY_INSTALLMENT_REC'];
-					$V_RESOLED_DP = $row['RESOLED_DP'];
-					$V_RESOLED_RECEIVED = $row['RESOLED_RECEIVED'];
-					$V_RECEIVABLE = $row['RECEIVABLE'];
-					$V_DISCOUNT = $row['DISCOUNT'];
-					$V_RECEIVED = $row['RECEIVED'];
-					$V_CLOSING_DATE = $row['CLOSING_DATE'];
-					$V_RESALE_APPROVAL_DATE = $row['RESALE_APPROVAL_DATE'];
-					$V_REQUEST_DATE = $row['REQUEST_DATE'];
-					$V_REQUEST_BY = $row['REQUEST_BY'];
-					$V_REQUESTER_NAME = $row['REQUESTER_NAME'];
-					$V_REQUESTER_MOBILE = $row['REQUESTER_MOBILE'];
-					$V_LEASE_APPROVAL_STATUS = $row['LEASE_APPROVAL_STATUS'];
-					$V_LEASE_APPROVAL_DATE = $row['LEASE_APPROVAL_DATE'];
-					$V_LEASE_APPROVAL_BY = $row['LEASE_APPROVAL_BY'];
-					$V_ACC_APPROVAL_DATE = $row['ACC_APPROVAL_DATE'];
-					$V_ACC_APPROVAL_BY = $row['ACC_APPROVAL_BY'];
-					$V_ACC_APPROVAL_STATUS = $row['ACC_APPROVAL_STATUS'];
-					$V_CCD_APPROVAL_DATE = $row['CCD_APPROVAL_DATE'];
-					$V_CCD_APPROVAL_BY = $row['CCD_APPROVAL_BY'];
-					$V_CCD_APPROVAL_STATUS = $row['CCD_APPROVAL_STATUS'];
-					$V_FILE_CLEAR_STATUS = $row['FILE_CLEAR_STATUS'];
-					$V_CLOSING_FEE = $row['CLOSING_FEE'];
-					$V_BRTA_LOCATION = $row['BRTA_LOCATION'];
-					$V_RESPONSIBLE_PERSON = $row['RESPONSIBLE_PERSON'];
-					$V_RESPONSIBLE_DESIGNATION = $row['RESPONSIBLE_DESIGNATION'];
-					$V_CUSTOMER_SO = $row['CUSTOMER_SO'];
-					$V_BANK_ID = $row['BANK_ID'];
-					$V_ENG_NO = $row['ENG_NO'];
-					$V_CHASSIS_NO = $row['CHASSIS_NO'];
-					$V_REG_NO = $row['REG_NO'];
-					$V_SYSDATE = $row['CURRENT_DATA_TIME'];
-					$V_BANK_NAME = $row['BANK_NAME'];
-					$V_BANK_ADDRESS = $row['BANK_ADDRESS'];
-					$V_FATHER_OR_HUSBAND_NAME = $row['FATHER_OR_HUSBAND_NAME'];
-				}
-				?>
+	oci_execute($strSQL);
+	while ($row = oci_fetch_assoc($strSQL)) {
+		$is_found = 1;
+		$V_REF_CODE = $row['REF_CODE'];
+		$V_CURRENT_PARTY_NAME = $row['CURRENT_PARTY_NAME'];
+		$V_CURRENT_PARTY_MOBILE = $row['CURRENT_PARTY_MOBILE'];
+		$V_CURRENT_PARTY_ADDRS = $row['CURRENT_PARTY_ADDRS'];
+		$V_MODEL_NAME = $row['MODEL_NAME'];
+		$V_INSTALLMENT_RECEIVED = $row['INSTALLMENT_RECEIVED'];
+		$V_SALES_AMOUNT = $row['SALES_AMOUNT'];
+		$V_DP = $row['DP'];
+		$V_FIRST_PARTY_NAME = $row['FIRST_PARTY_NAME'];
+		$V_FIRST_PARTY_DP = $row['FIRST_PARTY_DP'];
+		$V_FRIST_PARTY_INSTALLMENT_REC = $row['FRIST_PARTY_INSTALLMENT_REC'];
+		$V_RESOLED_DP = $row['RESOLED_DP'];
+		$V_RESOLED_RECEIVED = $row['RESOLED_RECEIVED'];
+		$V_RECEIVABLE = $row['RECEIVABLE'];
+		$V_DISCOUNT = $row['DISCOUNT'];
+		$V_RECEIVED = $row['RECEIVED'];
+		$V_CLOSING_DATE = $row['CLOSING_DATE'];
+		$V_RESALE_APPROVAL_DATE = $row['RESALE_APPROVAL_DATE'];
+		$V_REQUEST_DATE = $row['REQUEST_DATE'];
+		$V_REQUEST_BY = $row['REQUEST_BY'];
+		$V_REQUESTER_NAME = $row['REQUESTER_NAME'];
+		$V_REQUESTER_MOBILE = $row['REQUESTER_MOBILE'];
+		$V_LEASE_APPROVAL_STATUS = $row['LEASE_APPROVAL_STATUS'];
+		$V_LEASE_APPROVAL_DATE = $row['LEASE_APPROVAL_DATE'];
+		$V_LEASE_APPROVAL_BY = $row['LEASE_APPROVAL_BY'];
+		$V_ACC_APPROVAL_DATE = $row['ACC_APPROVAL_DATE'];
+		$V_ACC_APPROVAL_BY = $row['ACC_APPROVAL_BY'];
+		$V_ACC_APPROVAL_STATUS = $row['ACC_APPROVAL_STATUS'];
+		$V_CCD_APPROVAL_DATE = $row['CCD_APPROVAL_DATE'];
+		$V_CCD_APPROVAL_BY = $row['CCD_APPROVAL_BY'];
+		$V_CCD_APPROVAL_STATUS = $row['CCD_APPROVAL_STATUS'];
+		$V_FILE_CLEAR_STATUS = $row['FILE_CLEAR_STATUS'];
+		$V_CLOSING_FEE = $row['CLOSING_FEE'];
+		$V_BRTA_LOCATION = $row['BRTA_LOCATION'];
+		$V_RESPONSIBLE_PERSON = $row['RESPONSIBLE_PERSON'];
+		$V_RESPONSIBLE_DESIGNATION = $row['RESPONSIBLE_DESIGNATION'];
+		$V_CUSTOMER_SO = $row['CUSTOMER_SO'];
+		$V_BANK_ID = $row['BANK_ID'];
+		$V_ENG_NO = $row['ENG_NO'];
+		$V_CHASSIS_NO = $row['CHASSIS_NO'];
+		$V_REG_NO = $row['REG_NO'];
+		$V_SYSDATE = $row['CURRENT_DATA_TIME'];
+		$V_BANK_NAME = $row['BANK_NAME'];
+		$V_BANK_ADDRESS = $row['BANK_ADDRESS'];
+		$V_FATHER_OR_HUSBAND_NAME = $row['FATHER_OR_HUSBAND_NAME'];
+	}
+	?>
+	<div style="display: block;text-align:end">
+		<button type="button" class="printableArea" onclick="printDiv('printableArea')">Print ফরম-২০ File</button>
+	</div>
 
-				<script type="text/javascript">
-					function getPDF() {
-
-						var HTML_Width = $(".canvas_div_pdf").width();
-						var HTML_Height = $(".canvas_div_pdf").height();
-						var top_left_margin = 15;
-						var PDF_Width = HTML_Width + (top_left_margin * 2);
-						var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-						var canvas_image_width = HTML_Width;
-						var canvas_image_height = HTML_Height;
-
-						var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-
-						html2canvas($(".canvas_div_pdf")[0], { allowTaint: true }).then(function (canvas) {
-							canvas.getContext('2d');
-
-							console.log(canvas.height + "  " + canvas.width);
-
-
-							var imgData = canvas.toDataURL("image/jpeg", 1.0);
-							var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-							pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-
-
-							for (var i = 1; i <= totalPDFPages; i++) {
-								pdf.addPage(PDF_Width, PDF_Height);
-								pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-							}
-
-							pdf.save("Minute Meeting.pdf");
-						});
-					};
-					function printDiv(divName) {
-						var printContents = document.getElementById(divName).innerHTML;
-						var originalContents = document.body.innerHTML;
-
-
-						document.body.innerHTML = printContents;
-						window.print();
-						document.body.innerHTML = originalContents;
-					}					
-				</script>
-
-				<?php
-				if ($is_found == 1) {
-					?>
-
-
-					<button type="button" class="btn btn-success" onclick="getPDF();">Download PDF</button>
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-success" onclick="printDiv('printableArea')"
-						value="Print" />
-					<div class="col-lg-12 border border border-dark">
-						<div class="md-form mt-2">
-
-							<div class="row canvas_div_pdf" id="printableArea">
-								<div class="col-lg-12">
-
-									<div class="row mt-3 text-uppercase d-flex justify-content-center">
-										<h2><b>ফরম-টি' টি ও</b></h2>
-									</div>
-
-									<div class="row mt-3 text-uppercase d-flex justify-content-center">
-										[মোটরযান বিধি ১৯৮৪ এর ৬৪(১) বিধি ]<br>মোটরযানের মালিকানা বদলির তথ্য
-									</div>
-									<br> <br>
-
-									<div class="row mt-2 bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											রেজিস্ট্রারিং অথরিটি - BRTA <?php echo '' . $V_BRTA_LOCATION . ' '; ?>
-									</div>
-									<div class="row mt-2 bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											আমি /আমরা -RANGS MOTORS LTD,ঠিকানা-117/A,(LEVEL-4),OLD AIRPORT ROAD,BIJOY
-											SHARANI,TEJGAON,DHAKA.</p>
-									</div>
-									<br>
-									<div class="row mt-2 bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											এতদ্বারা জানাইতেসি যে,
-									</div>
-									<div class="row bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											আমার / আমাদের গাড়ী নং -<?php echo ' ' . $V_REG_NO; ?></b>
-									</div>
-									<div class="row bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											ইঞ্জিন নং -<?php echo ' ' . $V_ENG_NO; ?></b>
-									</div>
-									<div class="row bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											চেসিস নং -<?php echo ' ' . $V_CHASSIS_NO; ?></b>
-									</div>
-									<div class="row bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											জনাব - <?php echo '' . $V_CURRENT_PARTY_NAME . ' '; ?>
-									</div>
-									<div class="row bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											পিতা / স্বামী - - <?php echo '' . $V_FATHER_OR_HUSBAND_NAME . ' '; ?>
-									</div>
-									<div class="row bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											ঠিকানা - <?php echo '' . $V_CURRENT_PARTY_ADDRS . ' '; ?>
-									</div>
-									<br>
-									<div class="row mt-2 bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											নমুনা স্বাক্ষর (১)
-											---------------------------------(২)------------------------------------
-									</div>
-									<div class="row mt-2 bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											এর নিকট হস্তান্তর করিয়াছি এবং গাড়ীটির মালিকানা তাহার অনুকূলে বদলি করিবার জন্য
-											অনুরোধ জানাইতেছি।
-									</div>
-									<br><br>
-									<div class="row mt-2 bg-light d-flex justify-content-between">
-										<p style="font-family:Times New Roman;">
-											তারিখ :
-									</div>
-
-
-									<div class="col-sm-12">
-										<div class="col-sm-12">
-											<p>
-												<br>&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;হস্তান্তরকারীর
-												স্বাক্ষর : <br>
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;পূর্ণনাম :
-											</p>
-										</div>
-									</div>
-
-									<br>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<?php
-				}
-				?>
-
+	<div id="printableArea">
+		<div style="margin-bottom: 5%;">
+			<div class="form-title">ফরম-২০</div>
+			<div class="form-subtitle">মোটরযানের মালিকানা বদলি সংক্রান্ত বিক্রেতার ঘোষণাপত্র <br>[বিধি ৪১(১) দ্রষ্টব্য]
 			</div>
 		</div>
 
+		<table class="table">
+			<tr>
+				<td style="width:21%;" class="field-label">রেজিস্ট্রেশন কর্তৃপক্ষ:</td>
+				<td style="width: 75%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					BRTA, <?= $V_BRTA_LOCATION ?>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:13%;" class="field-label">আমি/আমরা:</td>
+				<td style="width:83%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					RANGS MOTORS LTD.
+				</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 23%;">জাতীয় পরিচয়পত্র নম্বর:</td>
+				<td class="field-dots" style="width: 29%;"></td>
+				<td class="field-label" style="width: 15%;">টিআইএন নম্বর:</td>
+				<td class="field-dots" style="width: 25%;"></td>
+			</tr>
+			<tr>
+				<td style="width:5%;" class="field-label">মাতা:</td>
+				<td style="width: 91%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width:11%;" class="field-label">পিতা/স্বামী:</td>
+				<td style="width: 85%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width:7%;" class="field-label">ঠিকানা:</td>
+				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">117/A,(LEVEL-4),OLD
+					AIRPORT ROAD,BIJOY
+					SHARANI,TEJGAON,DHAKA. </td>
+			</tr>
+			<tr>
+				<td style="width: 96%;margin-left: 2%;" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td>এতদ্বারা জানাইতেছি যে, মোটরযান যাহার:
+				</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 18%;">রেজিস্ট্রেশন নম্বর:</td>
+				<td class="field-dots" style="width: 38%;font-family: arial,serif;margin-top:0% !important"><?php echo $V_REG_NO; ?></td>
+				<td class="field-label" style="width: 5%;">ধরন:</td>
+				<td class="field-dots" style="width: 31%;"></td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 12%;">চেসিস নম্বর:</td>
+				<td class="field-dots" style="width: 34%;font-family: arial,serif;margin-top:0% !important"><?php echo $V_CHASSIS_NO; ?>
+				</td>
+				<td class="field-label" style="width: 12%;">
+					ইঞ্জিন নম্বর:</td>
+				<td class="field-dots" style="width: 34%;font-family: arial,serif;margin-top:0% !important"><?php echo $V_ENG_NO; ?></td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 12%;">প্রস্তুতকারক:</td>
+				<td class="field-dots" style="width: 38%;"></td>
+				<td class="field-label" style="width: 10%;">প্রস্তুতকাল:</td>
+				<td class="field-dots" style="width: 32%;"></td>
+			</tr>
+			<tr>
+				<td>নিম্নবর্ণিত ব্যক্তি/প্রতিষ্ঠানের নিকট বিক্রয় করিয়াছি:
+				</td>
+			</tr>
+			<tr>
+				<td style="width:7%;" class="field-label">জনাব:</td>
+				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					<?php echo $V_CURRENT_PARTY_NAME; ?>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:11%;" class="field-label">পিতা/স্বামী:</td>
+				<td style="width: 85%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					<?php echo $V_FATHER_OR_HUSBAND_NAME; ?>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:7%;" class="field-label">ঠিকানা:</td>
+				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					<?php echo substr($V_CURRENT_PARTY_ADDRS, 0, 87) ?>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 96%;margin-left: 2%;font-family: arial,serif;margin-top:0% !important" class="field-dots">
+					<?php echo substr($V_CURRENT_PARTY_ADDRS, 87, length: 170) ?>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:20%;" class="field-label">মোটরযানটি জনাব:</td>
+				<td style="width: 76%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td>নমুনা স্বাক্ষর</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 3%;"> (১)</td>
+				<td class="field-dots" style="width: 28%;"></td>
+				<td class="field-label" style="width: 3%;">(২)</td>
+				<td class="field-dots" style="width: 28%;"></td>
+				<td class="field-label">এর অনুকূলে মালিকানা বদলি
+				</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="line-height: 30px;">করিবার জন্য অনুরোধ জানাইতেছি |</td>
+			</tr>
+		</table>
+		<!-- display: flex;justify-content: space-between; -->
+		<div class="footer" style="display: flex;justify-content: left;margin-top: 5%;">
+			<p>তারিখ: </p>
 
+		</div>
+		<div class="footer" style="display: flex;justify-content: right">
+			<p>হস্তান্তরকারীর (বিক্রেতা) স্বাক্ষর </p>
 
-		<div style="height: 1000px;"></div>
+		</div>
 	</div>
 
-	<?php require_once('layouts/footer.php'); ?>
+	<script type="text/javascript">
+		function printDiv(divName) {
+			var printContents = document.getElementById(divName).innerHTML;
+			var originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+		}
+	</script>
+
+</body>
+
+</html>

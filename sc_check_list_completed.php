@@ -245,40 +245,50 @@ require_once('inc/connoracle.php');
 
 													<?php if ($row['HANDOVER_STATUS'] == 'YES' && $row['REISSES_STATUS'] == 'YES') {
 														?>
-														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-														   ?></a>
-														<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
-														   ?></a>
+														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+															?></a>
+														<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
+															?></a>
 														<br><br>
-														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
 														</a>
-														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
 														</a>
-														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
 														</a>
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
 														?>
-															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-															   ?></a>
-															<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
-															   ?></a>
+															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+																?></a>
+															<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
+																?></a>
 															<br><br>
-															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
 															</a>
-															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
 															</a>
-															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
 															</a>
 														<?php
 													}
@@ -496,40 +506,50 @@ require_once('inc/connoracle.php');
 
 													<?php if ($row['HANDOVER_STATUS'] == 'YES' && $row['REISSES_STATUS'] == 'YES') {
 														?>
-														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-														   ?></a>
-														<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
-														   ?></a>
+														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+															?></a>
+														<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
+															?></a>
 														<br><br>
-														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
 														</a>
-														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
 														</a>
-														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"><?php
-														   echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
 														</a>
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
 														?>
-															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-															   ?></a>
-															<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
-															   ?></a>
+															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+																?></a>
+															<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
+																?></a>
 															<br><br>
-															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
 															</a>
-															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
 															</a>
-															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"><?php
-															   echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
 															</a>
 														<?php
 													}
