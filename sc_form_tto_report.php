@@ -280,13 +280,12 @@
 			</tr>
 			<tr>
 				<td style="width:7%;" class="field-label">ঠিকানা:</td>
-				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
-					<?php echo substr($V_CURRENT_PARTY_ADDRS, 0, 87) ?>
+				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">					<?php echo ucwords(strtolower(substr($V_CURRENT_PARTY_ADDRS, 0, 87))) ?>
 				</td>
 			</tr>
 			<tr>
 				<td style="width: 96%;margin-left: 2%;font-family: arial,serif;margin-top:0% !important" class="field-dots">
-					<?php echo substr($V_CURRENT_PARTY_ADDRS, 87, length: 170) ?>
+					<?php echo ucwords(strtolower(substr($V_CURRENT_PARTY_ADDRS,  87, 170))) ?>
 				</td>
 			</tr>
 			<tr>
