@@ -1,35 +1,99 @@
-<?php 
-	session_start();
-	if($_SESSION['user_role_id']!= 5 && $_SESSION['user_role_id']!= 12)
-	{
-		header('location:index.php?lmsg=true');
-		exit;
-	}
-	
-	require_once('inc/config.php');
-	require_once('layouts/header.php'); 
-	require_once('layouts/left_sidebar.php'); 
-	require_once('inc/connoracle.php');
-	$sc_id=$_REQUEST['sc_id'];
-	$is_found=0;
-?>
+<!DOCTYPE html>
+<html lang="bn">
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	
-  <div class="content-wrapper">
-    <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="">বিক্রি রশিদ</a>
-        </li>
-      </ol>
-	   
-	  <div class="container-fluid">
-			<div class="row">
-				
-            <?php
-			     $strSQL  = oci_parse($objConnect, "SELECT 
+<head>
+	<meta charset="UTF-8">
+	<title>ফরম-২২ </title>
+	<link href="https://fonts.googleapis.com/css2?family=SutonnyMJ&display=swap" rel="stylesheet">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<style>
+		body {
+			font-family: 'SutonnyMJ', sans-serif;
+			padding: 5%;
+			table-layout: auto;
+			line-height: normal;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 16px;
+			background-color: transparent;
+			/* padding: 5% !important; */
+		}
+
+		.footer {
+			width: 100%;
+			font-size: 14px;
+		}
+
+		td,
+		th {
+			padding: 6px;
+			vertical-align: top;
+			border: none;
+		}
+
+		tr,
+		td {
+			padding-bottom: 1px;
+		}
+
+		.form-title {
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.form-subtitle {
+			font-size: 14px;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.field-label {
+			display: inline-block;
+			vertical-align: top;
+		}
+
+		.field-dots {
+			display: inline-block;
+			width: calc(100% - 220px);
+			border-bottom: 1px dotted #000;
+			margin-top: 3%;
+		}
+
+		.photo-box {
+			border: 1px solid black;
+			padding: 10px;
+			text-align: center;
+			height: 60px;
+		}
+
+		@media print {
+			.printableArea {
+				display: none !important;
+			}
+
+			table {
+				font-size: 14px;
+			}
+
+			footer {
+				font-size: 14px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<?php
+	require_once('inc/connoracle.php');
+	$sc_id = $_REQUEST['sc_id'];
+	$is_found = 0;
+	$strSQL = oci_parse($objConnect, "SELECT 
 									   ID, 
 									   REF_CODE, 
 									   CURRENT_PARTY_NAME, 
@@ -78,215 +142,194 @@
 									where ID='$sc_id'
 									and CCD_APPROVAL_STATUS=1 
 									and FILE_CLEAR_STATUS=1");
-                 oci_execute($strSQL);	
-                 while($row=oci_fetch_assoc($strSQL)){	
-                        $is_found=1;				 
-					    $V_REF_CODE=$row['REF_CODE']; 
-						$V_CURRENT_PARTY_NAME=$row['CURRENT_PARTY_NAME']; 
-						$V_CURRENT_PARTY_MOBILE=$row['CURRENT_PARTY_MOBILE'];  
-						$V_CURRENT_PARTY_ADDRS=$row['CURRENT_PARTY_ADDRS'];  
-						$V_MODEL_NAME=$row['MODEL_NAME'];  
-						$V_INSTALLMENT_RECEIVED=$row['INSTALLMENT_RECEIVED'];  
-						$V_SALES_AMOUNT=$row['SALES_AMOUNT']; 
-						$V_DP=$row['DP'];  
-						$V_FIRST_PARTY_NAME=$row['FIRST_PARTY_NAME'];  
-						$V_FIRST_PARTY_DP=$row['FIRST_PARTY_DP'];  
-						$V_FRIST_PARTY_INSTALLMENT_REC=$row['FRIST_PARTY_INSTALLMENT_REC'];  
-						$V_RESOLED_DP=$row['RESOLED_DP'];  
-						$V_RESOLED_RECEIVED=$row['RESOLED_RECEIVED'];  
-						$V_RECEIVABLE=$row['RECEIVABLE'];  
-						$V_DISCOUNT=$row['DISCOUNT'];  
-						$V_RECEIVED=$row['RECEIVED'];  
-						$V_CLOSING_DATE=$row['CLOSING_DATE'];  
-						$V_RESALE_APPROVAL_DATE=$row['RESALE_APPROVAL_DATE'];  
-						$V_REQUEST_DATE=$row['REQUEST_DATE'];  
-						$V_REQUEST_BY=$row['REQUEST_BY'];  
-						$V_REQUESTER_NAME=$row['REQUESTER_NAME']; 
-						$V_REQUESTER_MOBILE=$row['REQUESTER_MOBILE'];  
-						$V_LEASE_APPROVAL_STATUS=$row['LEASE_APPROVAL_STATUS'];  
-						$V_LEASE_APPROVAL_DATE=$row['LEASE_APPROVAL_DATE'];  
-						$V_LEASE_APPROVAL_BY=$row['LEASE_APPROVAL_BY'];  
-						$V_ACC_APPROVAL_DATE=$row['ACC_APPROVAL_DATE'];  
-						$V_ACC_APPROVAL_BY=$row['ACC_APPROVAL_BY']; 
-						$V_ACC_APPROVAL_STATUS=$row['ACC_APPROVAL_STATUS'];  
-						$V_CCD_APPROVAL_DATE=$row['CCD_APPROVAL_DATE'];  
-						$V_CCD_APPROVAL_BY=$row['CCD_APPROVAL_BY'];  
-						$V_CCD_APPROVAL_STATUS=$row['CCD_APPROVAL_STATUS'];  
-						$V_FILE_CLEAR_STATUS=$row['FILE_CLEAR_STATUS']; 
-						$V_CLOSING_FEE=$row['CLOSING_FEE']; 
-						$V_BRTA_LOCATION=$row['BRTA_LOCATION']; 
-						$V_RESPONSIBLE_PERSON=$row['RESPONSIBLE_PERSON']; 
-						$V_RESPONSIBLE_DESIGNATION=$row['RESPONSIBLE_DESIGNATION']; 
-						$V_CUSTOMER_SO=$row['CUSTOMER_SO']; 
-						$V_BANK_ID=$row['BANK_ID']; 
-						$V_ENG_NO=$row['ENG_NO']; 
-						$V_CHASSIS_NO=$row['CHASSIS_NO']; 
-						$V_REG_NO=$row['REG_NO']; 
-						$V_SYSDATE=$row['CURRENT_DATA_TIME']; 
-						$V_BANK_NAME=$row['BANK_NAME']; 
-						$V_BANK_ADDRESS=$row['BANK_ADDRESS']; 
-						$V_FATHER_OR_HUSBAND_NAME=$row['FATHER_OR_HUSBAND_NAME']; 
-							}
-                           ?>
-						   
-					<script type="text/javascript">	
-							function getPDF(){
+	oci_execute($strSQL);
+	while ($row = oci_fetch_assoc($strSQL)) {
+		$is_found = 1;
+		$V_REF_CODE = $row['REF_CODE'];
+		$V_CURRENT_PARTY_NAME = $row['CURRENT_PARTY_NAME'];
+		$V_CURRENT_PARTY_MOBILE = $row['CURRENT_PARTY_MOBILE'];
+		$V_CURRENT_PARTY_ADDRS = $row['CURRENT_PARTY_ADDRS'];
+		$V_MODEL_NAME = $row['MODEL_NAME'];
+		$V_INSTALLMENT_RECEIVED = $row['INSTALLMENT_RECEIVED'];
+		$V_SALES_AMOUNT = $row['SALES_AMOUNT'];
+		$V_DP = $row['DP'];
+		$V_FIRST_PARTY_NAME = $row['FIRST_PARTY_NAME'];
+		$V_FIRST_PARTY_DP = $row['FIRST_PARTY_DP'];
+		$V_FRIST_PARTY_INSTALLMENT_REC = $row['FRIST_PARTY_INSTALLMENT_REC'];
+		$V_RESOLED_DP = $row['RESOLED_DP'];
+		$V_RESOLED_RECEIVED = $row['RESOLED_RECEIVED'];
+		$V_RECEIVABLE = $row['RECEIVABLE'];
+		$V_DISCOUNT = $row['DISCOUNT'];
+		$V_RECEIVED = $row['RECEIVED'];
+		$V_CLOSING_DATE = $row['CLOSING_DATE'];
+		$V_RESALE_APPROVAL_DATE = $row['RESALE_APPROVAL_DATE'];
+		$V_REQUEST_DATE = $row['REQUEST_DATE'];
+		$V_REQUEST_BY = $row['REQUEST_BY'];
+		$V_REQUESTER_NAME = $row['REQUESTER_NAME'];
+		$V_REQUESTER_MOBILE = $row['REQUESTER_MOBILE'];
+		$V_LEASE_APPROVAL_STATUS = $row['LEASE_APPROVAL_STATUS'];
+		$V_LEASE_APPROVAL_DATE = $row['LEASE_APPROVAL_DATE'];
+		$V_LEASE_APPROVAL_BY = $row['LEASE_APPROVAL_BY'];
+		$V_ACC_APPROVAL_DATE = $row['ACC_APPROVAL_DATE'];
+		$V_ACC_APPROVAL_BY = $row['ACC_APPROVAL_BY'];
+		$V_ACC_APPROVAL_STATUS = $row['ACC_APPROVAL_STATUS'];
+		$V_CCD_APPROVAL_DATE = $row['CCD_APPROVAL_DATE'];
+		$V_CCD_APPROVAL_BY = $row['CCD_APPROVAL_BY'];
+		$V_CCD_APPROVAL_STATUS = $row['CCD_APPROVAL_STATUS'];
+		$V_FILE_CLEAR_STATUS = $row['FILE_CLEAR_STATUS'];
+		$V_CLOSING_FEE = $row['CLOSING_FEE'];
+		$V_BRTA_LOCATION = $row['BRTA_LOCATION'];
+		$V_RESPONSIBLE_PERSON = $row['RESPONSIBLE_PERSON'];
+		$V_RESPONSIBLE_DESIGNATION = $row['RESPONSIBLE_DESIGNATION'];
+		$V_CUSTOMER_SO = $row['CUSTOMER_SO'];
+		$V_BANK_ID = $row['BANK_ID'];
+		$V_ENG_NO = $row['ENG_NO'];
+		$V_CHASSIS_NO = $row['CHASSIS_NO'];
+		$V_REG_NO = $row['REG_NO'];
+		$V_SYSDATE = $row['CURRENT_DATA_TIME'];
+		$V_BANK_NAME = $row['BANK_NAME'];
+		$V_BANK_ADDRESS = $row['BANK_ADDRESS'];
+		$V_FATHER_OR_HUSBAND_NAME = $row['FATHER_OR_HUSBAND_NAME'];
+	}
+	?>
+	<div style="display:block;text-align:end">
+		<button type="button" class="printableArea" onclick="printDiv('printableArea')">Print ফরম-২২ File</button>
+	</div>
+	<div id="printableArea">
+		<div style="margin-bottom: 5%;">
+			<div class="form-title">ফরম-২২ </div>
+			<div class="form-subtitle">বিক্রয় রসিদ <br>[বিধি ৪১(১)(ক) দ্রষ্টব্য]
+			</div>
+		</div>
 
-						var HTML_Width = $(".canvas_div_pdf").width();
-						var HTML_Height = $(".canvas_div_pdf").height();
-						var top_left_margin = 15;
-						var PDF_Width = HTML_Width+(top_left_margin*2);
-						var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
-						var canvas_image_width = HTML_Width;
-						var canvas_image_height = HTML_Height;
-						
-						var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
-						
+		<table class="table">
+			<tr>
+				<td style="width:13%;" class="field-label">আমি/আমরা:</td>
+				<td style="width:83%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					RANGS MOTORS LTD.
+				</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 23%;">জাতীয় পরিচয়পত্র নম্বর:</td>
+				<td class="field-dots" style="width: 29%;"></td>
+				<td class="field-label" style="width: 15%;">টিআইএন নম্বর:</td>
+				<td class="field-dots" style="width: 25%;"></td>
+			</tr>
+			<tr>
+				<td style="width:5%;" class="field-label">মাতা:</td>
+				<td style="width: 91%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width:11%;" class="field-label">পিতা/স্বামী:</td>
+				<td style="width: 85%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width:7%;" class="field-label">ঠিকানা:</td>
+				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					117/A,(LEVEL-4),OLD
+					AIRPORT ROAD,BIJOY
+					SHARANI,TEJGAON,DHAKA. </td>
+			</tr>
+			<tr>
+				<td style="width: 96%;margin-left: 2%;" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 96%;margin-left: 2%;" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td>এতদ্বারা জানাইতেছি যে,আমরা / আমাদের মোটরযান যাহার:
+				</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 18%;">রেজিস্ট্রেশন নম্বর:</td>
+				<td class="field-dots" style="width: 38%;"></td>
+				<td class="field-label" style="width: 5%;">ধরন:</td>
+				<td class="field-dots" style="width: 31%;"></td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 12%;">চেসিস নম্বর:</td>
+				<td class="field-dots" style="width: 34%;"></td>
+				<td class="field-label" style="width: 12%;">
+					ইঞ্জিন নম্বর:</td>
+				<td class="field-dots" style="width: 34%;"></td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 12%;">প্রস্তুতকারক:</td>
+				<td class="field-dots" style="width: 38%;"></td>
+				<td class="field-label" style="width: 10%;">প্রস্তুতকাল:</td>
+				<td class="field-dots" style="width: 32%;"></td>
+			</tr>
+			<tr>
+				<td style="width:7%;" class="field-label">জনাব:</td>
+				<td style="width: 89%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width:11%;" class="field-label">পিতা/স্বামী:</td>
+				<td style="width: 85%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width:7%;" class="field-label">ঠিকানা:</td>
+				<td style="width: 89%;" colspan="4" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 96%;margin-left: 2%;" class="field-dots">
+				</td>
+			</tr>
+			<tr>
+				<td class="field-label" style="width: 10%;">এর নিকট </td>
+				<td class="field-dots" style="width: 86%;"></td>
+			</tr>
+			<tr>
+				<td class="field-dots" style="width: 32%;"></td>
+				<td class="field-label" style="width: 64%;">টাকা মূল্যে বিক্রয় করিলাম এবং নিম্নবর্ণিত স্বাক্ষীগণের
+					সম্মুখে সমুদয়</td>
+			</tr>
+			<tr>
+				<td style="width: 96%;" class="field-label">টাকা বুঝিয়া পাইলাম।</td>
+			</tr>
 
-						html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
-							canvas.getContext('2d');
-							
-							console.log(canvas.height+"  "+canvas.width);
-							
-							
-							var imgData = canvas.toDataURL("image/jpeg", 1.0);
-							var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-							pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-							
-							
-							for (var i = 1; i <= totalPDFPages; i++) { 
-								pdf.addPage(PDF_Width, PDF_Height);
-								pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-							}
-							
-							pdf.save("Minute Meeting.pdf");
-						});
-					};
-                     function printDiv(divName){
-							 var printContents = document.getElementById(divName).innerHTML;
-							 var originalContents = document.body.innerHTML;
-							 
-
-							 document.body.innerHTML = printContents;
-							 window.print();
-							 document.body.innerHTML = originalContents;
-						}					
-					</script>	   
-						   
-						   
-					<?php
-                if($is_found==1){
-				?> 	   
-					<button type="button" class="btn btn-success" onclick="getPDF();">Download PDF</button>
-						   &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-success" onclick="printDiv('printableArea')" value="Print" />
-						   <div class="col-lg-12 border border border-dark">
-								<div class="md-form mt-2">
-						
-								<div class="row canvas_div_pdf" id="printableArea">
-									<div class="col-lg-12">
-									   
-									    <br> <br><br>
-									    <div class="row mt-3 text-uppercase d-flex justify-content-center">
-											<h2><b>বিক্রি রশিদ</b></h2>
-									   </div>
-									   
-										
-										<br> 
-										<div class="row mt-2 d-flex justify-content-left">
-											আমি /আমরা -RANGS MOTORS LTD,পিতা - N/A
-									    </div>
-										<div class="row mt-2 d-flex justify-content-left">
-											বর্তমান ঠিকানা-117/A,(LEVEL-4),OLD AIRPORT ROAD,BIJOY SHARANI,TEJGAON,DHAKA.
-									    </div><br>
-										<div class="row mt-2 d-flex justify-content-left">
-											স্থায়ী ঠিকানা-117/A,(LEVEL-4),OLD AIRPORT ROAD,BIJOY SHARANI,TEJGAON,DHAKA.
-									    </div><br>
-										<div class="row mt-2 d-flex justify-content-left">
-										         আমার ব্যাবহৃত গাড়ী,
-									    </div>
-										<div class="row mt-2 d-flex justify-content-left">
-										      রেজিস্ট্রেশন নং -<?php echo ' '.$V_REG_NO;?></b>
-									    </div>
-										<div class="row mt-2 d-flex justify-content-left">
-										      ইঞ্জিন নং  -<?php echo ' '.$V_ENG_NO;?></b>
-									    </div>
-							           <div class="row mt-2 d-flex justify-content-left">
-										      চেসিস নং -<?php echo ' '.$V_CHASSIS_NO;?></b>
-									    </div>
-								
-								
-								   <div class="row mt-2 d-flex justify-content-left">
-									জনাব/জনাবা - <?php echo ''.$V_CURRENT_PARTY_NAME.' ';?> 
-									</div>
-									<div class="row mt-2 d-flex justify-content-left">
-									পিতা / স্বামী -  - <?php echo ''.$V_FATHER_OR_HUSBAND_NAME.' ';?> 
-									</div>
-									
-									<div class="row mt-2 d-flex justify-content-left">
-									ঠিকানা - <?php echo ''.$V_CURRENT_PARTY_ADDRS.' ';?> 
-									</div>
-								<br>
-                                <div class="row mt-2 d-flex justify-content-left">
-								স্থায়ী ঠিকানা --------------------------------------------------------------------------এর
-								</div>
-								<div class="row mt-2 d-flex justify-content-left">
-								নিকট নগত ---------------------- টাকা মাত্র উল্লেখিত সাক্ষীগণের সম্মুখে বুজিয়া পাইলাম। 
-								</div>
-                                <br><br>
-								<div class="row mt-2 d-flex justify-content-left">
-									<p>
-									<br>
-									&nbsp;&nbsp;&nbsp;&nbsp;সাক্ষী :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;স্বাক্ষর</p>
-								</div>
-								<div class="row mt-2 d-flex justify-content-left">
-									<p>
-									১)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;</p>
-									<p>
-									২)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;</p>
-									<p>
-									৩)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									&nbsp;&nbsp;</p>
-								</div>
-								
-								
-								
-								<br>  
-								</div>
-								
-								</div>
-								
-							
-				  </div>
-				 
+		</table>
+		<!--  -->
+		<div style="display:flex;justify-content:space-between;margin-top: 5%;">
+			<p>তারিখ: </p>
+			<p style="margin-right: 20%;">বিক্রেতার স্বাক্ষর</p>
+		</div>
+		<div class="footer" style="display: flex;justify-content: space-between;margin-top: 5%;justify-items: center;">
+			<div>
+				<strong><u>
+						<p>স্বাক্ষীর স্বাক্ষর, নাম, ঠিকানা ও মোবাইল নম্বর</p>
+					</u>
+				</strong>
+				<p>১ | </p>
+				<p>২ |</p>
+				<p>৩ | </p>
+			</div>
+			<div style="margin-right: 18%;margin-top: 10%;">
+				<div class="photo-box">
+					<p> রেভিনিউ স্ট্যাম্প </p>
 				</div>
-            <?php
-			}
-			?>
-		 </div>
-       </div>
-	   
-	   
-	   
-      <div style="height: 1000px;"></div>
-    </div>
-	
-<?php require_once('layouts/footer.php'); ?>	
+			</div>
+
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function printDiv(divName) {
+			var printContents = document.getElementById(divName).innerHTML;
+			var originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+		}
+	</script>
+
+</body>
+
+</html>
