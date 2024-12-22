@@ -256,15 +256,19 @@ require_once('inc/connoracle.php');
 														<br><br>
 														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
 														</a>
 														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
 														</a>
 														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
+														</a>
+														<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
 														</a>
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
@@ -280,15 +284,19 @@ require_once('inc/connoracle.php');
 															<br><br>
 															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+																echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
 															</a>
 															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+																echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
 															</a>
 															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+																echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
+															</a>
+															<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
 															</a>
 														<?php
 													}
@@ -517,15 +525,19 @@ require_once('inc/connoracle.php');
 														<br><br>
 														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
 														</a>
 														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
 														</a>
 														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
+														</a>
+														<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
 														</a>
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
@@ -541,15 +553,19 @@ require_once('inc/connoracle.php');
 															<br><br>
 															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Form-T.T.O">&nbsp;T.T.O&nbsp;</button>'; ?>
+																echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
 															</a>
 															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Form-T.O">&nbsp;T.O&nbsp;</button>'; ?>
+																echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
 															</a>
 															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Form-Sales Receive">&nbsp;S.R&nbsp;</button>'; ?>
+																echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
+															</a>
+															<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
 															</a>
 														<?php
 													}
