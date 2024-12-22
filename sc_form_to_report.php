@@ -296,15 +296,22 @@
 			</tr>
 			<tr>
 				<td style="width:7%;" class="field-label">ঠিকানা:</td>
-				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
-					<?php echo ucwords(strtolower(substr($V_BANK_ADDRESS, 0, 87))) ?>
+				<td style="width: 89%; font-family: arial, serif; <?php echo !empty(trim(substr($V_BANK_ADDRESS, 0, 87))) ? 'margin-top:0% !important;' : ''; ?>"
+					colspan="4" class="field-dots">
+					<?php
+					$address_part = trim(substr($V_BANK_ADDRESS, 0, 87));
+					echo !empty($address_part) ? ucwords(strtolower($address_part)) : 'No address provided.';
+					?>
 				</td>
 			</tr>
-			<tr>
-				<td style="width: 96%;margin-left: 2%;font-family: arial,serif;" class="field-dots">
-					<?php echo ucwords(strtolower(substr($V_BANK_ADDRESS, 87, 170))) ?>
-				</td>
-			</tr>
+
+			<td style="width: 96%; margin-left: 2%; font-family: arial, serif; <?php echo !empty(trim(substr($V_CURRENT_PARTY_ADDRS, 87, 170))) ? 'margin-top:0% !important;' : ''; ?>"
+				class="field-dots">
+				<?php
+				$address_part = trim(substr($V_CURRENT_PARTY_ADDRS, 87, 170));
+				echo !empty($address_part) ? ucwords(strtolower($address_part)) : '';
+				?>
+			</td>
 			<tr>
 				<td class="field-dots" style="width: 43%;"></td>
 				<td class="field-label">উপরে বর্ণিত মোটরযানটির মালিকানা আমার/আমাদের</td>

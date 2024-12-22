@@ -230,7 +230,8 @@
 			</tr>
 			<tr>
 				<td style="width:7%;" class="field-label">ঠিকানা:</td>
-				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">117/A,(LEVEL-4),OLD
+				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
+					117/A,(LEVEL-4),OLD
 					AIRPORT ROAD,BIJOY
 					SHARANI,TEJGAON,DHAKA. </td>
 			</tr>
@@ -244,17 +245,22 @@
 			</tr>
 			<tr>
 				<td class="field-label" style="width: 18%;">রেজিস্ট্রেশন নম্বর:</td>
-				<td class="field-dots" style="width: 38%;font-family: arial,serif;margin-top:0% !important"><?php echo $V_REG_NO; ?></td>
+				<td class="field-dots" style="width: 38%;font-family: arial,serif;margin-top:0% !important">
+					<?php echo $V_REG_NO; ?>
+				</td>
 				<td class="field-label" style="width: 5%;">ধরন:</td>
 				<td class="field-dots" style="width: 31%;"></td>
 			</tr>
 			<tr>
 				<td class="field-label" style="width: 12%;">চেসিস নম্বর:</td>
-				<td class="field-dots" style="width: 34%;font-family: arial,serif;margin-top:0% !important"><?php echo $V_CHASSIS_NO; ?>
+				<td class="field-dots" style="width: 34%;font-family: arial,serif;margin-top:0% !important">
+					<?php echo $V_CHASSIS_NO; ?>
 				</td>
 				<td class="field-label" style="width: 12%;">
 					ইঞ্জিন নম্বর:</td>
-				<td class="field-dots" style="width: 34%;font-family: arial,serif;margin-top:0% !important"><?php echo $V_ENG_NO; ?></td>
+				<td class="field-dots" style="width: 34%;font-family: arial,serif;margin-top:0% !important">
+					<?php echo $V_ENG_NO; ?>
+				</td>
 			</tr>
 			<tr>
 				<td class="field-label" style="width: 12%;">প্রস্তুতকারক:</td>
@@ -268,10 +274,15 @@
 			</tr>
 			<tr>
 				<td style="width:7%;" class="field-label">জনাব:</td>
-				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
-					<?php echo $V_CURRENT_PARTY_NAME; ?>
+				<td style="width: 89%; font-family: arial, serif; <?php echo !empty(trim($V_CURRENT_PARTY_NAME)) ? 'margin-top:0% !important;' : ''; ?>"
+					colspan="4" class="field-dots">
+					<?php
+					$party_name = trim($V_CURRENT_PARTY_NAME);
+					echo !empty($party_name) ? htmlspecialchars($party_name) : '';
+					?>
 				</td>
 			</tr>
+
 			<tr>
 				<td style="width:11%;" class="field-label">পিতা/স্বামী:</td>
 				<td style="width: 85%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">
@@ -280,13 +291,24 @@
 			</tr>
 			<tr>
 				<td style="width:7%;" class="field-label">ঠিকানা:</td>
-				<td style="width: 89%;font-family: arial,serif;margin-top:0% !important" colspan="4" class="field-dots">					<?php echo ucwords(strtolower(substr($V_CURRENT_PARTY_ADDRS, 0, 87))) ?>
+				<td style="width: 89%; font-family: arial, serif; <?php echo !empty(trim(substr($V_CURRENT_PARTY_ADDRS, 0, 87))) ? 'margin-top:0% !important;' : ''; ?>"
+					colspan="4" class="field-dots">
+					<?php
+					$address_part = trim(substr($V_CURRENT_PARTY_ADDRS, 0, 87));
+					echo !empty($address_part) ? ucwords(strtolower($address_part)) : 'No address provided.';
+					?>
 				</td>
 			</tr>
+
 			<tr>
-				<td style="width: 96%;margin-left: 2%;font-family: arial,serif;margin-top:0% !important" class="field-dots">
-					<?php echo ucwords(strtolower(substr($V_CURRENT_PARTY_ADDRS,  87, 170))) ?>
+				<td style="width: 96%; margin-left: 2%; font-family: arial, serif; <?php echo !empty(trim(substr($V_CURRENT_PARTY_ADDRS, 87, 170))) ? 'margin-top:0% !important;' : ''; ?>"
+					class="field-dots">
+					<?php
+					$address_part = trim(substr($V_CURRENT_PARTY_ADDRS, 87, 170));
+					echo !empty($address_part) ? ucwords(strtolower($address_part)) : '';
+					?>
 				</td>
+
 			</tr>
 			<tr>
 				<td style="width:20%;" class="field-label">মোটরযানটি জনাব:</td>
