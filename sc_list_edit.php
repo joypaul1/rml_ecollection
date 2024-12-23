@@ -59,7 +59,7 @@ $sc_id = $_REQUEST['sc_id'];
 								LEASE_APPROVAL_BY, 
 								ACC_APPROVAL_DATE, 
 								ACC_APPROVAL_BY, 
-								ACC_APPROVAL_STATUS, 
+								ACC_APPROVAL_STATUS,  
 								CCD_APPROVAL_DATE, 
 								CCD_APPROVAL_BY, 
 								CCD_APPROVAL_STATUS, 
