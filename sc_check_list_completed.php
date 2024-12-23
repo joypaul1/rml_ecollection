@@ -264,7 +264,7 @@ require_once('inc/connoracle.php');
 														</a>
 														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
+															echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22< /button>'; ?>
 														</a>
 														<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
