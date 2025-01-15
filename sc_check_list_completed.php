@@ -128,8 +128,8 @@ require_once('inc/connoracle.php');
 																	   FILE_CLEAR_DATE,
 																	   FILE_CLEAR_BY,SALE_TYPE,
 																	   COLL_HANDOVER_STATUS(ID) AS HANDOVER_STATUS,
-                                                                       COLL_REISSUES_STATUS(REF_CODE) AS REISSES_STATUS 																	   
-																	FROM RML_COLL_SC_CCDS
+                                                                       COLL_REISSUES_STATUS(REF_CODE) AS REISSES_STATUS
+																	FROM RML_COLL_SC_CCD
 																WHERE ('$reference_code' IS NULL OR REF_CODE='$reference_code'  OR CHASSIS_NO ='$reference_code')
 																AND FILE_CLEAR_STATUS =1
 																AND ('$sales_type' IS NULL OR SALE_TYPE='$sales_type')");
@@ -265,6 +265,11 @@ require_once('inc/connoracle.php');
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
 														</a>
+														<br>
+														<a href="authorization_letter.php"
+															target="_blank"><?php
+															echo '<button class="btn btn-info btn-sm" title="Authorization Letter">Authorization Letter </button>'; ?>
+														</a>
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
 														?>
@@ -293,6 +298,11 @@ require_once('inc/connoracle.php');
 															<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
+															</a>
+															<br>
+															<a href="authorization_letter.php"
+																target="_blank"><?php
+																echo '<button class="btn btn-info btn-sm" title="Authorization Letter">Authorization Letter </button>'; ?>
 															</a>
 														<?php
 													}
@@ -536,6 +546,11 @@ require_once('inc/connoracle.php');
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
 														</a>
+														<br>
+														<a href="authorization_letter.php"
+															target="_blank"><?php
+															echo '<button class="btn btn-info btn-sm" title="Authorization Letter">Authorization Letter </button>'; ?>
+														</a>
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
 														?>
@@ -564,6 +579,11 @@ require_once('inc/connoracle.php');
 															<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
+															</a>
+															<br>
+															<a href="authorization_letter.php"
+																target="_blank"><?php
+																echo '<button class="btn btn-info btn-sm" title="Authorization Letter">Authorization Letter </button>'; ?>
 															</a>
 														<?php
 													}
