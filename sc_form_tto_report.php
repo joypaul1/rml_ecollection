@@ -53,6 +53,14 @@
 			font-weight: bold;
 
 		}
+		.printableArea{
+			color: white !important;
+            border: 1px solid #000;
+			background-color: green;
+            padding:1%;
+            font-size: 14px;
+			cursor :pointer !important
+		}
 
 		.field-label {
 			display: inline-block;

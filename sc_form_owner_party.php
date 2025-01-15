@@ -51,6 +51,15 @@
             width: 50%;
         }
 
+        .printableArea {
+            color: white !important;
+            border: 1px solid #000;
+            background-color: green;
+            padding: 1%;
+            font-size: 14px;
+            cursor: pointer !important
+        }
+
         .container {
             display: flex;
             justify-content: center;

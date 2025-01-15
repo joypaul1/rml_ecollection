@@ -24,6 +24,15 @@
 			/* padding: 5% !important; */
 		}
 
+		.printableArea {
+			color: white !important;
+			border: 1px solid #000;
+			background-color: green;
+			padding: 1%;
+			font-size: 14px;
+			cursor: pointer !important
+		}
+
 		.footer {
 			width: 100%;
 			font-size: 14px;
