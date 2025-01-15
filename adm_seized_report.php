@@ -139,7 +139,8 @@ require_once('inc/connoracle.php');
 									if (isset($_POST['emp_zone'])) {
 
 										$strSQL = oci_parse(
-											$objConnect,"SELECT B.RML_ID,
+											$objConnect,
+											"SELECT B.RML_ID,
 												A.RENT_DRIVER_NAME,
 												A.RENT_DRIVER_MOBILE,
 												B.EMP_NAME,

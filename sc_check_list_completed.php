@@ -129,7 +129,7 @@ require_once('inc/connoracle.php');
 																	   FILE_CLEAR_BY,SALE_TYPE,
 																	   COLL_HANDOVER_STATUS(ID) AS HANDOVER_STATUS,
                                                                        COLL_REISSUES_STATUS(REF_CODE) AS REISSES_STATUS 																	   
-																	FROM RML_COLL_SC_CCD
+																	FROM RML_COLL_SC_CCDS
 																WHERE ('$reference_code' IS NULL OR REF_CODE='$reference_code'  OR CHASSIS_NO ='$reference_code')
 																AND FILE_CLEAR_STATUS =1
 																AND ('$sales_type' IS NULL OR SALE_TYPE='$sales_type')");
@@ -219,8 +219,6 @@ require_once('inc/connoracle.php');
 														echo $row['FILE_CLEAR_DATE'];
 														echo '<br>';
 														echo $row['FILE_CLEAR_BY'];
-													} else {
-
 													}
 													?>
 												</td>
@@ -229,7 +227,6 @@ require_once('inc/connoracle.php');
 													echo 'Handover Status : ' . $row['HANDOVER_STATUS'];
 													echo '<br>';
 													echo 'Reissue Status : ' . $row['REISSES_STATUS'];
-
 													?>
 												</td>
 												<td align="center">
@@ -240,32 +237,30 @@ require_once('inc/connoracle.php');
 													   echo '<button class="btn btn-danger btn-sm">Update Info</button>'; ?>
 													</a>
 												</td>
-
 												<td align="center">
-
 													<?php if ($row['HANDOVER_STATUS'] == 'YES' && $row['REISSES_STATUS'] == 'YES') {
 														?>
-														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
-															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-															?></a>
 														<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
+															?></a>
+														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
 															?></a>
 														<br><br>
 														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
-														</a>
+														</a><br>
 														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
-														</a>
+														</a><br>
 														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22< /button>'; ?>
-														</a>
+														</a><br>
 														<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
@@ -273,27 +268,28 @@ require_once('inc/connoracle.php');
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
 														?>
-															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
-																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-																?></a>
 															<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
 																?></a>
+															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+																?></a>
+
 															<br><br>
 															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
-															</a>
+															</a><br>
 															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
-															</a>
+															</a><br>
 															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
-															</a>
+															</a><br>
 															<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
@@ -514,27 +510,28 @@ require_once('inc/connoracle.php');
 
 													<?php if ($row['HANDOVER_STATUS'] == 'YES' && $row['REISSES_STATUS'] == 'YES') {
 														?>
-														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
-															target="_blank"><?php
-															echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-															?></a>
 														<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
 															?></a>
+														<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+															target="_blank"><?php
+															echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+															?></a>
+
 														<br><br>
 														<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
-														</a>
+														</a><br>
 														<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
-														</a>
+														</a><br>
 														<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
-														</a>
+														</a><br>
 														<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 															target="_blank"><?php
 															echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>
@@ -542,27 +539,28 @@ require_once('inc/connoracle.php');
 														<?php
 													} else if ($row['HANDOVER_STATUS'] == 'NO') {
 														?>
-															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
-																target="_blank"><?php
-																echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
-																?></a>
 															<a href="sc_ownership_transfer_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Ownership Transfer">&nbsp;O.T&nbsp;</button>';
 																?></a>
+															<a href="sc_global_report.php?sc_id=<?php echo $row['ID'] ?>"
+																target="_blank"><?php
+																echo '<button class="btn btn-success btn-sm" title="Minutes of Meeting">&nbsp;M.M &nbsp;</button>';
+																?></a>
+
 															<br><br>
 															<a href="sc_form_tto_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Form-20">Form-20</button>'; ?>
-															</a>
+															</a><br>
 															<a href="sc_form_to_report.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Form-21">Form-21</button>'; ?>
-															</a>
+															</a><br>
 															<a href="sc_form_sales_received.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Form-22">Form-22</button>'; ?>
-															</a>
+															</a><br>
 															<a href="sc_form_owner_party.php?sc_id=<?php echo $row['ID'] ?>"
 																target="_blank"><?php
 																echo '<button class="btn btn-success btn-sm" title="Ownership Info.">Ownership Info. </button>'; ?>

@@ -71,6 +71,7 @@
 								<tr>
 								  <th scope="col">Sl No</th>
 								  <th scope="col"><center>Ref-Code</center></th>
+								  <th scope="col"><center>Customer Name</center></th>
 								  <th scope="col"><center>Bank Name</center></th>
 								  <th scope="col"><center>Registration No</center></th>
 								  <th scope="col"><center>Requsition Date</center></th>
@@ -95,6 +96,7 @@
 						    "SELECT A.REF_CODE, 
                                    (Select pp.BANK_NAME from RML_COLL_CCD_BANK pp Where pp.id=A.BANK_ID) BANK_NAME,
                                    a.REG_NO,
+                                   a.CURRENT_PARTY_NAME as CUSTOMER_NAME,
                                    A.BANK_REQUISITION_DATE,
 								   b.NOC_RECEIVED_ACC_DATE,
 								   B.NOC_RECEIVED_CCD_DATE
@@ -112,6 +114,7 @@
 						   <tr>
 							  <td><?php echo $number;?></td> 
 							  <td><?php echo $row['REF_CODE'];?></td>
+							  <td><?php echo $row['CUSTOMER_NAME'];?></td>
 							  <td><?php echo $row['BANK_NAME'];?></td>
 							  <td align="center"><?php echo $row['REG_NO'];?></td>
 							  <td align="center"><?php echo $row['BANK_REQUISITION_DATE'];?></td>
