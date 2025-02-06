@@ -24,6 +24,9 @@ if ($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3) {
 if ($_SESSION['ECOL_USER_INFO']['user_role_id'] == 4) {
     include_once('../_includes/zh_sidebar.php');
 }
+if ($_SESSION['ECOL_USER_INFO']['user_role_id'] == 5) {
+    include_once('../_includes/sc_sidebar.php');
+}
 
 // include_once('../_includes/sidebar.php');
 include_once('../_includes/top_header.php');
