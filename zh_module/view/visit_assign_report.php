@@ -162,7 +162,7 @@ if (isset($_POST['end_date'])) {
 											WHERE A.REF_CODE=B.REF_CODE
 											";
                              
-                               echo $query;
+                               
 							   
                                 $strSQL = @oci_parse($objConnect, $query);
 

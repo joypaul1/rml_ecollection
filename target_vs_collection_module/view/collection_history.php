@@ -172,6 +172,21 @@ include_once ('../../_config/sqlConfig.php');
                                     where a.RML_COLL_APPS_USER_ID=b.ID
                                     AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')
                                     and ('$emp_ah_id' is null OR b.RML_ID='$emp_ah_id')");
+
+                                    ECHO "SELECT B.RML_ID,
+                                        b.EMP_NAME,
+                                        a.REF_ID,
+                                        AMOUNT,
+                                        PAY_TYPE,
+                                        BANK,
+                                        MEMO_NO,
+                                        INSTALLMENT_AMOUNT,
+                                        a.CREATED_DATE,
+                                        TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
+                                        B.AREA_ZONE
+                                    from RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER b
+                                    where a.RML_COLL_APPS_USER_ID=b.ID
+                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')";
                                     @oci_execute($strSQL);
                                     $number = 0;
 

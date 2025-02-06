@@ -167,10 +167,10 @@ include_once ('../../_helper/2step_com_conn.php');
                                     <select required="" name="user_type" class="form-control">
                                         <?php
                                         $strSQLA = oci_parse($objConnect, "select distinct(USER_TYPE) AS USER_TYPE 
-																									from RML_COLL_APPS_USER 
-																									where ACCESS_APP='RML_COLL'
-																									and is_active=1
-																									 order by USER_TYPE");
+                                                                                from RML_COLL_APPS_USER 
+                                                                                where ACCESS_APP='RML_COLL'
+                                                                                and is_active=1
+                                                                                    order by USER_TYPE");
                                         oci_execute($strSQLA);
 
                                         while ($rowdata = oci_fetch_assoc($strSQLA)) {

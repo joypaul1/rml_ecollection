@@ -1,15 +1,15 @@
 <?php
-include_once ('../../_helper/2step_com_conn.php');
+include_once('../../_helper/2step_com_conn.php');
 
 
 $v_rml_id = $_REQUEST['login_id'];
 
 
-$v_brand         = $_REQUEST['brand'];
-$v_user_type     = $_REQUEST['user_type'];
-$v_zone          = $_REQUEST['zone'];
+$v_brand = $_REQUEST['brand'];
+$v_user_type = $_REQUEST['user_type'];
+$v_zone = $_REQUEST['zone'];
 $start_date = $_REQUEST['start_date'];
-$end_date   = $_REQUEST['end_date'];
+$end_date = $_REQUEST['end_date'];
 
 ?>
 
@@ -27,7 +27,8 @@ $end_date   = $_REQUEST['end_date'];
 				<div class="col-lg-12">
 					<div class="md-form">
 						<div class="resume-item d-flex flex-column flex-md-row">
-							<table class="table table-striped table-bordered table-sm" id="tbl" cellspacing="0" width="100%">
+							<table class="table table-striped table-bordered table-sm" id="tbl" cellspacing="0"
+								width="100%">
 								<thead class="bg-light">
 									<tr>
 										<th scope="col">Sl</th>
@@ -68,46 +69,46 @@ $end_date   = $_REQUEST['end_date'];
 									if ($v_zone == 'All') {
 										$strSQL = oci_parse(
 											$objConnect,
-											"select b.RML_ID,
-							           b.EMP_NAME,
-									   a.REF_ID,
-									   AMOUNT,
-									   a.PRODUCT_TYPE,
-									   PAY_TYPE,
-									   BANK,
-									   MEMO_NO,
-									   INSTALLMENT_AMOUNT,
-									   TO_CHAR(a.CREATED_DATE,'DD/MM/YYYY') CREATED_DATE,
-									   TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
-									   B.AREA_ZONE
-                                FROM RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER B 
-                                    where a.RML_COLL_APPS_USER_ID=b.ID
-									AND BRAND='$v_brand'
-									AND B.USER_TYPE='$v_user_type'
-                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')"
+											"SELECT b.RML_ID,
+												b.EMP_NAME,
+												a.REF_ID,
+												AMOUNT,
+												a.PRODUCT_TYPE,
+												PAY_TYPE,
+												BANK,
+												MEMO_NO,
+												INSTALLMENT_AMOUNT,
+												TO_CHAR(a.CREATED_DATE,'DD/MM/YYYY') CREATED_DATE,
+												TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
+												B.AREA_ZONE
+												FROM RML_COLL_MONEY_COLLECTION a, RML_COLL_APPS_USER B
+												where a.RML_COLL_APPS_USER_ID=b.ID
+												AND BRAND='$v_brand'
+												AND B.USER_TYPE='$v_user_type'
+												AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')"
 										);
-									}
-									else {
+									} else {
 										$strSQL = oci_parse(
 											$objConnect,
-											"select b.RML_ID,
-							           b.EMP_NAME,
-									   a.REF_ID,
-									   AMOUNT,
-									   a.PRODUCT_TYPE,
-									   PAY_TYPE,
-									   BANK,
-									   MEMO_NO,
-									   INSTALLMENT_AMOUNT,
-									   TO_CHAR(a.CREATED_DATE,'DD/MM/YYYY') CREATED_DATE,
-									   TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
-									   B.AREA_ZONE
-                                FROM RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER B 
-                                    where a.RML_COLL_APPS_USER_ID=b.ID
-									AND BRAND='$v_brand'
-									AND B.AREA_ZONE='$v_zone'
-									AND B.USER_TYPE='$v_user_type'
-                                    AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')"
+											"SELECT b.RML_ID,
+												b.EMP_NAME,
+												a.REF_ID,
+												AMOUNT,
+												a.PRODUCT_TYPE,
+												PAY_TYPE,
+												BANK,
+												MEMO_NO,
+												INSTALLMENT_AMOUNT,
+												TO_CHAR(a.CREATED_DATE,'DD/MM/YYYY') CREATED_DATE,
+												TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
+												B.AREA_ZONE
+												FROM RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER B
+												WHERE a.RML_COLL_APPS_USER_ID=b.ID
+												AND BRAND='$v_brand'
+												AND B.AREA_ZONE='$v_zone'
+												AND B.USER_TYPE='$v_user_type'
+                                    			AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy')
+												AND to_date('$end_date','dd/mm/yyyy')"
 										);
 									}
 
@@ -139,7 +140,8 @@ $end_date   = $_REQUEST['end_date'];
 							</table>
 						</div>
 						<div class="d-block text-end">
-							<a class="btn btn-sm btn-success" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+							<a class="btn btn-sm btn-success" onclick="exportF(this)">Export To Excel <i
+									class='bx bxs-cloud-download'></i></a>
 						</div>
 					</div>
 				</div>
@@ -163,6 +165,6 @@ $end_date   = $_REQUEST['end_date'];
 </script>
 <!--end page wrapper -->
 <?php
-include_once ('../../_includes/footer_info.php');
-include_once ('../../_includes/footer.php');
+include_once('../../_includes/footer_info.php');
+include_once('../../_includes/footer.php');
 ?>

@@ -147,10 +147,11 @@ if (isset($_POST['end_date'])) {
 														AND A.BRAND = 'MAHINDRA'
 														AND B.USER_TYPE='$v_user_type'
 													)MM_TOTAL
-												FROM COLL_EMP_ZONE_SETUP K
-												WHERE K.IS_ACTIVE = 1
-												AND K.USER_TYPE='$v_user_type'
-												ORDER BY K.ZONE_NAME";
+													FROM COLL_EMP_ZONE_SETUP K
+													WHERE K.IS_ACTIVE = 1
+													AND K.USER_TYPE='$v_user_type'
+													ORDER BY K.ZONE_NAME";
+													// ECHO $mainQuary;
 												$strSQL    = @oci_parse($objConnect, $mainQuary);
 
 												@oci_execute($strSQL);

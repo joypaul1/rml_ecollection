@@ -1,11 +1,11 @@
 <?php
 $dynamic_link_css[] = '../../assets/plugins/select2/css/select2.min.css';
 $dynamic_link_css[] = '../../assets/plugins/select2/css/select2-bootstrap4.css';
-$dynamic_link_js[]  = '../../assets/plugins/select2/js/select2.min.js';
+$dynamic_link_js[] = '../../assets/plugins/select2/js/select2.min.js';
 
-include_once ('../../_helper/2step_com_conn.php');
+include_once('../../_helper/2step_com_conn.php');
 
-$months      = [
+$months = [
     'January',
     'February',
     'March',
@@ -31,8 +31,8 @@ $currentYear = date('Y');
             <div class="card rounded-4">
                 <div class="card-body">
 
-                    <button class="accordion-button" style="color:#0dcaf0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button" style="color:#0dcaf0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         <strong><i class='bx bx-filter-alt'></i> Filter Data</strong>
                     </button>
                     <div class="accordion" id="accordionExample">
@@ -48,14 +48,15 @@ $currentYear = date('Y');
                                                 <select name="month_name" class="form-control single-select">
                                                     <option value="" hidden><--Select Month--></option>
                                                     <?php foreach ($months as $month) { ?>
-                                                        <option value="<?= $month ?>"><?= $month ?>     <?= $currentYear ?></option>
+                                                        <option value="<?= $month ?>"><?= $month ?>     <?= $currentYear ?>
+                                                        </option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
 
                                             <div class="col-sm-2">
-                                                <button class="form-control  btn btn-sm btn-gradient-primary mt-4" type="submit">Search Data <i
-                                                        class='bx bx-file-find'></i>
+                                                <button class="form-control  btn btn-sm btn-gradient-primary mt-4"
+                                                    type="submit">Search Data <i class='bx bx-file-find'></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -72,9 +73,9 @@ $currentYear = date('Y');
             <div class="card rounded-4">
                 <?php
 
-                $headerType   = 'List';
+                $headerType = 'List';
                 $leftSideName = 'Concern Visit Summary List';
-                include ('../../_includes/com_header.php');
+                include('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
                     <div class="table-responsive ">
@@ -111,9 +112,9 @@ $currentYear = date('Y');
                             <tbody>
 
                                 <?php
-
+                                // echo $_SESSION['ECOL_USER_INFO']['user_role_id'];
                                 $LOGIN_ID = $_SESSION['ECOL_USER_INFO']['emp_id'];
-                                $emp_id   = (int) (explode("RML-", $LOGIN_ID)[1]);
+                                $emp_id = (int) (explode("RML-", $LOGIN_ID)[1]);
 
                                 if (isset($_POST['month_name'])) {
                                     $month_name = $_REQUEST['month_name'];
@@ -166,26 +167,26 @@ $currentYear = date('Y');
                                     //     $end_date   = date("d/m/Y", strtotime('12/31/2023'));
                                     // }
                                     $months = [
-                                        'January'   => [ 'start' => '01/01', 'end' => '01/31' ],
-                                        'February'  => [ 'start' => '02/01', 'end' => date('Y') % 4 === 0 ? '02/29' : '02/28' ], // Leap year check
-                                        'March'     => [ 'start' => '03/01', 'end' => '03/31' ],
-                                        'April'     => [ 'start' => '04/01', 'end' => '04/30' ],
-                                        'May'       => [ 'start' => '05/01', 'end' => '05/31' ],
-                                        'June'      => [ 'start' => '06/01', 'end' => '06/30' ],
-                                        'July'      => [ 'start' => '07/01', 'end' => '07/31' ],
-                                        'August'    => [ 'start' => '08/01', 'end' => '08/31' ],
-                                        'September' => [ 'start' => '09/01', 'end' => '09/30' ],
-                                        'October'   => [ 'start' => '10/01', 'end' => '10/31' ],
-                                        'November'  => [ 'start' => '11/01', 'end' => '11/30' ],
-                                        'December'  => [ 'start' => '12/01', 'end' => '12/31' ]
+                                        'January' => ['start' => '01/01', 'end' => '01/31'],
+                                        'February' => ['start' => '02/01', 'end' => date('Y') % 4 === 0 ? '02/29' : '02/28'], // Leap year check
+                                        'March' => ['start' => '03/01', 'end' => '03/31'],
+                                        'April' => ['start' => '04/01', 'end' => '04/30'],
+                                        'May' => ['start' => '05/01', 'end' => '05/31'],
+                                        'June' => ['start' => '06/01', 'end' => '06/30'],
+                                        'July' => ['start' => '07/01', 'end' => '07/31'],
+                                        'August' => ['start' => '08/01', 'end' => '08/31'],
+                                        'September' => ['start' => '09/01', 'end' => '09/30'],
+                                        'October' => ['start' => '10/01', 'end' => '10/31'],
+                                        'November' => ['start' => '11/01', 'end' => '11/30'],
+                                        'December' => ['start' => '12/01', 'end' => '12/31']
                                     ];
                                     if (array_key_exists($month_name, $months)) {
-                                        $start_date    = date("d/m/Y", strtotime($months[$month_name]['start'] . "/$currentYear"));
+                                        $start_date = date("d/m/Y", strtotime($months[$month_name]['start'] . "/$currentYear"));
                                         $end_date = date("d/m/Y", strtotime($months[$month_name]['end'] . "/$currentYear"));
-                                    }
-                                    else {
+                                    } else {
                                         $start_date = $end_date = 'Invalid month';
                                     }
+
                                     if (($_SESSION['ECOL_USER_INFO']['user_role_id'] == 3)) {
                                         $strSQL = @oci_parse(
                                             $objConnect,
@@ -203,8 +204,7 @@ $currentYear = date('Y');
                                             AND B.ACCESS_APP='RML_COLL'
                                             AND B.AREA_ZONE IN (select ZONE_NAME from COLL_EMP_ZONE_SETUP where AREA_HEAD='$emp_id')"
                                         );
-                                    }
-                                    else {
+                                    } else {
                                         $strSQL = @oci_parse(
                                             $objConnect,
                                             "SELECT A.RML_ID,A.TARGET,A.CONCERN,
@@ -217,6 +217,15 @@ $currentYear = date('Y');
                                             AND TRUNC(END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
                                             AND B.ACCESS_APP='RML_COLL'"
                                         );
+                                        echo "SELECT A.RML_ID,A.TARGET,A.CONCERN,
+											VISIT_UNIT,COLL_VISIT_TOTAL(B.ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) TOTAL_VISITED,
+											COLL_VISIT_UNIQUE_TOTAL(B.ID,TO_DATE ('$start_date', 'DD/MM/YYYY'),TO_DATE ('$end_date', 'DD/MM/YYYY'))VISIT_UNIQUE_TOTAL,
+											COLL_SUMOF_COLLECTION(B.RML_ID,TO_DATE('$start_date','DD/MM/YYYY'),TO_DATE('$end_date','DD/MM/YYYY')) COLLECTION_AMNT
+                                            FROM MONTLY_COLLECTION A, RML_COLL_APPS_USER B
+                                            WHERE A.RML_ID=B.RML_ID
+                                            AND TRUNC(START_DATE)=TO_DATE('$start_date','DD/MM/YYYY')
+                                            AND TRUNC(END_DATE)=TO_DATE('$end_date','DD/MM/YYYY')
+                                            AND B.ACCESS_APP='RML_COLL'";
                                     }
                                     @oci_execute(@$strSQL);
                                     $number = 0;
@@ -234,8 +243,7 @@ $currentYear = date('Y');
                                                 <?php
                                                 if ($row['VISIT_UNIT'] != 0) {
                                                     echo round((($row['TOTAL_VISITED'] * 100) / $row['VISIT_UNIT']), 2);
-                                                }
-                                                else {
+                                                } else {
                                                     echo '0'; // Or any other appropriate message or handling
                                                 }
                                                 ?>
@@ -248,8 +256,7 @@ $currentYear = date('Y');
                                                 <?php
                                                 if ($row['TARGET'] != 0) {
                                                     echo round((($row['COLLECTION_AMNT'] * 100) / $row['TARGET']), 2);
-                                                }
-                                                else {
+                                                } else {
                                                     echo '0'; // Or any other appropriate message or handling
                                                 }
                                                 ?>
@@ -264,7 +271,8 @@ $currentYear = date('Y');
                         </table>
                     </div>
                     <div class="d-block text-end">
-                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel  <i class='bx bxs-cloud-download'></i></a>
+                        <a class="btn btn-sm  btn-gradient-info" onclick="exportF(this)">Export To Excel <i
+                                class='bx bxs-cloud-download'></i></a>
                     </div>
                 </div>
             </div>
@@ -274,8 +282,8 @@ $currentYear = date('Y');
 </div>
 <!--end page wrapper -->
 <?php
-include_once ('../../_includes/footer_info.php');
-include_once ('../../_includes/footer.php');
+include_once('../../_includes/footer_info.php');
+include_once('../../_includes/footer.php');
 ?>
 <script>
     function exportF(elem) {

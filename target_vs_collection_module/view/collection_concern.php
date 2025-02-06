@@ -139,8 +139,8 @@ include_once ('../../_config/sqlConfig.php');
                                 <?php
 
                                 @$start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
-                                @$end_date = date("d/m/Y", strtotime($_REQUEST['end_date']));
-                                @$emp_ah_id = $_REQUEST['emp_ah_id'];
+                                @$end_date   = date("d/m/Y", strtotime($_REQUEST['end_date']));
+                                @$emp_ah_id  = $_REQUEST['emp_ah_id'];
 
 
 
