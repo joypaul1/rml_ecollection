@@ -652,10 +652,6 @@ $ref_id = $_REQUEST['ref_id'];
 			@$deoprt_location_details = $_REQUEST['deoprt_location_details'];
 
 
-
-
-
-
 			if (
 				isset($_POST['table_id']) &&
 				isset($_POST['ref_code_id']) &&

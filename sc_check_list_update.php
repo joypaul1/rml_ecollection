@@ -247,13 +247,14 @@ $sc_id = $_REQUEST['sc_id'];
 												<label for="title">BRTA Location:</label>
 												<input type="text" class="form-control" name="brta_location"
 													value="<?php echo $row['BRTA_LOCATION']; ?>">
-											</div>
+											</div> 
 
 											<div class="col-sm-4 mb-1">
 												<label for="title">Select Responsible Concern:</label>
 												<select name="responsible_concern" class="form-control">
 													<option value="Md. Raihanul Islam">Md. Raihanul Islam</option>
-													<option value="Md. Iqbal Hossain">Md. Iqbal Hossain</option>
+													<option value="Md. Arifuzzaman">Md. Arifuzzaman</option>
+													<!-- <option value="Md. Iqbal Hossain">Md. Iqbal Hossain</option> -->
 													<option value="Shah Mohammad Rumman Bin Rouf">Shah Mohammad Rumman Bin
 														Rouf</option>
 													<option selected value="<?php echo $row['RESPONSIBLE_PERSON']; ?>">
