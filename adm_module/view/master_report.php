@@ -9,7 +9,7 @@ $dynamic_link_js[]  = '../../assets/plugins/datetimepicker/js/picker.date.js';
 $dynamic_link_js[]  = '../../assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js';
 $dynamic_link_js[]  = '../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js';
 
-include_once ('../../_helper/2step_com_conn.php');
+include_once('../../_helper/2step_com_conn.php');
 $v_start_date = date('01/m/Y');
 $v_end_date   = date('t/m/Y');
 if (isset($_POST['start_date'])) {
@@ -101,7 +101,7 @@ if (isset($_POST['end_date'])) {
 
 				$headerType   = 'List';
 				$leftSideName = 'Master Report';
-				include ('../../_includes/com_header.php');
+				include('../../_includes/com_header.php');
 				?>
 				<div class="card-body">
 					<?php
@@ -109,7 +109,7 @@ if (isset($_POST['end_date'])) {
 						$v_user_type  = trim($_REQUEST['user_type']);
 						$v_start_date = date("d/m/Y", strtotime($_REQUEST['start_date']));
 						$v_end_date   = date("d/m/Y", strtotime($_REQUEST['end_date']));
-						?>
+					?>
 						<div class="row mt-3">
 							<div class="col-sm-6 mt-3">
 								<div class="md-form">
@@ -137,7 +137,7 @@ if (isset($_POST['end_date'])) {
 											</thead>
 											<tbody>
 												<?php
-												$mainQuary = "SELECT K.ZONE_NAME,RML_COLL_SUMOF_TARGET(K.ZONE_HEAD,'$v_start_date','$v_end_date') TARTET_AMOUNT,
+												$mainQuary = "SELECT K.ZONE_NAME,RML_COLL_SUMOF_TARGET(K.ZONE_HEAD,'$v_start_date','$v_end_date') TARGET_AMOUNT,
 												(SELECT P.EMP_NAME FROM RML_COLL_APPS_USER P WHERE P.RML_ID = K.ZONE_HEAD)ZH_NAME,
 													(SELECT SUM (AMOUNT) TOTAL_AMOUNT
 														FROM RML_COLL_MONEY_COLLECTION A, RML_COLL_APPS_USER B
@@ -151,7 +151,7 @@ if (isset($_POST['end_date'])) {
 													WHERE K.IS_ACTIVE = 1
 													AND K.USER_TYPE='$v_user_type'
 													ORDER BY K.ZONE_NAME";
-													// ECHO $mainQuary;
+												// echo $mainQuary;
 												$strSQL    = @oci_parse($objConnect, $mainQuary);
 
 												@oci_execute($strSQL);
@@ -163,7 +163,7 @@ if (isset($_POST['end_date'])) {
 												while ($row = @oci_fetch_assoc($strSQL)) {
 													$number++;
 
-													?>
+												?>
 													<tr>
 														<td align="center">
 															<?php echo $number; ?>
@@ -182,11 +182,11 @@ if (isset($_POST['end_date'])) {
 															$MM_TOTAL = $MM_TOTAL + $row['MM_TOTAL']; ?>
 														</td>
 														<td align="right">
-															<?php echo number_format($row['TARTET_AMOUNT']);
-															$MM_TARGET_TOTAL = $MM_TARGET_TOTAL + $row['TARTET_AMOUNT']; ?>
+															<?php echo number_format($row['TARGET_AMOUNT']);
+															$MM_TARGET_TOTAL = $MM_TARGET_TOTAL + $row['TARGET_AMOUNT']; ?>
 														</td>
 													</tr>
-													<?php
+												<?php
 												}
 												?>
 												<tr class="p-3 mb-2 bg-success text-white">
@@ -241,57 +241,58 @@ if (isset($_POST['end_date'])) {
 											</thead>
 											<tbody>
 												<?php
+												$SQL = "SELECT 
+												K.ZONE_NAME,
+												(SELECT EMP_NAME from RML_COLL_APPS_USER WHERE RML_ID=K.ZONE_HEAD) ZH_NAME,
+												(
+												SELECT sum(AMOUNT) TOTAL_AMOUNT 
+													FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
+														WHERE A.RML_COLL_APPS_USER_ID=B.ID
+														AND B.AREA_ZONE=K.ZONE_NAME
+														AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') 
+																						and to_date('$v_end_date','dd/mm/yyyy')
+														AND A.BRAND='EICHER'
+														AND B.USER_TYPE='$v_user_type'
+												) EICHER_TOTAL,
+												(
+												SELECT sum(AMOUNT) TOTAL_AMOUNT 
+													FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
+														WHERE A.RML_COLL_APPS_USER_ID=B.ID
+														AND B.AREA_ZONE=K.ZONE_NAME
+														AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') 
+																						and to_date('$v_end_date','dd/mm/yyyy')
+														AND A.BRAND='EICHER'
+														AND B.USER_TYPE='$v_user_type'
+														AND PRODUCT_TYPE in ('Truck')
+												) TRUCK_TOTAL,
+												(
+												SELECT sum(AMOUNT) TOTAL_AMOUNT 
+													FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
+														WHERE A.RML_COLL_APPS_USER_ID=B.ID
+														AND B.AREA_ZONE=K.ZONE_NAME
+														AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') 
+																						and to_date('$v_end_date','dd/mm/yyyy')
+														AND A.BRAND='EICHER'
+														AND B.USER_TYPE='$v_user_type'
+														AND A.PRODUCT_TYPE in ('LCB','HCB','BUS')
+												) BUS_TOTAL,
+												(
+												SELECT sum(AMOUNT) TOTAL_AMOUNT 
+													FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
+														WHERE A.RML_COLL_APPS_USER_ID=B.ID
+														AND B.AREA_ZONE=K.ZONE_NAME
+														AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') and to_date('$v_end_date','dd/mm/yyyy')
+														AND A.BRAND='EICHER'
+														AND B.USER_TYPE='$v_user_type'
+														AND A.PRODUCT_TYPE in ('Others')
+												) OTHERS_TOTAL
+												FROM COLL_EMP_ZONE_SETUP K
+													WHERE K.IS_ACTIVE=1
+													AND K.USER_TYPE='$v_user_type'
+												ORDER BY K.ZONE_NAME";
 												$strSQL = oci_parse(
 													$objConnect,
-													"SELECT 
-								    K.ZONE_NAME,
-									(SELECT EMP_NAME from RML_COLL_APPS_USER WHERE RML_ID=K.ZONE_HEAD) ZH_NAME,
-									(
-									 SELECT sum(AMOUNT) TOTAL_AMOUNT 
-								        FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
-								             WHERE A.RML_COLL_APPS_USER_ID=B.ID
-								             AND B.AREA_ZONE=K.ZONE_NAME
-								             AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') 
-											                                  and to_date('$v_end_date','dd/mm/yyyy')
-								             AND A.BRAND='EICHER'
-								             AND B.USER_TYPE='$v_user_type'
-									) EICHER_TOTAL,
-									(
-									  SELECT sum(AMOUNT) TOTAL_AMOUNT 
-								        FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
-								             WHERE A.RML_COLL_APPS_USER_ID=B.ID
-								             AND B.AREA_ZONE=K.ZONE_NAME
-								             AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') 
-											                                   and to_date('$v_end_date','dd/mm/yyyy')
-								             AND A.BRAND='EICHER'
-											 AND B.USER_TYPE='$v_user_type'
-								             AND PRODUCT_TYPE in ('Truck')
-									   ) TRUCK_TOTAL,
-									(
-									  SELECT sum(AMOUNT) TOTAL_AMOUNT 
-								        FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
-								             WHERE A.RML_COLL_APPS_USER_ID=B.ID
-								             AND B.AREA_ZONE=K.ZONE_NAME
-								             AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') 
-											                                   and to_date('$v_end_date','dd/mm/yyyy')
-								             AND A.BRAND='EICHER'
-											 AND B.USER_TYPE='$v_user_type'
-								             AND A.PRODUCT_TYPE in ('LCB','HCB','BUS')
-									   ) BUS_TOTAL,
-									(
-									  SELECT sum(AMOUNT) TOTAL_AMOUNT 
-								        FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
-								             WHERE A.RML_COLL_APPS_USER_ID=B.ID
-								             AND B.AREA_ZONE=K.ZONE_NAME
-								             AND trunc(A.CREATED_DATE) between to_date('$v_start_date','dd/mm/yyyy') and to_date('$v_end_date','dd/mm/yyyy')
-								             AND A.BRAND='EICHER'
-											 AND B.USER_TYPE='$v_user_type'
-								             AND A.PRODUCT_TYPE in ('Others')
-									   ) OTHERS_TOTAL
-								    FROM COLL_EMP_ZONE_SETUP K
-								        WHERE K.IS_ACTIVE=1
-										AND K.USER_TYPE='$v_user_type'
-								    ORDER BY K.ZONE_NAME"
+													$SQL
 												);
 
 
@@ -305,7 +306,7 @@ if (isset($_POST['end_date'])) {
 												while ($row = oci_fetch_assoc($strSQL)) {
 													$number++;
 
-													?>
+												?>
 													<tr>
 														<td align="center">
 															<?php echo $number; ?>
@@ -336,7 +337,7 @@ if (isset($_POST['end_date'])) {
 															$OTHERS_TOTAL = $OTHERS_TOTAL + $row['OTHERS_TOTAL']; ?>
 														</td>
 													</tr>
-													<?php
+												<?php
 												}
 												?>
 												<tr class="p-3 mb-2 bg-success text-white">
@@ -367,8 +368,108 @@ if (isset($_POST['end_date'])) {
 									</div>
 								</div>
 							</div>
+							<div class="col-sm-6 mt-3">
+								<div class="md-form">
+									<div class="resume-item d-flex flex-column flex-md-row">
+										<table id="mainTable" class="small table-bordered">
+											<thead class="bg-light">
+												<tr style="width:100%" align="center">
+													<th class="table-primary" colspan="5">==DONGFENG==<br>Collection Summary</th>
+												</tr>
+												<tr style="width:100%" class="table-danger">
+													<th scope="col">
+														<center>SL</center>
+													</th>
+													<th scope="col">
+														<center>Zone</center>
+													</th>
+													<th scope="col">Zonal Head</th>
+													<th scope="col">
+														<center>Collection[MM]</center>
+													</th>
+													<th scope="col">
+														<center>Target(Current Month)</center>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+												$mainQuary = "SELECT K.ZONE_NAME,RML_COLL_SUMOF_TARGET(K.ZONE_HEAD,'$v_start_date','$v_end_date') TARGET_AMOUNT,
+												(SELECT P.EMP_NAME FROM RML_COLL_APPS_USER P WHERE P.RML_ID = K.ZONE_HEAD)ZH_NAME,
+													(SELECT SUM (AMOUNT) TOTAL_AMOUNT
+														FROM RML_COLL_MONEY_COLLECTION A, RML_COLL_APPS_USER B
+														WHERE  A.RML_COLL_APPS_USER_ID = B.ID
+														AND B.AREA_ZONE = K.ZONE_NAME
+														AND TRUNC (A.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')
+														AND A.BRAND = 'DONGFENG'
+														AND B.USER_TYPE='$v_user_type'
+													)MM_TOTAL
+													FROM COLL_EMP_ZONE_SETUP K
+													WHERE K.IS_ACTIVE = 1
+													AND K.USER_TYPE='$v_user_type'
+													ORDER BY K.ZONE_NAME";
+												// echo $mainQuary;
+												$strSQL    = @oci_parse($objConnect, $mainQuary);
+
+												@oci_execute($strSQL);
+												$number             = 0;
+												$MM_TOTAL           = 0;
+												$MM_TARGET_TOTAL    = 0;
+												$V_INTERESTED_BRAND = 'DONGFENG';
+
+												while ($row = @oci_fetch_assoc($strSQL)) {
+													$number++;
+
+												?>
+													<tr>
+														<td align="center">
+															<?php echo $number; ?>
+														</td>
+														<td align="center">
+															<a target="_blank"
+																href="collection_dtls.php?<?php echo '&start_date=' . $v_start_date . '&end_date=' . $v_end_date . '&brand=' . $V_INTERESTED_BRAND . '&user_type=' . $v_user_type . '&zone=' . $row['ZONE_NAME']; ?>">
+																<?php echo $row['ZONE_NAME']; ?>
+															</a>
+														</td>
+														<td>
+															<?php echo $row['ZH_NAME']; ?>
+														</td>
+														<td align="right">
+															<?php echo number_format($row['MM_TOTAL']);
+															$MM_TOTAL = $MM_TOTAL + $row['MM_TOTAL']; ?>
+														</td>
+														<td align="right">
+															<?php echo number_format($row['TARGET_AMOUNT']);
+															$MM_TARGET_TOTAL = $MM_TARGET_TOTAL + $row['TARGET_AMOUNT']; ?>
+														</td>
+													</tr>
+												<?php
+												}
+												?>
+												<tr class="p-3 mb-2 bg-success text-white">
+													<td align="center"></td>
+													<td align="center">
+														<a target="_blank"
+															href="collection_dtls.php?<?php echo '&start_date=' . $v_start_date . '&end_date=' . $v_end_date . '&brand=' . $V_INTERESTED_BRAND . '&user_type=' . $v_user_type . '&zone=All'; ?>">
+															<?php echo 'All'; ?>
+														</a>
+													</td>
+													<td align="center">Total=</td>
+													<td align="right">
+														<?php echo number_format($MM_TOTAL); ?>
+													</td>
+													<td align="right">
+														<?php echo number_format($MM_TARGET_TOTAL); ?>
+													</td>
+												</tr>
+											</tbody>
+
+										</table>
+									</div>
+								</div>
+							</div>
 						</div>
-						<?php
+					<?php
 					}
 					?>
 
@@ -380,8 +481,8 @@ if (isset($_POST['end_date'])) {
 </div>
 <!--end page wrapper -->
 <?php
-include_once ('../../_includes/footer_info.php');
-include_once ('../../_includes/footer.php');
+include_once('../../_includes/footer_info.php');
+include_once('../../_includes/footer.php');
 ?>
 <script>
 	//delete data processing
