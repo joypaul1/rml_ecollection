@@ -117,7 +117,7 @@ if (isset($_POST['end_date'])) {
 										<table id="mainTable" class="small table-bordered">
 											<thead class="bg-light">
 												<tr style="width:100%" align="center">
-													<th class="table-primary" colspan="5">==MAHINDRA==<br>Collection Summary</th>
+													<th class="table-primary" colspan="6">==MAHINDRA & DONGFENG==<br>Collection Summary</th>
 												</tr>
 												<tr style="width:100%" class="table-danger">
 													<th scope="col">
@@ -129,6 +129,9 @@ if (isset($_POST['end_date'])) {
 													<th scope="col">Zonal Head</th>
 													<th scope="col">
 														<center>Collection[MM]</center>
+													</th>
+													<th scope="col">
+														<center>Collection[DF]</center>
 													</th>
 													<th scope="col">
 														<center>Target(Current Month)</center>
@@ -146,7 +149,15 @@ if (isset($_POST['end_date'])) {
 														AND TRUNC (A.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')
 														AND A.BRAND = 'MAHINDRA'
 														AND B.USER_TYPE='$v_user_type'
-													)MM_TOTAL
+													)MM_TOTAL,
+													(SELECT SUM (AMOUNT) TOTAL_AMOUNT
+														FROM RML_COLL_MONEY_COLLECTION A, RML_COLL_APPS_USER B
+														WHERE  A.RML_COLL_APPS_USER_ID = B.ID
+														AND B.AREA_ZONE = K.ZONE_NAME
+														AND TRUNC (A.CREATED_DATE) BETWEEN TO_DATE('$v_start_date','dd/mm/yyyy') AND TO_DATE('$v_end_date','dd/mm/yyyy')
+														AND A.BRAND = 'DONGFENG'
+														AND B.USER_TYPE='$v_user_type'
+													)DONG_TOTAL
 													FROM COLL_EMP_ZONE_SETUP K
 													WHERE K.IS_ACTIVE = 1
 													AND K.USER_TYPE='$v_user_type'
@@ -157,6 +168,7 @@ if (isset($_POST['end_date'])) {
 												@oci_execute($strSQL);
 												$number             = 0;
 												$MM_TOTAL           = 0;
+												$DONG_TOTAL         = 0;
 												$MM_TARGET_TOTAL    = 0;
 												$V_INTERESTED_BRAND = 'MAHINDRA';
 
@@ -182,6 +194,10 @@ if (isset($_POST['end_date'])) {
 															$MM_TOTAL = $MM_TOTAL + $row['MM_TOTAL']; ?>
 														</td>
 														<td align="right">
+															<?php echo number_format($row['DONG_TOTAL']);
+															$DONG_TOTAL = $DONG_TOTAL + $row['DONG_TOTAL']; ?>
+														</td>
+														<td align="right">
 															<?php echo number_format($row['TARGET_AMOUNT']);
 															$MM_TARGET_TOTAL = $MM_TARGET_TOTAL + $row['TARGET_AMOUNT']; ?>
 														</td>
@@ -200,6 +216,9 @@ if (isset($_POST['end_date'])) {
 													<td align="center">Total=</td>
 													<td align="right">
 														<?php echo number_format($MM_TOTAL); ?>
+													</td>
+													<td align="right">
+														<?php echo number_format($DONG_TOTAL); ?>
 													</td>
 													<td align="right">
 														<?php echo number_format($MM_TARGET_TOTAL); ?>
@@ -385,7 +404,7 @@ if (isset($_POST['end_date'])) {
 													</th>
 													<th scope="col">Zonal Head</th>
 													<th scope="col">
-														<center>Collection[MM]</center>
+														<center>Collection</center>
 													</th>
 													<th scope="col">
 														<center>Target(Current Month)</center>
