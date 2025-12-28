@@ -102,7 +102,7 @@
                         <div class="menu-title"> Vehicle Inspection Module</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/image_module/view/ah_images.php"><i class='bx bxs-arrow-to-right'></i>Code List</a>
+                        <li> <a href="<?php echo $basePath ?>/vehicle_inspection_module/view/ah_images.php"><i class='bx bxs-arrow-to-right'></i>Code List</a>
                         </li>
                     </ul>
                 </li>
