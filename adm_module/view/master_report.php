@@ -170,7 +170,7 @@ if (isset($_POST['end_date'])) {
 												$MM_TOTAL           = 0;
 												$DONG_TOTAL         = 0;
 												$MM_TARGET_TOTAL    = 0;
-												$V_INTERESTED_BRAND = 'MAHINDRA';
+												$V_INTERESTED_BRAND = 'MAHINDRA,DONGFENG';
 
 												while ($row = @oci_fetch_assoc($strSQL)) {
 													$number++;
@@ -264,7 +264,7 @@ if (isset($_POST['end_date'])) {
 												K.ZONE_NAME,
 												(SELECT EMP_NAME from RML_COLL_APPS_USER WHERE RML_ID=K.ZONE_HEAD) ZH_NAME,
 												(
-												SELECT sum(AMOUNT) TOTAL_AMOUNT 
+												SELECT sum(AMOUNT) TOTAL_AMOUNT
 													FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
 														WHERE A.RML_COLL_APPS_USER_ID=B.ID
 														AND B.AREA_ZONE=K.ZONE_NAME
@@ -274,7 +274,7 @@ if (isset($_POST['end_date'])) {
 														AND B.USER_TYPE='$v_user_type'
 												) EICHER_TOTAL,
 												(
-												SELECT sum(AMOUNT) TOTAL_AMOUNT 
+												SELECT sum(AMOUNT) TOTAL_AMOUNT
 													FROM RML_COLL_MONEY_COLLECTION A,RML_COLL_APPS_USER B
 														WHERE A.RML_COLL_APPS_USER_ID=B.ID
 														AND B.AREA_ZONE=K.ZONE_NAME

@@ -1,10 +1,6 @@
 <?php
 include_once('../../_helper/2step_com_conn.php');
-
-
 $v_rml_id = $_REQUEST['login_id'];
-
-
 $v_brand = $_REQUEST['brand'];
 $v_user_type = $_REQUEST['user_type'];
 $v_zone = $_REQUEST['zone'];
@@ -22,7 +18,6 @@ $end_date = $_REQUEST['end_date'];
 					<a href="">Collection=><?php echo $v_brand . '=>' . $v_user_type; ?></a>
 				</li>
 			</ol>
-
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="md-form">
@@ -37,6 +32,9 @@ $end_date = $_REQUEST['end_date'];
 										</th>
 										<th scope="col">
 											<center>Ref-Code</center>
+										</th>
+										<th scope="col">
+											<center>BRAND</center>
 										</th>
 										<th scope="col">
 											<center>Amnt</center>
@@ -65,7 +63,7 @@ $end_date = $_REQUEST['end_date'];
 								<tbody>
 
 									<?php
-
+									$v_brand = "'" . str_replace(",", "', '", $v_brand) . "'";
 									if ($v_zone == 'All') {
 										$strSQL = oci_parse(
 											$objConnect,
@@ -80,10 +78,11 @@ $end_date = $_REQUEST['end_date'];
 												INSTALLMENT_AMOUNT,
 												TO_CHAR(a.CREATED_DATE,'DD/MM/YYYY') CREATED_DATE,
 												TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
-												B.AREA_ZONE
+												B.AREA_ZONE,
+												BRAND
 												FROM RML_COLL_MONEY_COLLECTION a, RML_COLL_APPS_USER B
 												where a.RML_COLL_APPS_USER_ID=b.ID
-												AND BRAND='$v_brand'
+												AND BRAND in ($v_brand)
 												AND B.USER_TYPE='$v_user_type'
 												AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy') and to_date('$end_date','dd/mm/yyyy')"
 										);
@@ -101,10 +100,11 @@ $end_date = $_REQUEST['end_date'];
 												INSTALLMENT_AMOUNT,
 												TO_CHAR(a.CREATED_DATE,'DD/MM/YYYY') CREATED_DATE,
 												TO_CHAR(a.CREATED_DATE,'hh:mi:ssam') CREATED_TIME,
-												B.AREA_ZONE
+												B.AREA_ZONE,
+												BRAND
 												FROM RML_COLL_MONEY_COLLECTION a,RML_COLL_APPS_USER B
 												WHERE a.RML_COLL_APPS_USER_ID=b.ID
-												AND BRAND='$v_brand'
+												AND BRAND in ($v_brand)
 												AND B.AREA_ZONE='$v_zone'
 												AND B.USER_TYPE='$v_user_type'
                                     			AND trunc(a.CREATED_DATE) between to_date('$start_date','dd/mm/yyyy')
@@ -118,11 +118,12 @@ $end_date = $_REQUEST['end_date'];
 
 									while ($row = oci_fetch_assoc($strSQL)) {
 										$number++;
-										?>
+									?>
 										<tr>
 											<td><?php echo $number; ?></td>
 											<td><?php echo $row['EMP_NAME']; ?></td>
 											<td><?php echo $row['REF_ID']; ?></td>
+											<td><?php echo $row['BRAND']; ?></td>
 											<td><?php echo number_format($row['AMOUNT']); ?></td>
 											<td><?php echo $row['PRODUCT_TYPE']; ?></td>
 											<td><?php echo $row['CREATED_DATE']; ?></td>
@@ -131,7 +132,7 @@ $end_date = $_REQUEST['end_date'];
 											<td><?php echo $row['PAY_TYPE']; ?></td>
 											<td><?php echo $row['BANK']; ?></td>
 										</tr>
-										<?php
+									<?php
 									}
 									?>
 

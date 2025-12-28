@@ -41,13 +41,13 @@
                         <div class="menu-title"> Visit Assign Module </div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/daily_visit.php"><i class='bx bxs-arrow-to-right'></i></i>Daily
+                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/daily_visit.php"><i class='bx bxs-arrow-to-right'></i>Daily
                                 Visit Monitor</a>
                         </li>
                         <li> <a href="<?php echo $basePath ?>/area_head_module/view/concern_visit.php"><i
-                                    class='bx bxs-arrow-to-right'></i></i>Concern Visit Summary</a>
+                                    class='bx bxs-arrow-to-right'></i>Concern Visit Summary</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/zone_visit.php"><i class='bx bxs-arrow-to-right'></i></i>Zone
+                        <li> <a href="<?php echo $basePath ?>/area_head_module/view/zone_visit.php"><i class='bx bxs-arrow-to-right'></i>Zone
                                 Visit Summary</a>
                         </li>
 
@@ -62,13 +62,13 @@
                     </a>
                     <ul>
                         <li> <a href="<?php echo $basePath ?>/report_module/view/collection_report.php"><i
-                                    class='bx bxs-arrow-to-right'></i></i>Collection Report</a>
+                                    class='bx bxs-arrow-to-right'></i>Collection Report</a>
                         </li>
                         <li>
-                            <a href="<?php echo $basePath ?>/report_module/view/visit_report.php"><i class='bx bxs-arrow-to-right'></i></i>EMI Visit
+                            <a href="<?php echo $basePath ?>/report_module/view/visit_report.php"><i class='bx bxs-arrow-to-right'></i>EMI Visit
                                 Report</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/report_module/view/seized_report.php"><i class='bx bxs-arrow-to-right'></i></i>Seized
+                        <li> <a href="<?php echo $basePath ?>/report_module/view/seized_report.php"><i class='bx bxs-arrow-to-right'></i>Seized
                                 Report</a>
                         </li>
 
@@ -94,7 +94,18 @@
 
                     </ul>
                 </li>
+                <li class="">
+                    <a href="javascript:;" class="has-arrow">
 
+                        <div class="parent-icon"><i class='bx bx-group'></i>
+                        </div>
+                        <div class="menu-title"> Vehicle Inspection Module</div>
+                    </a>
+                    <ul>
+                        <li> <a href="<?php echo $basePath ?>/image_module/view/ah_images.php"><i class='bx bxs-arrow-to-right'></i>Code List</a>
+                        </li>
+                    </ul>
+                </li>
 
 
                 <li class="">
@@ -105,15 +116,15 @@
                         <div class="menu-title"> Image Module</div>
                     </a>
                     <ul>
-                        <!-- <li> <a href="<?php echo $basePath ?>/image_module/view/zone_images.php"><i class='bx bxs-arrow-to-right'></i></i>Images Zone Unit</a>
+                        <!-- <li> <a href="<?php echo $basePath ?>/image_module/view/zone_images.php"><i class='bx bxs-arrow-to-right'></i>Images Zone Unit</a>
                         </li> -->
-                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_view.php"><i class='bx bxs-arrow-to-right'></i></i>Code Wise
+                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_view.php"><i class='bx bxs-arrow-to-right'></i>Code Wise
                                 Images</a>
                         </li>
                         <li> <a href="<?php echo $basePath ?>/image_module/view/images_grade_summary.php"><i
-                                    class='bx bxs-arrow-to-right'></i></i>Grade Summary</a>
+                                    class='bx bxs-arrow-to-right'></i>Grade Summary</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i></i>Uploaded
+                        <li> <a href="<?php echo $basePath ?>/image_module/view/images_history.php"><i class='bx bxs-arrow-to-right'></i>Uploaded
                                 History</a>
                         </li>
                     </ul>

@@ -42,13 +42,13 @@
                         <div class="menu-title">Product Panel </div>
                     </a>
                     <ul>
-                        <li> <a href="#"><i class='bx bxs-arrow-to-right'></i></i>Products</a>
+                        <li> <a href="#"><i class='bx bxs-arrow-to-right'></i>Products</a>
                         </li>
-                        <!-- <li> <a href="#"><i class='bx bxs-arrow-to-right'></i></i>Product Details</a>
+                        <!-- <li> <a href="#"><i class='bx bxs-arrow-to-right'></i>Product Details</a>
                         </li>
-                        <li> <a href="#"><i class='bx bxs-arrow-to-right'></i></i>Add New Products</a>
+                        <li> <a href="#"><i class='bx bxs-arrow-to-right'></i>Add New Products</a>
                         </li>
-                        <li> <a href="#"><i class='bx bxs-arrow-to-right'></i></i>Orders</a>
+                        <li> <a href="#"><i class='bx bxs-arrow-to-right'></i>Orders</a>
                         </li> -->
                     </ul>
                 </li>
@@ -60,9 +60,9 @@
                         <div class="menu-title">User Panel</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/user_module/view/create.php"><i class='bx bxs-arrow-to-right'></i></i>Create User</a>
+                        <li> <a href="<?php echo $basePath ?>/user_module/view/create.php"><i class='bx bxs-arrow-to-right'></i>Create User</a>
                         </li>
-                        <li> <a href="<?php echo $basePath ?>/user_module/view/index.php"><i class='bx bxs-arrow-to-right'></i></i>List Of User</a>
+                        <li> <a href="<?php echo $basePath ?>/user_module/view/index.php"><i class='bx bxs-arrow-to-right'></i>List Of User</a>
                         </li>
                     </ul>
                 </li>

@@ -43,10 +43,10 @@
                     </a>
                     <ul>
                         <li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/concern_list.php"><i class='bx bxs-arrow-to-right'></i></i>Concern List</a>
+						<a href="<?php echo $basePath ?>/zh_module/view/concern_list.php"><i class='bx bxs-arrow-to-right'></i>Concern List</a>
                         </li>
 						<li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/image_view.php"><i class='bx bxs-arrow-to-right'></i></i>Image View</a>
+						<a href="<?php echo $basePath ?>/zh_module/view/image_view.php"><i class='bx bxs-arrow-to-right'></i>Image View</a>
                         </li>
                        
                     </ul>
@@ -60,13 +60,13 @@
                     </a>
                     <ul>
                         <li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/visit_approval_list.php"><i class='bx bxs-arrow-to-right'></i></i>Visit Approval List</a>
+						<a href="<?php echo $basePath ?>/zh_module/view/visit_approval_list.php"><i class='bx bxs-arrow-to-right'></i>Visit Approval List</a>
                         </li>
 						<li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/visit_assign_report.php"><i class='bx bxs-arrow-to-right'></i></i>Visit Assign Report</a>
+						<a href="<?php echo $basePath ?>/zh_module/view/visit_assign_report.php"><i class='bx bxs-arrow-to-right'></i>Visit Assign Report</a>
                         </li>
 						<li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/visit_approval_missing_report.php"><i class='bx bxs-arrow-to-right'></i></i>Approval Missing Report</a>
+						<a href="<?php echo $basePath ?>/zh_module/view/visit_approval_missing_report.php"><i class='bx bxs-arrow-to-right'></i>Approval Missing Report</a>
                         </li>
                     </ul>
                 </li>
@@ -77,7 +77,7 @@
                         <div class="menu-title">Code Module[Testing]</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/code_module/view/create.php"><i class='bx bxs-arrow-to-right'></i></i>Code Location</a>
+                        <li> <a href="<?php echo $basePath ?>/code_module/view/create.php"><i class='bx bxs-arrow-to-right'></i>Code Location</a>
                         </li>
                     </ul>
                 </li> 
