@@ -9,6 +9,8 @@ include_once('../../_helper/2step_com_conn.php');
     <div class="page-content">
 
         <?PHP
+        $emp_session_id = $_SESSION['ECOL_USER_INFO']['emp_id'];
+        $COL_ID = (int) substr($emp_session_id, strrpos($emp_session_id, '-') + 1);
         $strSQL = @oci_parse(
             $objConnect,
             "WITH ZH AS (
@@ -20,7 +22,7 @@ include_once('../../_helper/2step_com_conn.php');
                         LEFT JOIN RML_COLL_APPS_USER U
                             ON U.RML_ID = Z.ZONE_HEAD
                         WHERE Z.IS_ACTIVE = 1
-                        AND Z.AREA_HEAD = '$emp_session_id '
+                        AND Z.AREA_HEAD = '$COL_ID'
                     ),
                     CC AS (
                         SELECT
@@ -132,7 +134,7 @@ include_once('../../_helper/2step_com_conn.php');
 
                     FROM CC
                     LEFT JOIN ASSIGNED A
-                        ON A.COLL_RML_ID = CC.COLL_RML_ID
+                        ON A.COLL_RML_ID = CC.COLL_RML_ID 
                     LEFT JOIN INSPECTED_ASSIGNED IA
                         ON IA.COLL_RML_ID = CC.COLL_RML_ID
                     LEFT JOIN VI_TOTAL VT
