@@ -12,134 +12,126 @@ include_once('../../_helper/2step_com_conn.php');
         $strSQL = @oci_parse(
             $objConnect,
             "WITH ZH AS (
-                        SELECT
-                            Z.ZONE_NAME,
-                            Z.ZONE_HEAD,
-                            U.EMP_NAME AS CONCERN_NAME
-                        FROM COLL_EMP_ZONE_SETUP Z
-                        LEFT JOIN RML_COLL_APPS_USER U
-                            ON U.RML_ID = Z.ZONE_HEAD
-                        WHERE Z.IS_ACTIVE = 1
-                        --AND Z.AREA_HEAD = '47'
-                    ),
-                    CC AS (
-                        SELECT
-                            ZH.ZONE_NAME,
-                            ZH.ZONE_HEAD,
-                            ZH.CONCERN_NAME,
-                            C.RML_ID AS COLL_RML_ID,
-                            'RML-' || LPAD(C.RML_ID, 5, '0') AS HR_RML_ID,
-                            LPAD(C.RML_ID, 6, '0') AS ERP_RML_ID
-                        FROM ZH
-                        JOIN RML_COLL_APPS_USER C
-                            ON TRIM(UPPER(C.AREA_ZONE)) = TRIM(UPPER(ZH.ZONE_NAME))
-                        WHERE C.IS_ACTIVE = 1
-                        AND C.USER_TYPE = 'C-C'
-                    ),
-                    ERP_CODES AS (
-                        SELECT DISTINCT
-                            COLL_CONCERN_ID AS ERP_RML_ID,
-                            REF_CODE
-                        FROM LEASE_ALL_INFO_ERP
-                        WHERE  PAMTMODE='CRT'
-                        AND STATUS='Y'
-                        AND REF_CODE IS NOT NULL
-                    ),
-                    VI_CODES AS (
-                        SELECT DISTINCT
-                            CREATED_BY AS HR_RML_ID,
-                            REF_CODE
-                        FROM VEHICLE_INSPECTION
-                        WHERE REF_CODE IS NOT NULL
-                    ),
-                    MATCHED AS (
-                        SELECT
-                            CC.COLL_RML_ID,
-                            E.REF_CODE
-                        FROM CC
-                        JOIN ERP_CODES E
-                            ON E.ERP_RML_ID = CC.ERP_RML_ID
-                        JOIN VI_CODES V
-                            ON V.HR_RML_ID = CC.HR_RML_ID
-                        AND V.REF_CODE  = E.REF_CODE
-                    ),
-                    ASSIGNED AS (
-                        SELECT
-                            CC.COLL_RML_ID,
-                            COUNT(DISTINCT E.REF_CODE) AS ASSIGNED_COUNT
-                        FROM CC
-                        LEFT JOIN ERP_CODES E
-                            ON E.ERP_RML_ID = CC.ERP_RML_ID
-                        GROUP BY CC.COLL_RML_ID
-                    ),
-                    INSPECTED_ASSIGNED AS (
-                        SELECT
-                            COLL_RML_ID,
-                            COUNT(DISTINCT REF_CODE) AS INSPECTED_ASSIGNED_COUNT
-                        FROM MATCHED
-                        GROUP BY COLL_RML_ID
-                    ),
-                    VI_TOTAL AS (
-                        SELECT
-                            HR_RML_ID,
-                            COUNT(DISTINCT REF_CODE) AS TOTAL_VI_REF_CODE
-                        FROM VI_CODES
-                        GROUP BY HR_RML_ID
-                    ),
-                    EXTRA_INSPECTION AS (
-                        SELECT
-                            CC.COLL_RML_ID,
-                            COUNT(DISTINCT V.REF_CODE) AS EXTRA_INSPECTION_COUNT
-                        FROM CC
-                        JOIN VI_CODES V
-                            ON V.HR_RML_ID = CC.HR_RML_ID
-                        LEFT JOIN ERP_CODES E
-                            ON E.ERP_RML_ID = CC.ERP_RML_ID
-                        AND E.REF_CODE   = V.REF_CODE
-                        WHERE E.REF_CODE IS NULL
-                        GROUP BY CC.COLL_RML_ID
-                    )
-                    SELECT
-                        CC.ZONE_NAME,
-                        CC.ZONE_HEAD,
-                        CC.CONCERN_NAME,
-                        CC.COLL_RML_ID,
-                        CC.HR_RML_ID,
-                        CC.ERP_RML_ID,
+                SELECT
+                    Z.ZONE_NAME,
+                    Z.ZONE_HEAD,
+                    Z.AREA_HEAD,
+                    ZU.EMP_NAME AS CONCERN_NAME,
+                    AU.EMP_NAME AS AREA_HEAD_NAME
+                FROM COLL_EMP_ZONE_SETUP Z
+                LEFT JOIN RML_COLL_APPS_USER ZU ON ZU.RML_ID = Z.ZONE_HEAD
+                LEFT JOIN RML_COLL_APPS_USER AU ON AU.RML_ID = Z.AREA_HEAD
+                WHERE Z.IS_ACTIVE = 1
+            ),
+            CC AS (
+                SELECT
+                    ZH.ZONE_NAME,
+                    ZH.ZONE_HEAD,
+                    ZH.AREA_HEAD,
+                    ZH.CONCERN_NAME,
+                    ZH.AREA_HEAD_NAME,
+                    C.RML_ID AS COLL_RML_ID,
+                    'RML-' || LPAD(C.RML_ID, 5, '0') AS HR_RML_ID,
+                    LPAD(C.RML_ID, 6, '0') AS ERP_RML_ID
+                FROM ZH
+                JOIN RML_COLL_APPS_USER C
+                ON TRIM(UPPER(C.AREA_ZONE)) = TRIM(UPPER(ZH.ZONE_NAME))
+                WHERE C.IS_ACTIVE = 1
+                AND C.USER_TYPE = 'C-C'
+            ),
+            ERP_CODES AS (
+                SELECT DISTINCT COLL_CONCERN_ID AS ERP_RML_ID, REF_CODE
+                FROM LEASE_ALL_INFO_ERP
+                WHERE PAMTMODE = 'CRT'
+                AND STATUS = 'Y'
+                AND REF_CODE IS NOT NULL
+            ),
+            VI_CODES AS (
+                SELECT DISTINCT CREATED_BY AS HR_RML_ID, REF_CODE
+                FROM VEHICLE_INSPECTION
+                WHERE REF_CODE IS NOT NULL
+            ),
+            MATCHED AS (
+                SELECT CC.COLL_RML_ID, E.REF_CODE
+                FROM CC
+                JOIN ERP_CODES E ON E.ERP_RML_ID = CC.ERP_RML_ID
+                JOIN VI_CODES  V ON V.HR_RML_ID  = CC.HR_RML_ID
+                            AND V.REF_CODE    = E.REF_CODE
+            ),
+            ASSIGNED AS (
+                SELECT CC.COLL_RML_ID, COUNT(DISTINCT E.REF_CODE) AS ASSIGNED_COUNT
+                FROM CC
+                LEFT JOIN ERP_CODES E ON E.ERP_RML_ID = CC.ERP_RML_ID
+                GROUP BY CC.COLL_RML_ID
+            ),
+            INSPECTED_ASSIGNED AS (
+                SELECT COLL_RML_ID, COUNT(DISTINCT REF_CODE) AS INSPECTED_ASSIGNED_COUNT
+                FROM MATCHED
+                GROUP BY COLL_RML_ID
+            ),
+            VI_TOTAL AS (
+                SELECT HR_RML_ID, COUNT(DISTINCT REF_CODE) AS TOTAL_VI_REF_CODE
+                FROM VI_CODES
+                GROUP BY HR_RML_ID
+            ),
+            EXTRA_INSPECTION AS (
+                SELECT CC.COLL_RML_ID, COUNT(DISTINCT V.REF_CODE) AS EXTRA_INSPECTION_COUNT
+                FROM CC
+                JOIN VI_CODES V ON V.HR_RML_ID = CC.HR_RML_ID
+                LEFT JOIN ERP_CODES E ON E.ERP_RML_ID = CC.ERP_RML_ID
+                                    AND E.REF_CODE   = V.REF_CODE
+                WHERE E.REF_CODE IS NULL
+                GROUP BY CC.COLL_RML_ID
+            ),
+            DETAIL AS (
+                SELECT
+                    CC.AREA_HEAD,
+                    CC.AREA_HEAD_NAME,
+                    CC.ZONE_NAME,
+                    CC.ZONE_HEAD,
+                    CC.CONCERN_NAME,
+                    CC.COLL_RML_ID,
+                    NVL(A.ASSIGNED_COUNT, 0)            AS ASSIGNED_COUNT,
+                    NVL(IA.INSPECTED_ASSIGNED_COUNT, 0) AS INSPECTED_ASSIGNED_COUNT,
+                    NVL(VT.TOTAL_VI_REF_CODE, 0)        AS TOTAL_VI_REF_CODE,
+                    NVL(EX.EXTRA_INSPECTION_COUNT, 0)   AS EXTRA_INSPECTION_COUNT
+                FROM CC
+                LEFT JOIN ASSIGNED A            ON A.COLL_RML_ID = CC.COLL_RML_ID
+                LEFT JOIN INSPECTED_ASSIGNED IA ON IA.COLL_RML_ID = CC.COLL_RML_ID
+                LEFT JOIN VI_TOTAL VT           ON VT.HR_RML_ID = CC.HR_RML_ID
+                LEFT JOIN EXTRA_INSPECTION EX   ON EX.COLL_RML_ID = CC.COLL_RML_ID
+            ),
+            DETAIL_DISTINCT AS (
+                SELECT DISTINCT
+                    AREA_HEAD, AREA_HEAD_NAME,
+                    ZONE_NAME, ZONE_HEAD, CONCERN_NAME, COLL_RML_ID,
+                    ASSIGNED_COUNT, INSPECTED_ASSIGNED_COUNT, TOTAL_VI_REF_CODE, EXTRA_INSPECTION_COUNT
+                FROM DETAIL
+            )
+            SELECT
+                AREA_HEAD,
+                AREA_HEAD_NAME,
+                -- ZONE_NAME
+                LISTAGG(COLL_RML_ID, ',') WITHIN GROUP (ORDER BY COLL_RML_ID) AS COLL_RML_ID_LIST,
 
-                        NVL(A.ASSIGNED_COUNT, 0) AS ASSIGNED_COUNT,
-                        NVL(IA.INSPECTED_ASSIGNED_COUNT, 0) AS INSPECTED_ASSIGNED_COUNT,
-                        NVL(VT.TOTAL_VI_REF_CODE, 0) AS TOTAL_VI_REF_CODE,
-                        NVL(EX.EXTRA_INSPECTION_COUNT, 0) AS EXTRA_INSPECTION_COUNT,
+                SUM(ASSIGNED_COUNT)           AS ASSIGNED_COUNT,
+                SUM(INSPECTED_ASSIGNED_COUNT) AS INSPECTED_ASSIGNED_COUNT,
+                SUM(TOTAL_VI_REF_CODE)        AS TOTAL_VI_REF_CODE,
+                SUM(EXTRA_INSPECTION_COUNT)   AS EXTRA_INSPECTION_COUNT,
 
-                        (NVL(A.ASSIGNED_COUNT, 0) - NVL(IA.INSPECTED_ASSIGNED_COUNT, 0)) AS PENDING_COUNT,
-
-                        CASE
-                            WHEN NVL(A.ASSIGNED_COUNT, 0) = 0 THEN NULL
-                            ELSE ROUND((NVL(IA.INSPECTED_ASSIGNED_COUNT, 0) / NVL(A.ASSIGNED_COUNT, 0)) * 100, 2)
-                        END AS COMPLETION_PERCENT,
-
-                        CASE
-                            WHEN NVL(A.ASSIGNED_COUNT, 0) = 0 THEN NULL
-                            ELSE ROUND(((NVL(IA.INSPECTED_ASSIGNED_COUNT, 0) - NVL(A.ASSIGNED_COUNT, 0))
-                                        / NVL(A.ASSIGNED_COUNT, 0)) * 100, 2)
-                        END AS DIFFERENCE_PERCENT,
-
-                        CASE
-                            WHEN NVL(VT.TOTAL_VI_REF_CODE, 0) = 0 THEN NULL
-                            ELSE ROUND((NVL(EX.EXTRA_INSPECTION_COUNT, 0) / NVL(VT.TOTAL_VI_REF_CODE, 0)) * 100, 2)
-                        END AS EXTRA_INSPECTION_PERCENT
-
-                    FROM CC
-                    LEFT JOIN ASSIGNED A
-                        ON A.COLL_RML_ID = CC.COLL_RML_ID
-                    LEFT JOIN INSPECTED_ASSIGNED IA
-                        ON IA.COLL_RML_ID = CC.COLL_RML_ID
-                    LEFT JOIN VI_TOTAL VT
-                        ON VT.HR_RML_ID = CC.HR_RML_ID
-                    LEFT JOIN EXTRA_INSPECTION EX
-                        ON EX.COLL_RML_ID = CC.COLL_RML_ID
-                    ORDER BY CC.ZONE_NAME, CC.COLL_RML_ID"
+                (SUM(ASSIGNED_COUNT) - SUM(INSPECTED_ASSIGNED_COUNT)) AS PENDING_COUNT,
+                CASE WHEN SUM(ASSIGNED_COUNT) = 0 THEN NULL
+                    ELSE ROUND((SUM(INSPECTED_ASSIGNED_COUNT)/SUM(ASSIGNED_COUNT))*100, 2)
+                END AS COMPLETION_PERCENT,
+                CASE WHEN SUM(ASSIGNED_COUNT) = 0 THEN NULL
+                    ELSE ROUND(((SUM(INSPECTED_ASSIGNED_COUNT)-SUM(ASSIGNED_COUNT))/SUM(ASSIGNED_COUNT))*100, 2)
+                END AS DIFFERENCE_PERCENT,
+                CASE WHEN SUM(TOTAL_VI_REF_CODE) = 0 THEN NULL
+                    ELSE ROUND((SUM(EXTRA_INSPECTION_COUNT)/SUM(TOTAL_VI_REF_CODE))*100, 2)
+                END AS EXTRA_INSPECTION_PERCENT
+            FROM DETAIL_DISTINCT
+            GROUP BY AREA_HEAD, AREA_HEAD_NAME
+            ORDER BY AREA_HEAD"
         );
         ?>
         <div class="row">
@@ -157,9 +149,9 @@ include_once('../../_helper/2step_com_conn.php');
                             <thead class="table-cust text-uppercase">
                                 <tr class="text-center">
                                     <th scope="col">Sl</th>
-                                    <th scope="col">ZONE NAME</th>
                                     <th scope="col">View Details</th>
-                                    <th scope="col">CONCERN NAME</th>
+                                    <th scope="col">AREA HEAD ID</th>
+                                    <th scope="col">AREA HEA NAME</th>
                                     <!-- <th scope="col">COLL_RML_ID</th>
                                     <th scope="col">HR_RML_ID</th>
                                     <th scope="col">ERP_RML_ID</th> -->
@@ -202,9 +194,9 @@ include_once('../../_helper/2step_com_conn.php');
                                         $number++;
 
                                         // text fields
-                                        $zoneName = $row['ZONE_NAME'] ?? '';
+                                        $AREA_HEAD = $row['AREA_HEAD'] ?? '';
                                         // $zoneHead = $row['ZONE_HEAD'] ?? '';
-                                        $concernName = $row['CONCERN_NAME'] ?? '';
+                                        $concernName = $row['AREA_HEAD_NAME'] ?? '';
                                         // $collRmlId = $row['COLL_RML_ID'] ?? '';
                                         // $hrRmlId = $row['HR_RML_ID'] ?? '';
                                         // $erpRmlId = $row['ERP_RML_ID'] ?? '';
@@ -229,11 +221,14 @@ include_once('../../_helper/2step_com_conn.php');
                                         ?>
                                         <tr class="text-center">
                                             <td><?php echo $number; ?></td>
-                                            <td><?php echo htmlspecialchars($zoneName); ?></td>
-                                            <td><a target="_blank"
-                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($row['COLL_RML_ID']) ?>"
+                                            <td>
+                                                <a target="_blank"
+                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($row['COLL_RML_ID_LIST']) ?>"
                                                     class="btn btn-sm  btn-gradient-success">View Details<i
-                                                        class='bx bxs-right-arrow-square'></i></a></td>
+                                                        class='bx bxs-right-arrow-square'></i></a>
+                                            </td>
+                                            <td><?php echo htmlspecialchars($AREA_HEAD); ?></td>
+
                                             <td><?php echo htmlspecialchars($concernName); ?></td>
                                             <!-- <td><?php echo htmlspecialchars($collRmlId); ?></td>
                                             <td><?php echo htmlspecialchars($hrRmlId); ?></td>
