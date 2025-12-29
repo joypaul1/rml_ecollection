@@ -14,7 +14,7 @@ include_once('../../_helper/2step_com_conn.php');
             "
 
 WITH ZH AS (
-    SELECT
+    SELECT 
         Z.ZONE_NAME,
         Z.ZONE_HEAD,
         Z.AREA_HEAD,
