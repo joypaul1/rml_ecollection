@@ -1,9 +1,9 @@
 <body>
 
     <?php
-    $v_active      = 'mm-active';
+    $v_active = 'mm-active';
     $v_active_open = 'mm-active';
-    $currentUrl    = $_SERVER['REQUEST_URI'];
+    $currentUrl = $_SERVER['REQUEST_URI'];
     function isActive($url)
     {
         global $currentUrl;
@@ -34,21 +34,23 @@
                         <div class="menu-title">ZH Dashboard</div>
                     </a>
                 </li>
-				
-				 <li>
+
+                <li>
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class='bx bx-message-rounded-dots'></i>
                         </div>
                         <div class="menu-title">Information Module </div>
                     </a>
                     <ul>
-                        <li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/concern_list.php"><i class='bx bxs-arrow-to-right'></i>Concern List</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/zh_module/view/concern_list.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Concern List</a>
                         </li>
-						<li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/image_view.php"><i class='bx bxs-arrow-to-right'></i>Image View</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/zh_module/view/image_view.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Image View</a>
                         </li>
-                       
+
                     </ul>
                 </li>
 
@@ -59,28 +61,47 @@
                         <div class="menu-title">Visit Assign Module </div>
                     </a>
                     <ul>
-                        <li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/visit_approval_list.php"><i class='bx bxs-arrow-to-right'></i>Visit Approval List</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/zh_module/view/visit_approval_list.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Visit Approval List</a>
                         </li>
-						<li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/visit_assign_report.php"><i class='bx bxs-arrow-to-right'></i>Visit Assign Report</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/zh_module/view/visit_assign_report.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Visit Assign Report</a>
                         </li>
-						<li> 
-						<a href="<?php echo $basePath ?>/zh_module/view/visit_approval_missing_report.php"><i class='bx bxs-arrow-to-right'></i>Approval Missing Report</a>
+                        <li>
+                            <a href="<?php echo $basePath ?>/zh_module/view/visit_approval_missing_report.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Approval Missing Report</a>
                         </li>
                     </ul>
                 </li>
-               <li>  <a href="javascript:;" class="has-arrow">
+                <li> <a href="javascript:;" class="has-arrow">
 
                         <div class="parent-icon"><i class='bx bx-group'></i>
                         </div>
                         <div class="menu-title">Code Module[Testing]</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo $basePath ?>/code_module/view/create.php"><i class='bx bxs-arrow-to-right'></i>Code Location</a>
+                        <li> <a href="<?php echo $basePath ?>/code_module/view/create.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Code Location</a>
                         </li>
                     </ul>
-                </li> 
+                </li>
+                <li class="">
+                    <a href="javascript:;" class="has-arrow">
+
+                        <div class="parent-icon"><i class='bx bx-group'></i>
+                        </div>
+                        <div class="menu-title"> Vehicle Inspection Module</div>
+                    </a>
+                    <ul>
+                        <li> <a href="<?php echo $basePath ?>/vehicle_inspection_module/view/ah_images.php"><i
+                                    class='bx bxs-arrow-to-right'></i>Code List</a>
+                        </li>
+                    </ul>
+                </li>
+
+
 
             </ul>
             <!--end navigation-->

@@ -157,22 +157,22 @@ include_once('../../_helper/2step_com_conn.php');
                             <thead class="table-cust text-uppercase">
                                 <tr class="text-center">
                                     <th scope="col">Sl</th>
-                                    <th scope="col">ZONE_NAME</th>
-                                    <th scope="col">ZONE_HEAD</th>
-                                    <th scope="col">CONCERN_NAME</th>
-                                    <th scope="col">COLL_RML_ID</th>
+                                    <th scope="col">ZONE NAME</th>
+                                    <th scope="col">View Details</th>
+                                    <th scope="col">CONCERN NAME</th>
+                                    <!-- <th scope="col">COLL_RML_ID</th>
                                     <th scope="col">HR_RML_ID</th>
-                                    <th scope="col">ERP_RML_ID</th>
+                                    <th scope="col">ERP_RML_ID</th> -->
 
-                                    <th scope="col">ASSIGNED_COUNT</th>
-                                    <th scope="col">INSPECTED_ASSIGNED_COUNT</th>
-                                    <th scope="col">TOTAL_VI_REF_CODE</th>
-                                    <th scope="col">EXTRA_INSPECTION_COUNT</th>
+                                    <th scope="col">ERP ASSIGNED COUNT</th>
+                                    <th scope="col">INSPECTED ASSIGNED COUNT</th>
+                                    <th scope="col">TOTAL VI REF CODE</th>
+                                    <th scope="col">EXTRA INSPECTION COUNT</th>
 
-                                    <th scope="col">PENDING_COUNT</th>
-                                    <th scope="col">COMPLETION_PERCENT</th>
-                                    <th scope="col">DIFFERENCE_PERCENT</th>
-                                    <th scope="col">EXTRA_INSPECTION_PERCENT</th>
+                                    <th scope="col">PENDING COUNT</th>
+                                    <th scope="col">COMPLETION PERCENT</th>
+                                    <th scope="col">DIFFERENCE PERCENT</th>
+                                    <th scope="col">EXTRA INSPECTION PERCENT</th>
                                 </tr>
                             </thead>
 
@@ -203,12 +203,11 @@ include_once('../../_helper/2step_com_conn.php');
 
                                         // text fields
                                         $zoneName = $row['ZONE_NAME'] ?? '';
-                                        $zoneHead = $row['ZONE_HEAD'] ?? '';
+                                        // $zoneHead = $row['ZONE_HEAD'] ?? '';
                                         $concernName = $row['CONCERN_NAME'] ?? '';
-                                        $collRmlId = $row['COLL_RML_ID'] ?? '';
-                                        $hrRmlId = $row['HR_RML_ID'] ?? '';
-                                        $erpRmlId = $row['ERP_RML_ID'] ?? '';
-
+                                        // $collRmlId = $row['COLL_RML_ID'] ?? '';
+                                        // $hrRmlId = $row['HR_RML_ID'] ?? '';
+                                        // $erpRmlId = $row['ERP_RML_ID'] ?? '';
                                         // numeric fields
                                         $assigned = (int) ($row['ASSIGNED_COUNT'] ?? 0);
                                         $insAssigned = (int) ($row['INSPECTED_ASSIGNED_COUNT'] ?? 0);
@@ -231,11 +230,14 @@ include_once('../../_helper/2step_com_conn.php');
                                         <tr class="text-center">
                                             <td><?php echo $number; ?></td>
                                             <td><?php echo htmlspecialchars($zoneName); ?></td>
-                                            <td><?php echo htmlspecialchars($zoneHead); ?></td>
+                                            <td><a target="_blank"
+                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($row['COLL_RML_ID']) ?>"
+                                                    class="btn btn-sm  btn-gradient-success">View Details<i
+                                                        class='bx bxs-right-arrow-square'></i></a></td>
                                             <td><?php echo htmlspecialchars($concernName); ?></td>
-                                            <td><?php echo htmlspecialchars($collRmlId); ?></td>
+                                            <!-- <td><?php echo htmlspecialchars($collRmlId); ?></td>
                                             <td><?php echo htmlspecialchars($hrRmlId); ?></td>
-                                            <td><?php echo htmlspecialchars($erpRmlId); ?></td>
+                                            <td><?php echo htmlspecialchars($erpRmlId); ?></td> -->
 
                                             <td><?php echo $assigned; ?></td>
                                             <td><?php echo $insAssigned; ?></td>
@@ -266,7 +268,7 @@ include_once('../../_helper/2step_com_conn.php');
                                         ?>
                                         <tr class="table-primary text-center" style="font-weight:bold">
                                             <td></td>
-                                            <td class="text-end" colspan="6">Grand Total:</td>
+                                            <td class="text-end" colspan="3">Grand Total:</td>
 
                                             <td><?php echo $GT_ASSIGNED; ?></td>
                                             <td><?php echo $GT_INSPECTED_ASSIGNED; ?></td>
