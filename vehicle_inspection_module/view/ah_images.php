@@ -16,6 +16,9 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
         <?PHP
         $emp_session_id = $_SESSION['ECOL_USER_INFO']['emp_id'];
         $COL_ID = (int) substr($emp_session_id, strrpos($emp_session_id, '-') + 1);
+        if(isset($_GET['area_head']) && !empty($_GET['area_head'])){
+            $COL_ID = (int) substr($_GET['area_head'], strrpos($_GET['area_head'], '-') + 1);
+        }
         $strSQL = @oci_parse(
             $objConnect,
             "WITH ZH AS (
@@ -187,9 +190,9 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                                         $number++;
 
                                         // text fields
-                                        $zoneName = $row['ZONE_NAME'] ?? '';
-                                        // $zoneHead = $row['ZONE_HEAD'] ?? '';
                                         $concernName = $row['CONCERN_NAME'] ?? '';
+                                        // $zoneHead = $row['ZONE_HEAD'] ?? '';
+                                        $ZONE_HEAD = $row['ZONE_HEAD'] ?? '';
                                         // $collRmlId = $row['COLL_RML_ID'] ?? '';
                                         // $hrRmlId = $row['HR_RML_ID'] ?? '';
                                         // $erpRmlId = $row['ERP_RML_ID'] ?? '';
@@ -215,9 +218,9 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                                         ?>
                                         <tr class="text-center">
                                             <td><?php echo $number; ?></td>
-                                            <td><?php echo htmlspecialchars($zoneName); ?></td>
+                                            <td><?php echo htmlspecialchars($concernName); ?></td>
                                             <td><a target="_blank"
-                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($row['COLL_RML_ID']) ?>"
+                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($ZONE_HEAD) ?>"
                                                     class="btn btn-sm  btn-gradient-success">View Details<i
                                                         class='bx bxs-right-arrow-square'></i></a></td>
                                             <td><?php echo htmlspecialchars($concernName); ?></td>

@@ -223,7 +223,7 @@ include_once('../../_helper/2step_com_conn.php');
                                             <td><?php echo $number; ?></td>
                                             <td>
                                                 <a target="_blank"
-                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($row['COLL_RML_ID_LIST']) ?>"
+                                                    href="ah_images.php?area_head=<?= htmlspecialchars($AREA_HEAD) ?>"
                                                     class="btn btn-sm  btn-gradient-success">View Details<i
                                                         class='bx bxs-right-arrow-square'></i></a>
                                             </td>
