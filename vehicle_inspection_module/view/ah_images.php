@@ -17,8 +17,7 @@ if (isset($_GET['area_head']) && $_GET['area_head'] !== '') {
    SQL (AREA_HEAD filter) + ZONE_HEAD wise summary
    Adds: PENDING_COUNT + 3 percentages
    =========================== */
-$sql = "
-WITH ZH AS (
+$sql = "WITH ZH AS (
     SELECT 
         Z.ZONE_NAME,
         Z.ZONE_HEAD,
@@ -190,7 +189,7 @@ oci_bind_by_name($strSQL, ':P_AREA_HEAD', $P_AREA_HEAD);
         position: sticky;
         top: 0;
         z-index: 10;
-        background: #fff;
+        background: #791fe1;
         box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
     }
 </style>
@@ -214,7 +213,7 @@ oci_bind_by_name($strSQL, ':P_AREA_HEAD', $P_AREA_HEAD);
                                 <tr class="text-center">
                                     <th scope="col">Sl</th>
                                     <th scope="col">ZONE NAME</th>
-                                    <th scope="col">View Details</th>
+                                    <th scope="col">Details</th>
                                     <th scope="col">CONCERN NAME</th>
 
                                     <th scope="col">ERP ASSIGNED</th>
@@ -281,7 +280,7 @@ oci_bind_by_name($strSQL, ':P_AREA_HEAD', $P_AREA_HEAD);
                                                 <a target="_blank"
                                                     href="zh_images.php?rml_id=<?= htmlspecialchars($zoneHead) ?>"
                                                     class="btn btn-sm btn-gradient-success">
-                                                    View Details <i class="bx bxs-right-arrow-square"></i>
+                                                    Details <i class="bx bxs-right-arrow-square"></i>
                                                 </a>
                                             </td>
 

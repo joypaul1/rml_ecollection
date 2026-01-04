@@ -11,8 +11,7 @@ if (isset($_GET['rml_id']) && $_GET['rml_id'] !== '') {
 /* ===========================
    SQL (COLL_RML_ID wise % + PENDING_COUNT)
    =========================== */
-$sql = "
-WITH ZH AS (
+$sql = "WITH ZH AS (
     SELECT
         Z.ZONE_NAME,
         Z.ZONE_HEAD,
@@ -152,6 +151,21 @@ $strSQL = oci_parse($objConnect, $sql);
 oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
 ?>
 
+<style>
+    /* Bootstrap 5 sticky table header */
+    .tableFixHead {
+        max-height: 70vh;
+        overflow: auto;
+    }
+
+    .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #791fe1;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+    }
+</style>
 <!--start page wrapper -->
 <div class="page-wrapper">
     <div class="page-content">
@@ -164,7 +178,7 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                 ?>
 
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="tableFixHead">
 
                         <?php
                         $ok = oci_execute($strSQL);
@@ -186,9 +200,12 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                             $zoneHeadNameTop = '';
 
                             foreach ($rows as $r) {
-                                if ($zoneNameTop === '' && !empty($r['ZONE_NAME'])) $zoneNameTop = $r['ZONE_NAME'];
-                                if ($zoneHeadNameTop === '' && !empty($r['ZONE_HEAD_NAME'])) $zoneHeadNameTop = $r['ZONE_HEAD_NAME'];
-                                if ($collList === '' && !empty($r['COLL_RML_ID_LIST'])) $collList = $r['COLL_RML_ID_LIST'];
+                                if ($zoneNameTop === '' && !empty($r['ZONE_NAME']))
+                                    $zoneNameTop = $r['ZONE_NAME'];
+                                if ($zoneHeadNameTop === '' && !empty($r['ZONE_HEAD_NAME']))
+                                    $zoneHeadNameTop = $r['ZONE_HEAD_NAME'];
+                                if ($collList === '' && !empty($r['COLL_RML_ID_LIST']))
+                                    $collList = $r['COLL_RML_ID_LIST'];
                             }
 
                             if ($zoneNameTop !== '' || $zoneHeadNameTop !== '') {
@@ -202,7 +219,7 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                             //         . htmlspecialchars($collList)
                             //         . '</div>';
                             // }
-                        ?>
+                            ?>
 
                             <table id="tbl" class="table table-bordered align-middle mb-0">
                                 <thead class="table-cust text-uppercase">
@@ -243,16 +260,16 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                                             $number++;
 
                                             $collRmlId = $row['COLL_RML_ID'] ? $row['COLL_RML_ID'] : '';
-                                            $collName  = $row['COLL_NAME'] ? $row['COLL_NAME'] : '';
+                                            $collName = $row['COLL_NAME'] ? $row['COLL_NAME'] : '';
 
-                                            $assigned    = (int)($row['ASSIGNED_COUNT'] ? $row['ASSIGNED_COUNT'] : 0);
-                                            $insAssigned = (int)($row['INSPECTED_ASSIGNED_COUNT'] ? $row['INSPECTED_ASSIGNED_COUNT'] : 0);
-                                            $totalVi     = (int)($row['TOTAL_VI_REF_CODE'] ? $row['TOTAL_VI_REF_CODE'] : 0);
-                                            $extra       = (int)($row['EXTRA_INSPECTION_COUNT'] ? $row['EXTRA_INSPECTION_COUNT'] : 0);
-                                            $pending     = (int)($row['PENDING_COUNT'] ? $row['PENDING_COUNT'] : ($assigned - $insAssigned));
-                                            $completionPct = is_numeric($row['COMPLETION_PERCENT'] ? $row['COMPLETION_PERCENT'] : null) ? (float)$row['COMPLETION_PERCENT'] : null;
-                                            $diffPct       = is_numeric($row['DIFFERENCE_PERCENT'] ? $row['DIFFERENCE_PERCENT'] : null) ? (float)$row['DIFFERENCE_PERCENT'] : null;
-                                            $extraPct      = is_numeric($row['EXTRA_INSPECTION_PERCENT'] ? $row['EXTRA_INSPECTION_PERCENT'] : null) ? (float)$row['EXTRA_INSPECTION_PERCENT'] : null;
+                                            $assigned = (int) ($row['ASSIGNED_COUNT'] ? $row['ASSIGNED_COUNT'] : 0);
+                                            $insAssigned = (int) ($row['INSPECTED_ASSIGNED_COUNT'] ? $row['INSPECTED_ASSIGNED_COUNT'] : 0);
+                                            $totalVi = (int) ($row['TOTAL_VI_REF_CODE'] ? $row['TOTAL_VI_REF_CODE'] : 0);
+                                            $extra = (int) ($row['EXTRA_INSPECTION_COUNT'] ? $row['EXTRA_INSPECTION_COUNT'] : 0);
+                                            $pending = (int) ($row['PENDING_COUNT'] ? $row['PENDING_COUNT'] : ($assigned - $insAssigned));
+                                            $completionPct = is_numeric($row['COMPLETION_PERCENT'] ? $row['COMPLETION_PERCENT'] : null) ? (float) $row['COMPLETION_PERCENT'] : null;
+                                            $diffPct = is_numeric($row['DIFFERENCE_PERCENT'] ? $row['DIFFERENCE_PERCENT'] : null) ? (float) $row['DIFFERENCE_PERCENT'] : null;
+                                            $extraPct = is_numeric($row['EXTRA_INSPECTION_PERCENT'] ? $row['EXTRA_INSPECTION_PERCENT'] : null) ? (float) $row['EXTRA_INSPECTION_PERCENT'] : null;
 
                                             $GT_ASSIGNED += $assigned;
                                             $GT_INSPECTED_ASSIGNED += $insAssigned;
@@ -266,9 +283,9 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                                                 <td><?= htmlspecialchars($collName) ?></td>
                                                 <td>
                                                     <a target="_blank"
-                                                       href="concern_wise_report.php?rml_id=<?= htmlspecialchars($collRmlId) ?>"
-                                                       class="btn btn-sm btn-gradient-success">
-                                                        View Details <i class='bx bxs-right-arrow-square'></i>
+                                                        href="concern_wise_report.php?rml_id=<?= htmlspecialchars($collRmlId) ?>"
+                                                        class="btn btn-sm btn-gradient-success">
+                                                        Details <i class='bx bxs-right-arrow-square'></i>
                                                     </a>
                                                 </td>
 
@@ -278,7 +295,8 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                                                 <td><?= $extra ?></td>
 
                                                 <td><?= $pending ?></td>
-                                                <td><?= ($completionPct === null) ? '-' : number_format($completionPct, 2) . ' %' ?></td>
+                                                <td><?= ($completionPct === null) ? '-' : number_format($completionPct, 2) . ' %' ?>
+                                                </td>
                                                 <td><?= ($diffPct === null) ? '-' : number_format($diffPct, 2) . ' %' ?></td>
                                                 <td><?= ($extraPct === null) ? '-' : number_format($extraPct, 2) . ' %' ?></td>
                                             </tr>
@@ -287,8 +305,8 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
 
                                         // Grand percent (overall)
                                         $GT_completionPct = ($GT_ASSIGNED == 0) ? null : round(($GT_INSPECTED_ASSIGNED / $GT_ASSIGNED) * 100, 2);
-                                        $GT_diffPct       = ($GT_ASSIGNED == 0) ? null : round((($GT_ASSIGNED - $GT_INSPECTED_ASSIGNED) / $GT_ASSIGNED) * 100, 2);
-                                        $GT_extraPct      = ($GT_TOTAL_VI == 0) ? null : round(($GT_EXTRA / $GT_TOTAL_VI) * 100, 2);
+                                        $GT_diffPct = ($GT_ASSIGNED == 0) ? null : round((($GT_ASSIGNED - $GT_INSPECTED_ASSIGNED) / $GT_ASSIGNED) * 100, 2);
+                                        $GT_extraPct = ($GT_TOTAL_VI == 0) ? null : round(($GT_EXTRA / $GT_TOTAL_VI) * 100, 2);
                                         ?>
                                         <tr class="table-primary text-center" style="font-weight:bold">
                                             <td></td>
@@ -300,9 +318,11 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                                             <td><?= $GT_EXTRA ?></td>
 
                                             <td><?= $GT_PENDING ?></td>
-                                            <td><?= ($GT_completionPct === null) ? '-' : number_format($GT_completionPct, 2) . ' %' ?></td>
+                                            <td><?= ($GT_completionPct === null) ? '-' : number_format($GT_completionPct, 2) . ' %' ?>
+                                            </td>
                                             <td><?= ($GT_diffPct === null) ? '-' : number_format($GT_diffPct, 2) . ' %' ?></td>
-                                            <td><?= ($GT_extraPct === null) ? '-' : number_format($GT_extraPct, 2) . ' %' ?></td>
+                                            <td><?= ($GT_extraPct === null) ? '-' : number_format($GT_extraPct, 2) . ' %' ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
@@ -314,9 +334,7 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                     </div>
 
                     <div class="d-block text-end mt-2">
-                        <a href="#"
-                           class="btn btn-sm btn-gradient-info"
-                           onclick="return exportF(this);">
+                        <a href="#" class="btn btn-sm btn-gradient-info" onclick="return exportF(this);">
                             Export To Excel <i class='bx bxs-cloud-download'></i>
                         </a>
                     </div>
@@ -334,28 +352,28 @@ include_once('../../_includes/footer.php');
 ?>
 
 <script>
-function exportF(elem) {
-    var table = document.getElementById("tbl");
-    if (!table) return false;
+    function exportF(elem) {
+        var table = document.getElementById("tbl");
+        if (!table) return false;
 
-    var html = table.outerHTML;
-    var url = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
 
-    elem.setAttribute("href", url);
-    elem.setAttribute("download", "vehicle_inspection_report.xls");
-    return true;
-}
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "vehicle_inspection_report.xls");
+        return true;
+    }
 
-$('.single-select').select2({
-    theme: 'bootstrap4',
-    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-    placeholder: $(this).data('placeholder'),
-    allowClear: Boolean($(this).data('allow-clear')),
-});
+    $('.single-select').select2({
+        theme: 'bootstrap4',
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        allowClear: Boolean($(this).data('allow-clear')),
+    });
 
-$('.datepicker').pickadate({
-    selectMonths: true,
-    selectYears: true,
-    format: 'dd-mm-yyyy'
-});
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: true,
+        format: 'dd-mm-yyyy'
+    });
 </script>

@@ -4,6 +4,21 @@ include_once('../../_helper/2step_com_conn.php');
 // include_once('../../_config/sqlConfig.php');
 ?>
 
+<style>
+    /* Bootstrap 5 sticky table header */
+    .tableFixHead {
+        max-height: 70vh;
+        overflow: auto;
+    }
+
+    .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #791fe1;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+    }
+</style>
 <!--start page wrapper -->
 <div class="page-wrapper">
     <div class="page-content">
@@ -144,12 +159,12 @@ include_once('../../_helper/2step_com_conn.php');
                 include('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="tableFixHead">
                         <table class="table table-bordered align-middle mb-0">
                             <thead class="table-cust text-uppercase">
                                 <tr class="text-center">
                                     <th scope="col">Sl</th>
-                                    <th scope="col">View Details</th>
+                                    <th scope="col">Details</th>
                                     <th scope="col">AREA HEAD ID</th>
                                     <th scope="col">AREA HEA NAME</th>
                                     <!-- <th scope="col">COLL_RML_ID</th>
@@ -222,7 +237,7 @@ include_once('../../_helper/2step_com_conn.php');
                                             <td>
                                                 <a target="_blank"
                                                     href="ah_images.php?area_head=<?= htmlspecialchars($AREA_HEAD) ?>"
-                                                    class="btn btn-sm  btn-gradient-success">View Details<i
+                                                    class="btn btn-sm  btn-gradient-success">Details<i
                                                         class='bx bxs-right-arrow-square'></i></a>
                                             </td>
                                             <td><?php echo htmlspecialchars($AREA_HEAD); ?></td>
