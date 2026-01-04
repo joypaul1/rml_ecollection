@@ -171,7 +171,7 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                         if (!$ok) {
                             $e = oci_error($strSQL);
                             echo '<div class="text-center text-danger">'
-                                . htmlspecialchars($e['message'] ?? 'QUERY EXECUTE FAILED')
+                                . htmlspecialchars($e['message'] ? $e['message'] : 'QUERY EXECUTE FAILED'))
                                 . '</div>';
                         } else {
 

@@ -172,7 +172,7 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                                 if (!$ok) {
                                     $e = oci_error($strSQL);
                                     echo '<tr><td colspan="15" class="text-center text-danger">'
-                                        . htmlspecialchars($e['message'] ?? 'QUERY EXECUTE FAILED')
+                                        . htmlspecialchars($e['message'] ? $e['message'] : 'QUERY EXECUTE FAILED'))
                                         . '</td></tr>';
                                 } else {
 
