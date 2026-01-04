@@ -140,7 +140,7 @@ include_once('../../_helper/2step_com_conn.php');
                 <?php
 
                 $headerType = 'List';
-                $leftSideName = 'Zone Base Images Summary';
+                $leftSideName = 'Area Head Wise Summary';
                 include('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">

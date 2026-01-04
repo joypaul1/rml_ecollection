@@ -4,6 +4,7 @@ include_once('../../_helper/2step_com_conn.php');
 // include_once('../../_config/sqlConfig.php');
 
 $P_AREA_HEAD = $_SESSION['ECOL_USER_INFO']['emp_id'];
+$P_AREA_HEAD = (int) substr($P_AREA_HEAD, strrpos($P_AREA_HEAD, '-') + 1);
 if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
     $P_AREA_HEAD = $_GET['area_head'];
 }
@@ -14,11 +15,11 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
     <div class="page-content">
 
         <?PHP
-        $emp_session_id = $_SESSION['ECOL_USER_INFO']['emp_id'];
-        $COL_ID = (int) substr($emp_session_id, strrpos($emp_session_id, '-') + 1);
-        if(isset($_GET['area_head']) && !empty($_GET['area_head'])){
-            $COL_ID = (int) substr($_GET['area_head'], strrpos($_GET['area_head'], '-') + 1);
-        }
+        // $emp_session_id = $_SESSION['ECOL_USER_INFO']['emp_id'];
+        // $COL_ID = (int) substr($emp_session_id, strrpos($emp_session_id, '-') + 1);
+        // if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
+        //     $COL_ID = (int) substr($_GET['area_head'], strrpos($_GET['area_head'], '-') + 1);
+        // }
         $strSQL = @oci_parse(
             $objConnect,
             "WITH ZH AS (
@@ -136,7 +137,7 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                 <?php
 
                 $headerType = 'List';
-                $leftSideName = 'Zone Base Images Summary';
+                $leftSideName = 'Zonal Head Wise Summary';
                 include('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
@@ -220,7 +221,7 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                                             <td><?php echo $number; ?></td>
                                             <td><?php echo htmlspecialchars($concernName); ?></td>
                                             <td><a target="_blank"
-                                                    href="concern_wise_report.php?rml_id=<?= htmlspecialchars($ZONE_HEAD) ?>"
+                                                    href="zh_images.php?rml_id=<?= htmlspecialchars($ZONE_HEAD) ?>"
                                                     class="btn btn-sm  btn-gradient-success">View Details<i
                                                         class='bx bxs-right-arrow-square'></i></a></td>
                                             <td><?php echo htmlspecialchars($concernName); ?></td>

@@ -6,19 +6,14 @@ include_once('../../_helper/2step_com_conn.php');
 $v_rml_id = isset($_GET['rml_id']) ? $_GET['rml_id'] : '';
 
 // Main query
-$quary = "WITH ZN AS (
-    SELECT ZONE_NAME
-    FROM DEVELOPERS.COLL_EMP_ZONE_SETUP
-    WHERE IS_ACTIVE = 1
-      AND ZONE_HEAD = '$v_rml_id'
-),
+$quary = "WITH 
 GET_CONCERN_ID AS (
     SELECT RML_ID,
            'RML-' || LPAD(RML_ID, 5, '0') AS HR_RML_ID
     FROM DEVELOPERS.RML_COLL_APPS_USER
     WHERE USER_TYPE = 'C-C'
       AND IS_ACTIVE = 1
-      AND AREA_ZONE IN (SELECT ZONE_NAME FROM ZN)
+      AND RML_ID IN ($v_rml_id)
 )
 SELECT INS.REF_CODE,
        INS.MILEAGE_DATA,
@@ -186,7 +181,7 @@ $number = 0;
                                         <td><?php echo htmlspecialchars($row['MILEAGE_DATA']); ?></td>
                                         <td><?php echo htmlspecialchars($row['CONDITION']); ?></td>
                                         <td><?php echo htmlspecialchars($row['COMMENTS']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['EMP_NAME']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['CREATED_BY']); ?></td>
                                         <td><?php echo htmlspecialchars($row['CREATED_AT']); ?></td>
                                         <td class="text-center">
                                             <?php if (!empty($row['FRONT_SIDE_IMG'])): ?>
