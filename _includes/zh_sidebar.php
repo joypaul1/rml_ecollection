@@ -92,7 +92,7 @@
 
                         <div class="parent-icon"><i class='bx bx-group'></i>
                         </div>
-                        <div class="menu-title"> Vehicle Inspection Module</div>
+                        <div class="menu-title"> Vehicle Inspection</div>
                     </a>
                     <ul>
                         <li> <a href="<?php echo $basePath ?>/vehicle_inspection_module/view/ah_images.php"><i
