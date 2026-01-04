@@ -192,7 +192,6 @@ include_once('../../_helper/2step_com_conn.php');
                                     while (($row = oci_fetch_assoc($strSQL)) !== false) {
                                         $hasRow = true;
                                         $number++;
-
                                         // text fields
                                         $AREA_HEAD = $row['AREA_HEAD'] ? $row['AREA_HEAD'] : '';
                                         // $zoneHead = $row['ZONE_HEAD'] ?? '';
