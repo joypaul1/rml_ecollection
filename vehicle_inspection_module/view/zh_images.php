@@ -242,8 +242,8 @@ oci_bind_by_name($strSQL, ':P_ZONE_HEAD', $P_ZONAL_HEAD);
                                         foreach ($rows as $row) {
                                             $number++;
 
-                                            $collRmlId = $row['COLL_RML_ID'] ?? '';
-                                            $collName  = $row['COLL_NAME'] ?? '';
+                                            $collRmlId = $row['COLL_RML_ID'] ? $row['COLL_RML_ID'] : '';
+                                            $collName  = $row['COLL_NAME'] ? $row['COLL_NAME'] : '';
 
                                             $assigned    = (int)($row['ASSIGNED_COUNT'] ?? 0);
                                             $insAssigned = (int)($row['INSPECTED_ASSIGNED_COUNT'] ?? 0);

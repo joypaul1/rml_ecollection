@@ -191,9 +191,9 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                                         $number++;
 
                                         // text fields
-                                        $concernName = $row['CONCERN_NAME'] ?? '';
+                                        $concernName = $row['CONCERN_NAME'] ? $row['CONCERN_NAME'] : '';
                                         // $zoneHead = $row['ZONE_HEAD'] ?? '';
-                                        $ZONE_HEAD = $row['ZONE_HEAD'] ?? '';
+                                        $ZONE_HEAD = $row['ZONE_HEAD'] ? $row['ZONE_HEAD'] : '';
                                         // $collRmlId = $row['COLL_RML_ID'] ?? '';
                                         // $hrRmlId = $row['HR_RML_ID'] ?? '';
                                         // $erpRmlId = $row['ERP_RML_ID'] ?? '';

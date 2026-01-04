@@ -64,19 +64,25 @@ $number = 0;
 ?>
 <style>
     .tableFixHead {
-        max-height: 500px;
-        /* চাইলে height change করতে পারো */
-        overflow-y: auto;
+        max-height: 75vh;
+        /* ইচ্ছামত adjust */
+        overflow: auto;
+        /* scroll এখানেই হবে */
     }
 
-    /* sticky header */
     .tableFixHead thead th {
         position: sticky;
         top: 0;
-        z-index: 5;
-        /* background-color: #343a40;  /* Bootstrap 4 .table-dark রঙ */
-        /* color: #fff; */
+        z-index: 10;
+        background: #791fe1;
+        /* header transparent থাকলে overlap weird হয় */
     }
+
+    /* optional: Bootstrap bordered এর সাথে line clean */
+    .tableFixHead thead th {
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+    }
+
 
     .img-modal-title {
         color: #fff;
@@ -143,7 +149,7 @@ $number = 0;
                 include('../../_includes/com_header.php');
                 ?>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="tableFixHead">
                         <table class="table table-bordered align-middle mb-0" id="table">
                             <thead class="table-cust text-uppercase">
                                 <tr class="text-center">

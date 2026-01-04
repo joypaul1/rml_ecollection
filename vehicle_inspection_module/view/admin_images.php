@@ -194,9 +194,9 @@ include_once('../../_helper/2step_com_conn.php');
                                         $number++;
 
                                         // text fields
-                                        $AREA_HEAD = $row['AREA_HEAD'] ?? '';
+                                        $AREA_HEAD = $row['AREA_HEAD'] ? $row['AREA_HEAD'] : '';
                                         // $zoneHead = $row['ZONE_HEAD'] ?? '';
-                                        $concernName = $row['AREA_HEAD_NAME'] ?? '';
+                                        $concernName = $row['AREA_HEAD_NAME'] ? $row['AREA_HEAD_NAME'] : '';
                                         // $collRmlId = $row['COLL_RML_ID'] ?? '';
                                         // $hrRmlId = $row['HR_RML_ID'] ?? '';
                                         // $erpRmlId = $row['ERP_RML_ID'] ?? '';
