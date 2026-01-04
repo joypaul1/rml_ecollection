@@ -199,16 +199,15 @@ if (isset($_GET['area_head']) && !empty($_GET['area_head'])) {
                                         // $erpRmlId = $row['ERP_RML_ID'] ?? '';
                                 
                                         // numeric fields
-                                        $assigned = (int) ($row['ASSIGNED_COUNT'] ?? 0);
-                                        $insAssigned = (int) ($row['INSPECTED_ASSIGNED_COUNT'] ?? 0);
-                                        $totalVi = (int) ($row['TOTAL_VI_REF_CODE'] ?? 0);
-                                        $extra = (int) ($row['EXTRA_INSPECTION_COUNT'] ?? 0);
-                                        $pending = (int) ($row['PENDING_COUNT'] ?? 0);
-
+                                        $assigned = (int) ($row['ASSIGNED_COUNT'] ? $row['ASSIGNED_COUNT'] : 0);
+                                        $insAssigned = (int) ($row['INSPECTED_ASSIGNED_COUNT'] ? $row['INSPECTED_ASSIGNED_COUNT'] : 0);
+                                        $totalVi = (int) ($row['TOTAL_VI_REF_CODE'] ? $row['TOTAL_VI_REF_CODE'] : 0);
+                                        $extra = (int) ($row['EXTRA_INSPECTION_COUNT'] ? $row['EXTRA_INSPECTION_COUNT'] : 0);
+                                        $pending = (int) ($row['PENDING_COUNT'] ? $row['PENDING_COUNT'] : 0);
                                         // percents can be NULL from SQL
-                                        $completionPct = is_numeric($row['COMPLETION_PERCENT'] ?? null) ? (float) $row['COMPLETION_PERCENT'] : null;
-                                        $diffPct = is_numeric($row['DIFFERENCE_PERCENT'] ?? null) ? (float) $row['DIFFERENCE_PERCENT'] : null;
-                                        $extraPct = is_numeric($row['EXTRA_INSPECTION_PERCENT'] ?? null) ? (float) $row['EXTRA_INSPECTION_PERCENT'] : null;
+                                        $completionPct = is_numeric($row['COMPLETION_PERCENT'] ? $row['COMPLETION_PERCENT'] : null) ? (float) $row['COMPLETION_PERCENT'] : null;
+                                        $diffPct = is_numeric($row['DIFFERENCE_PERCENT'] ? $row['DIFFERENCE_PERCENT'] : null) ? (float) $row['DIFFERENCE_PERCENT'] : null;
+                                        $extraPct = is_numeric($row['EXTRA_INSPECTION_PERCENT'] ? $row['EXTRA_INSPECTION_PERCENT'] : null) ? (float) $row['EXTRA_INSPECTION_PERCENT'] : null;
 
                                         // accumulate grand totals
                                         $GT_ASSIGNED += $assigned;
