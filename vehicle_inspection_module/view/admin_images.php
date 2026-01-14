@@ -160,7 +160,7 @@ include_once('../../_helper/2step_com_conn.php');
                 ?>
                 <div class="card-body">
                     <div class="tableFixHead">
-                        <table class="table table-bordered align-middle mb-0">
+                        <table id="tbl"  class="table table-bordered align-middle mb-0">
                             <thead class="table-cust text-uppercase">
                                 <tr class="text-center">
                                     <th scope="col">Sl</th>
